@@ -1,0 +1,42 @@
+{
+  "name": "jq-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "run": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dqhan/JQ-.git"
+  },
+  "author": "dqhan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dqhan/JQ-/issues"
+  },
+  "homepage": "https://github.com/Dqhan/JQ-#readme",
+
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.11",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "multer": "^1.4.1",
+    "npm-cli": "^0.1.0",
+    "pug-cli": "^1.0.0-alpha6",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.3.1",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2"
+  }
+}

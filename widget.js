@@ -2,8 +2,8 @@
 ; (function (global, $, factory, plug) {
     global[plug] = factory.call(global, $);
 })(this, $, function ($) {
-    this.$$ = Object.create();
-    __dialog__ = function (ops) {
+    this.$$ = Object.create(Object.prototype);
+    var __dialog__ = function (ops) {
         this.__dialogObject__ = this.extends(this.__dialogObject__, ops)
     };
     __dialog__.prototype = {
