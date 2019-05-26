@@ -1,12 +1,16 @@
 import ReactWidget from './react-widget';
 class Dialog extends ReactWidget {
-    constructor() {
+    constructor(props) {
         super(props);
         this.state = {};
     }
 
     componentDidMount() {
-        var element = $$.Dialog();
+        var element = new aui.Dialog({
+            
+        });
+        element.init();
+        element.render();
     }
 
     render() {
@@ -18,6 +22,5 @@ class Dialog extends ReactWidget {
     }
 }
 
-window.$$$.Dialog = Dialog;
-
-export default Dialog;
+window.$$.Dialog = Dialog;
+module.export = Dialog;

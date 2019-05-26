@@ -1,12 +1,15 @@
 class ReactWidget extends React.Component {
-    constructor() {
+    constructor(props) {
+        super(props);
         this.ReactWidgetFn = this.createObjectFn();
     }
 
     createObjectFn() {
         function ReactWidget() {
-            [].call(this);
+            [].constructor.call(this);
         }
+
+        ReactWidget.prototype = Object.create(Array.prototype);
 
         ReactWidget.prototype = {
             constructor: ReactWidget,
@@ -17,6 +20,6 @@ class ReactWidget extends React.Component {
 
 }
 
-window.$$$ = {};
+window.$$ = {};
 
 export default ReactWidget;

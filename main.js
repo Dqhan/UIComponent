@@ -1,17 +1,21 @@
-export class Main extends React.Component {
+class Main extends React.Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-
+        var banner = new window.banner.Banner({
+            dom: document.getElementById('banner')
+        });
+        banner.init();
+        banner.render();
     }
 
     render() {
         return <div>
-            <$$$.Dialog>
-                <div>666</div>
-            </$$$.Dialog>
+            <div id='banner'></div>
         </div>
     }
 }
+
+export default Main;

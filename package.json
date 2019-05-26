@@ -16,7 +16,6 @@
     "url": "https://github.com/Dqhan/JQ-/issues"
   },
   "homepage": "https://github.com/Dqhan/JQ-#readme",
-
   "devDependencies": {
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",

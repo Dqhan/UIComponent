@@ -1,15 +1,15 @@
 "use strict";
 ; (function (global, $, factory, plug) {
     global[plug] = factory.call(global, $);
-})(this, $, function ($) {
-    this.$$ = Object.create(Object.prototype);
+})(window, $, function ($) {
     var __dialog__ = function (ops) {
-        this.__dialogObject__ = this.extends(this.__dialogObject__, ops)
+        this.__dialogC__  ={};
+        this.__dialogC__ = this.extends(this.__dialogC__, ops)
     };
     __dialog__.prototype = {
         init: function () {
-            this.dom = this.__dialogObject__.dom;
-            this.el = this.__dialogObject__.el;
+            this.dom = this.__dialogC__.dom;
+            this.el = this.__dialogC__.el;
             this.dom.classList.add('dialog');
             this.el.classList.add('dialog-content');
         },
@@ -27,5 +27,7 @@
             return target;
         }
     };
-    this.$$.Dialog = __dialog__;
+  return  {
+      Dialog: __dialog__
+  };
 }, "aui");
