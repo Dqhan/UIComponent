@@ -7,7 +7,7 @@ class Dialog extends ReactWidget {
 
     componentDidMount() {
         var element = new aui.Dialog({
-            
+            el: this.props.children
         });
         element.init();
         element.render();
@@ -15,12 +15,8 @@ class Dialog extends ReactWidget {
 
     render() {
         return <div>
-            {
-                this.props.children
-            }
         </div>
     }
 }
 
 window.$$.Dialog = Dialog;
-module.export = Dialog;

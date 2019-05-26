@@ -135,10 +135,10 @@ var _main2 = _interopRequireDefault(_main);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// require('./widget');
-// require('./react-widget');
-// require('./react-dialog');
-__webpack_require__(/*! ./banner */ "./banner.js");
+__webpack_require__(/*! ./widget */ "./widget.js");
+__webpack_require__(/*! ./react-widget */ "./react-widget.js");
+__webpack_require__(/*! ./react-dialog */ "./react-dialog.js");
+// require('./banner');
 __webpack_require__(/*! ./aui.less */ "./aui.less");
 // require('./banner.css');
 ReactDOM.render(React.createElement(_main2.default, null), document.getElementById('app'));
@@ -175,145 +175,6 @@ if(false) {}
 
 /***/ }),
 
-/***/ "./banner.js":
-/*!*******************!*\
-  !*** ./banner.js ***!
-  \*******************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-;(function (global, $, factory, plug) {
-    global[plug] = factory.call(global, $);
-})(window, $, function ($) {
-    var __Banner__ = function __Banner__(ops) {
-        this.__BannerC__ = {
-            currentIndex: 0
-        };
-        this.timer = null;
-        this.banner0 = null;
-        this.banner1 = null;
-        this.banner2 = null;
-        this.bannerContent = null;
-        this.elmentDuration = 1 / 3 * 100;
-        this.extend(ops);
-    };
-    __Banner__.prototype = {
-        init: function init() {
-            this.dom = this.__BannerC__.dom;
-            this.dom.classList.add('banner');
-        },
-        render: function render() {
-            var fragement = [];
-            fragement.push("<ol class=\"banner-indicators\">");
-            fragement.push("<li class=\"banner-indicators-item active\" href='javascript:void(0);' tabIndex=\"0\" '></li>");
-            fragement.push("<li class=\"banner-indicators-item\" href='javascript:void(0);' tabIndex=\"1\" '></li>");
-            fragement.push("<li class=\"banner-indicators-item\" href='javascript:void(0);' tabIndex=\"2\" '></li>");
-            fragement.push("</ol>");
-            fragement.push("<div class='banner-inner'>");
-            fragement.push("<div class='banner-content'>");
-            fragement.push("<div class='banner-item'><div class='banner-item-inner'><p class='title'>Test1</p><p class='description'>Test1</p></div></div>");
-            fragement.push("<div class='banner-item'><div class='banner-item-inner'><p class='title'>Test2</p><p class='description'>Test2</p></div></div>");
-            fragement.push("<div class='banner-item'><div class='banner-item-inner'><p class='title'>Test3</p><p class='description'>Test3</p></div></div>");
-            this.dom.innerHTML = fragement.join('');
-            this.__bind__().__run__();
-        },
-
-        __run__: function __run__() {
-            var self = this,
-                elements = document.getElementsByClassName('banner-item');
-            this.banner0 = elements[0];
-            this.banner1 = elements[1];
-            this.banner2 = elements[2];
-            this.bannerContent = document.getElementsByClassName('banner-content')[0];
-            this.bannerContent.addEventListener('transitionend', this.__transitionEnd__.bind(this));
-            setTimeout(function () {
-                self.banner2.children[0].classList.add('active');
-            }, 300);
-            this.timer = setInterval(this.__bannerCarousel__.bind(this), 6000);
-        },
-
-        __transitionEnd__: function __transitionEnd__() {
-            switch (this.__BannerC__.currentIndex) {
-                case 0:
-                    this.banner2.children[0].classList.add('active');
-                    break;
-                case 1:
-                    this.banner1.children[0].classList.add('active');
-                    break;
-                case 2:
-                    this.banner0.children[0].classList.add('active');
-                    break;
-            }
-        },
-
-        extend: function extend(ops) {
-            this.__BannerC__.dom = ops.dom;
-        },
-
-        __bind__: function __bind__() {
-            var self = this,
-                el = document.getElementsByClassName('banner-indicators-item'),
-                i = 0,
-                len = el.length;
-            for (; i < len; i++) {
-                el[i].addEventListener('click', function (e) {
-                    var targetIndex = e.target.tabIndex;
-                    self.__BannerC__.currentIndex = targetIndex;
-                    self.__renderBannerByCurrentIndex__();
-                    window.clearInterval(self.timer);
-                    self.timer = setInterval(self.__bannerCarousel__.bind(self), 6000);
-                });
-            }
-            return this;
-        },
-
-        __bannerCarousel__: function __bannerCarousel__() {
-            this.__BannerC__.currentIndex++;
-            if (this.__BannerC__.currentIndex > 2) this.__BannerC__.currentIndex = 0;
-            this.__renderBannerByCurrentIndex__();
-        },
-
-        __renderBannerByCurrentIndex__: function __renderBannerByCurrentIndex__() {
-            var el = document.getElementsByClassName('banner-indicators-item'),
-                i = 0,
-                len = el.length;
-            for (var j = 0; j < len; j++) {
-                el[j].classList.remove('active');
-            }
-            this.banner2.children[0].classList.remove('active');
-            this.banner0.children[0].classList.remove('active');
-            this.banner1.children[0].classList.remove('active');
-            switch (this.__BannerC__.currentIndex) {
-                case 0:
-                    this.bannerContent.style.transform = "translate3d(" + -this.elmentDuration * 2 + "%,0,0)";
-                    el[this.__BannerC__.currentIndex].classList.add('active');
-                    break;
-                case 1:
-                    this.bannerContent.style.transform = "translate3d(" + -this.elmentDuration * 1 + "%,0,0)";
-                    el[this.__BannerC__.currentIndex].classList.add('active');
-                    break;
-                case 2:
-                    this.bannerContent.style.transform = "translate3d(" + -this.elmentDuration * 0 + "%,0,0)";
-                    el[this.__BannerC__.currentIndex].classList.add('active');
-                    break;
-            }
-        },
-
-        destory: function destory() {
-            window.clearInterval(this.timer);
-        }
-
-    };
-    return {
-        Banner: __Banner__
-    };
-}, "banner");
-
-/***/ }),
-
 /***/ "./main.js":
 /*!*****************!*\
   !*** ./main.js ***!
@@ -346,21 +207,34 @@ var Main = function (_React$Component) {
     }
 
     _createClass(Main, [{
-        key: 'componentDidMount',
+        key: "componentDidMount",
         value: function componentDidMount() {
-            var banner = new window.banner.Banner({
-                dom: document.getElementById('banner')
-            });
-            banner.init();
-            banner.render();
+            // var banner = new window.banner.Banner({
+            //     dom: document.getElementById('banner')
+            // });
+            // banner.init();
+            // banner.render();
         }
     }, {
-        key: 'render',
+        key: "render",
         value: function render() {
             return React.createElement(
-                'div',
+                "div",
                 null,
-                React.createElement('div', { id: 'banner' })
+                React.createElement(
+                    $$.Dialog,
+                    null,
+                    React.createElement(
+                        "div",
+                        null,
+                        "66666"
+                    ),
+                    React.createElement(
+                        "div",
+                        null,
+                        "66666"
+                    )
+                )
             );
         }
     }]);
@@ -994,6 +868,177 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
+
+/***/ }),
+
+/***/ "./react-dialog.js":
+/*!*************************!*\
+  !*** ./react-dialog.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _reactWidget = __webpack_require__(/*! ./react-widget */ "./react-widget.js");
+
+var _reactWidget2 = _interopRequireDefault(_reactWidget);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Dialog = function (_ReactWidget) {
+    _inherits(Dialog, _ReactWidget);
+
+    function Dialog(props) {
+        _classCallCheck(this, Dialog);
+
+        var _this = _possibleConstructorReturn(this, (Dialog.__proto__ || Object.getPrototypeOf(Dialog)).call(this, props));
+
+        _this.state = {};
+        return _this;
+    }
+
+    _createClass(Dialog, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var element = new aui.Dialog({
+                el: this.props.children
+            });
+            element.init();
+            element.render();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return React.createElement('div', null);
+        }
+    }]);
+
+    return Dialog;
+}(_reactWidget2.default);
+
+window.$$.Dialog = Dialog;
+
+/***/ }),
+
+/***/ "./react-widget.js":
+/*!*************************!*\
+  !*** ./react-widget.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ReactWidget = function (_React$Component) {
+    _inherits(ReactWidget, _React$Component);
+
+    function ReactWidget(props) {
+        _classCallCheck(this, ReactWidget);
+
+        var _this = _possibleConstructorReturn(this, (ReactWidget.__proto__ || Object.getPrototypeOf(ReactWidget)).call(this, props));
+
+        _this.ReactWidgetFn = _this.createObjectFn();
+        return _this;
+    }
+
+    _createClass(ReactWidget, [{
+        key: "createObjectFn",
+        value: function createObjectFn() {
+            function ReactWidget() {
+                [].constructor.call(this);
+            }
+
+            ReactWidget.prototype = Object.create(Array.prototype);
+
+            ReactWidget.prototype = {
+                constructor: ReactWidget,
+                vDomRender: function vDomRender(vDom) {
+                    if (vDom.split) return document.createTextNode(vDom);
+                    if (vDom.length > 1) {
+                        for (var i = 0; i < vDom.length; i++) {
+                            var cDom = document.createElement(vDom.type);
+                        }
+                    }
+                }
+            };
+
+            return new ReactWidget();
+        }
+    }]);
+
+    return ReactWidget;
+}(React.Component);
+
+window.$$ = {};
+
+exports.default = ReactWidget;
+
+/***/ }),
+
+/***/ "./widget.js":
+/*!*******************!*\
+  !*** ./widget.js ***!
+  \*******************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+;(function (global, $, factory, plug) {
+    global[plug] = factory.call(global, $);
+})(window, $, function ($) {
+    var __dialog__ = function __dialog__(ops) {
+        this.__dialogC__ = {};
+        this.__dialogC__ = this.extends(this.__dialogC__, ops);
+    };
+    __dialog__.prototype = {
+        init: function init() {
+            this.el = this.__dialogC__.el;
+            this.el.classList.add('dialog-content');
+        },
+        render: function render() {
+            var fragement = [];
+            fragement.push("<div class=\"dialog\">");
+            fragement.push("<span class=\"dialog-title\"></span>");
+            fragement.push("</div>");
+            document.getElementsByClassName('dialog').innerHTML = fragement.join('');
+            if (this.el) this.dom.appendChild(this.el);
+        },
+        extends: function _extends(target, ops) {
+            for (var i in ops) {
+                target[i] = ops[i];
+            }
+            return target;
+        }
+    };
+    return {
+        Dialog: __dialog__
+    };
+}, "aui");
 
 /***/ })
 

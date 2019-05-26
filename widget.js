@@ -8,17 +8,16 @@
     };
     __dialog__.prototype = {
         init: function () {
-            this.dom = this.__dialogC__.dom;
             this.el = this.__dialogC__.el;
-            this.dom.classList.add('dialog');
             this.el.classList.add('dialog-content');
         },
         render: function () {
             var fragement = [];
-            fragement.add("<span class=\"dialog-title\"></span>");
-            this.dom.innerHTML = fragement.join('');
+            fragement.push("<div class=\"dialog\">");
+            fragement.push("<span class=\"dialog-title\"></span>");
+            fragement.push("</div>");
+            document.getElementsByClassName('dialog').innerHTML = fragement.join('');
             if (this.el) this.dom.appendChild(this.el);
-            document.body.appendChild(this.dom);
         },
         extends: function (target, ops) {
             for (var i in ops) {
@@ -27,7 +26,7 @@
             return target;
         }
     };
-  return  {
+  return {
       Dialog: __dialog__
   };
 }, "aui");
