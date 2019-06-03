@@ -7,6 +7,7 @@ class Dialog extends ReactWidget {
 
     componentDidMount() {
         var element = new aui.Dialog({
+            root: $(ReactDOM.findDOMNode(this)),
             el: this.props.children
         });
         element.init();

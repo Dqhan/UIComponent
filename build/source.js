@@ -227,7 +227,11 @@ var Main = function (_React$Component) {
                     React.createElement(
                         "div",
                         null,
-                        "66666"
+                        React.createElement(
+                            "span",
+                            null,
+                            "66666"
+                        )
                     ),
                     React.createElement(
                         "div",
@@ -911,6 +915,7 @@ var Dialog = function (_ReactWidget) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var element = new aui.Dialog({
+                root: $(ReactDOM.findDOMNode(this)),
                 el: this.props.children
             });
             element.init();
@@ -1017,16 +1022,20 @@ exports.default = ReactWidget;
     };
     __dialog__.prototype = {
         init: function init() {
+            this.root = this.__dialogC__.root[0];
             this.el = this.__dialogC__.el;
-            this.el.classList.add('dialog-content');
         },
         render: function render() {
             var fragement = [];
             fragement.push("<div class=\"dialog\">");
             fragement.push("<span class=\"dialog-title\"></span>");
+            fragement.push("<div class=\"dialog-content\"></div>");
             fragement.push("</div>");
-            document.getElementsByClassName('dialog').innerHTML = fragement.join('');
-            if (this.el) this.dom.appendChild(this.el);
+            this.root.innerHTML = fragement.join('');
+            if (this.el) {
+                var contentEl = document.getElementsByClassName('dialog-content')[0];
+                contentEl.innerText = this.el;
+            }
         },
         extends: function _extends(target, ops) {
             for (var i in ops) {
