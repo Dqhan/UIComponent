@@ -227,11 +227,7 @@ var Main = function (_React$Component) {
                     React.createElement(
                         "div",
                         null,
-                        React.createElement(
-                            "span",
-                            null,
-                            "66666"
-                        )
+                        "66666"
                     ),
                     React.createElement(
                         "div",
@@ -263,7 +259,7 @@ exports = module.exports = __webpack_require__(/*! ./node_modules/css-loader/lib
 
 
 // module
-exports.push([module.i, "/*\n    dialog \n*/\n.dialog {\n  position: fixed;\n}\n.dialog .dialog-title {\n  background-color: #030303;\n}\n/* \n    banner \n*/\n.banner {\n  position: relative;\n  width: 100%;\n  height: 400px;\n}\n.banner .banner-indicators {\n  position: absolute;\n  bottom: 20px;\n  z-index: 10;\n  width: 60%;\n  padding-left: 0;\n  list-style: none;\n  text-align: center;\n  width: 25%;\n  left: 42%;\n}\n.banner .banner-indicators .banner-indicators-item {\n  list-style: none;\n  float: left;\n  width: 50px;\n  padding: 5px 0;\n  margin: 0 2px;\n  opacity: 0.5;\n  border: 0;\n  background-color: #fff;\n  height: auto;\n  border-radius: 5px;\n  margin-right: 50px;\n  cursor: pointer;\n}\n.banner .banner-indicators .active {\n  background-image: -webkit-linear-gradient(left, #9D9D9D, #000000 25%, #4F4F4F 50%, #000000 75%, #9D9D9D 100%);\n  -webkit-text-fill-color: transparent;\n  -webkit-animation: indicators-animation 2s infinite linear;\n}\n@-webkit-keyframes indicators-animation {\n  0% {\n    background: #9D9D9D;\n    border: 3px solid #ffffff;\n  }\n  50% {\n    background: #000000;\n    border: 3px solid #9D9D9D;\n  }\n  100% {\n    background: #9D9D9D;\n    border: 3px solid #ffffff;\n  }\n}\n.banner .banner-inner {\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n}\n.banner .banner-inner .banner-content {\n  width: 300%;\n  height: 100%;\n  transform: translate3d(-66.66666666%, 0, 0);\n  transition: transform 0.6s ease-in-out;\n  -webkit-transition: -webkit-transform 0.6s ease-in-out;\n}\n.banner .banner-inner .banner-content .banner-item {\n  display: inline-block;\n  position: relative;\n  width: 33.33333333%;\n  height: 100%;\n  background-repeat: no-repeat;\n  background-size: cover;\n}\n.banner .banner-inner .banner-content .banner-item:nth-child(1) {\n  background-image: url(" + escape(__webpack_require__(/*! ./Image/banner0.jpg */ "./Image/banner0.jpg")) + ");\n}\n.banner .banner-inner .banner-content .banner-item:nth-child(2) {\n  background-image: url(" + escape(__webpack_require__(/*! ./Image/banner1.jpg */ "./Image/banner1.jpg")) + ");\n}\n.banner .banner-inner .banner-content .banner-item:nth-child(3) {\n  background-image: url(" + escape(__webpack_require__(/*! ./Image/banner2.jpg */ "./Image/banner2.jpg")) + ");\n}\n.banner .banner-inner .banner-content .banner-item .banner-item-inner .title {\n  visibility: hidden;\n  transform: translate3d(-15%, 350%, 0);\n  transition: transform 0.3s ease-in-out;\n  -webkit-transition: -webkit-transform 0.3s ease-in-out;\n}\n.banner .banner-inner .banner-content .banner-item .banner-item-inner .description {\n  visibility: hidden;\n  transform: translate3d(100%, 300%, 0);\n  transition: transform 0.3s ease-in-out;\n  -webkit-transition: -webkit-transform 0.3s ease-in-out;\n}\n.banner .banner-inner .banner-content .banner-item .active .title {\n  visibility: visible;\n  transform: translate3d(30%, 350%, 0);\n}\n.banner .banner-inner .banner-content .banner-item .active .description {\n  visibility: visible;\n  transform: translate3d(60%, 300%, 0);\n}\n.banner .banner-inner .banner-content .banner-item .banner-item-inner p {\n  font-size: 40px;\n  font-weight: bold;\n  color: #fff;\n  font-style: italic;\n}\n", ""]);
+exports.push([module.i, "/*\n    dialog \n*/\n.dialog-bg {\n  POSITION: fixed;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(34, 34, 34, 0.5);\n}\n.dialog-bg .dialog {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  right: 0;\n  bottom: 0;\n  width: 200px;\n  height: 200px;\n  border: 1px solid;\n  margin-top: -100px;\n  margin-left: -100px;\n  text-align: center;\n  background: #ffffff;\n}\n.dialog-bg .dialog .dialog-title {\n  background-color: #030303;\n}\n/* \n    banner \n*/\n.banner {\n  position: relative;\n  width: 100%;\n  height: 400px;\n}\n.banner .banner-indicators {\n  position: absolute;\n  bottom: 20px;\n  z-index: 10;\n  width: 60%;\n  padding-left: 0;\n  list-style: none;\n  text-align: center;\n  width: 25%;\n  left: 42%;\n}\n.banner .banner-indicators .banner-indicators-item {\n  list-style: none;\n  float: left;\n  width: 50px;\n  padding: 5px 0;\n  margin: 0 2px;\n  opacity: 0.5;\n  border: 0;\n  background-color: #fff;\n  height: auto;\n  border-radius: 5px;\n  margin-right: 50px;\n  cursor: pointer;\n}\n.banner .banner-indicators .active {\n  background-image: -webkit-linear-gradient(left, #9D9D9D, #000000 25%, #4F4F4F 50%, #000000 75%, #9D9D9D 100%);\n  -webkit-text-fill-color: transparent;\n  -webkit-animation: indicators-animation 2s infinite linear;\n}\n@-webkit-keyframes indicators-animation {\n  0% {\n    background: #9D9D9D;\n    border: 3px solid #ffffff;\n  }\n  50% {\n    background: #000000;\n    border: 3px solid #9D9D9D;\n  }\n  100% {\n    background: #9D9D9D;\n    border: 3px solid #ffffff;\n  }\n}\n.banner .banner-inner {\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n}\n.banner .banner-inner .banner-content {\n  width: 300%;\n  height: 100%;\n  transform: translate3d(-66.66666666%, 0, 0);\n  transition: transform 0.6s ease-in-out;\n  -webkit-transition: -webkit-transform 0.6s ease-in-out;\n}\n.banner .banner-inner .banner-content .banner-item {\n  display: inline-block;\n  position: relative;\n  width: 33.33333333%;\n  height: 100%;\n  background-repeat: no-repeat;\n  background-size: cover;\n}\n.banner .banner-inner .banner-content .banner-item:nth-child(1) {\n  background-image: url(" + escape(__webpack_require__(/*! ./Image/banner0.jpg */ "./Image/banner0.jpg")) + ");\n}\n.banner .banner-inner .banner-content .banner-item:nth-child(2) {\n  background-image: url(" + escape(__webpack_require__(/*! ./Image/banner1.jpg */ "./Image/banner1.jpg")) + ");\n}\n.banner .banner-inner .banner-content .banner-item:nth-child(3) {\n  background-image: url(" + escape(__webpack_require__(/*! ./Image/banner2.jpg */ "./Image/banner2.jpg")) + ");\n}\n.banner .banner-inner .banner-content .banner-item .banner-item-inner .title {\n  visibility: hidden;\n  transform: translate3d(-15%, 350%, 0);\n  transition: transform 0.3s ease-in-out;\n  -webkit-transition: -webkit-transform 0.3s ease-in-out;\n}\n.banner .banner-inner .banner-content .banner-item .banner-item-inner .description {\n  visibility: hidden;\n  transform: translate3d(100%, 300%, 0);\n  transition: transform 0.3s ease-in-out;\n  -webkit-transition: -webkit-transform 0.3s ease-in-out;\n}\n.banner .banner-inner .banner-content .banner-item .active .title {\n  visibility: visible;\n  transform: translate3d(30%, 350%, 0);\n}\n.banner .banner-inner .banner-content .banner-item .active .description {\n  visibility: visible;\n  transform: translate3d(60%, 300%, 0);\n}\n.banner .banner-inner .banner-content .banner-item .banner-item-inner p {\n  font-size: 40px;\n  font-weight: bold;\n  color: #fff;\n  font-style: italic;\n}\n", ""]);
 
 // exports
 
@@ -915,16 +911,18 @@ var Dialog = function (_ReactWidget) {
         key: 'componentDidMount',
         value: function componentDidMount() {
             var element = new aui.Dialog({
-                root: $(ReactDOM.findDOMNode(this)),
-                el: this.props.children
+                root: $(ReactDOM.findDOMNode(this))
             });
-            element.init();
-            element.render();
+            element.init().render();
         }
     }, {
         key: 'render',
         value: function render() {
-            return React.createElement('div', null);
+            return React.createElement(
+                'div',
+                { id: new Date().getTime() },
+                this.props.children
+            );
         }
     }]);
 
@@ -972,24 +970,12 @@ var ReactWidget = function (_React$Component) {
     _createClass(ReactWidget, [{
         key: "createObjectFn",
         value: function createObjectFn() {
-            function ReactWidget() {
-                [].constructor.call(this);
-            }
+            function ReactWidget() {}
 
-            ReactWidget.prototype = Object.create(Array.prototype);
+            ReactWidget.prototype = Object.create(Array.prototype, {
+                constructor: ReactWidget
 
-            ReactWidget.prototype = {
-                constructor: ReactWidget,
-                vDomRender: function vDomRender(vDom) {
-                    if (vDom.split) return document.createTextNode(vDom);
-                    if (vDom.length > 1) {
-                        for (var i = 0; i < vDom.length; i++) {
-                            var cDom = document.createElement(vDom.type);
-                        }
-                    }
-                }
-            };
-
+            });
             return new ReactWidget();
         }
     }]);
@@ -1022,20 +1008,17 @@ exports.default = ReactWidget;
     };
     __dialog__.prototype = {
         init: function init() {
-            this.root = this.__dialogC__.root[0];
+            this.root = this.__dialogC__.root;
             this.el = this.__dialogC__.el;
+            return this;
         },
         render: function render() {
-            var fragement = [];
-            fragement.push("<div class=\"dialog\">");
-            fragement.push("<span class=\"dialog-title\"></span>");
-            fragement.push("<div class=\"dialog-content\"></div>");
-            fragement.push("</div>");
-            this.root.innerHTML = fragement.join('');
-            if (this.el) {
-                var contentEl = document.getElementsByClassName('dialog-content')[0];
-                contentEl.innerText = this.el;
-            }
+            var $dialogOuter = "<div class=\"dialog-bg\"></div>",
+                $dialog = "<div class=\"dialog\"></div>",
+                $dialogTitle = "<div class=\"dialog-title\"></div>",
+                $dialogContent = "<div class=\"dialog-content\"></div>";
+            this.root.wrapInner($dialogContent).prepend($dialogTitle).wrapInner($dialog).wrapInner($dialogOuter);
+            return this;
         },
         extends: function _extends(target, ops) {
             for (var i in ops) {

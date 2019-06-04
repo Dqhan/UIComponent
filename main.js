@@ -15,7 +15,7 @@ class Main extends React.Component {
         return <div>
             {/* <div id='banner'></div> */}
             <$$.Dialog>
-              <div><span>66666</span></div>
+              <div>66666</div>
               <div>66666</div>
             </$$.Dialog>
         </div>
