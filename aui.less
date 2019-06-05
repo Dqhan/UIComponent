@@ -1,6 +1,22 @@
 /*
     dialog 
 */
+button{
+    border: 1px solid #9D9D9D;
+    background-color: #fff;
+    height: auto;
+    padding: 5px 20px;
+    border-radius: 5px;
+    color: #9D9D9D;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    cursor: pointer;
+    &:hover{
+        background: #9D9D9D;
+        color: #fff;
+    }
+}
 .dialog-bg{
     POSITION: fixed;
     left: 0;
@@ -14,19 +30,29 @@
         left: 50%;
         right: 0;
         bottom: 0;
-        width: 200px;
-        height: 200px;
-        border: 1px solid;
-        margin-top: -100px;
-        margin-left: -100px;
+        border: 1px solid #ff9900;
+        border-radius: 5px ;
         text-align: center;
         background: #ffffff;
          .dialog-title{
-         background-color: #030303;
+            width: auto;
+            height: 40px;
+            line-height: 40px;
+            background-color: #ff9900;
+            font-weight: bold;
+            color: #ffffff;
          }
          .dialog-content{
-             
+             padding: 10px;
          }   
+         .dialog-footer{
+            position: absolute;
+            bottom: 0px;
+            background-color: #ff9900;
+            width: 100%;
+            height: auto;
+            padding: 2px 0;
+         }
      }
 }
 

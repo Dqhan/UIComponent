@@ -7,15 +7,18 @@ class Dialog extends ReactWidget {
 
     componentDidMount() {
         var element = new aui.Dialog({
-            root: $(ReactDOM.findDOMNode(this))
+            root: $(ReactDOM.findDOMNode(this)),
+            width: this.props.width,
+            height: this.props.height,
+            footFragement: this.props.foot
         });
         element.init().render();
     }
 
     render() {
-        return <div id={new Date().getTime()}>
+        return this.props.status ? <div id={this.props.id || new Date().getTime()}>
             {this.props.children}
-        </div>
+        </div> : null
     }
 }
 
