@@ -6,13 +6,14 @@ class Main extends React.Component {
 
     initState() {
         this.state = {
-            dialogStatus: true
+            dialogStatus: false
         }
         return this;
     }
 
     setBind() {
         this.dialogCloseHandler = this.dialogCloseHandler.bind(this);
+        this.dialogShowHandler = this.dialogShowHandler.bind(this);
     }
 
     componentDidMount() {
@@ -29,24 +30,35 @@ class Main extends React.Component {
         })
     }
 
+    dialogShowHandler() {
+        this.setState({
+            dialogStatus: true
+        })
+    }
+
     render() {
         return <div>
-            {/* <div id='banner'></div> */}
-            <$$.Dialog
-                id={'dialog' + new Date().getTime()}
-                width={200}
-                height={300}
-                status={this.state.dialogStatus}
-                foot={[
-                    {
-                        text: 'close',
-                        click: this.dialogCloseHandler
-                    }
-                ]}
-            >
-                <div>66666</div>
-                <div>66666</div>
-            </$$.Dialog>
+            <section id='banner'>
+                {/* <div id='banner'></div> */}
+            </section>
+            <section id='dialog'>
+                <button onClick={this.dialogShowHandler}>Dialog</button>
+                <$$.Dialog
+                    id={'dqhan-dialog'}
+                    width={200}
+                    height={300}
+                    status={this.state.dialogStatus}
+                    foot={[
+                        {
+                            text: 'close',
+                            click: this.dialogCloseHandler
+                        }
+                    ]}
+                >
+                    <div>66666</div>
+                    <div>66666</div>
+                </$$.Dialog>
+            </section>
         </div>
     }
 }

@@ -8,7 +8,8 @@
             width: 400,
             height: 500,
             title: 'Dialog',
-            footFragement: []
+            footFragement: [],
+            status: false
         };
         this.__events__ = {
 
@@ -58,13 +59,34 @@
                 .wrapInner($dialog)
                 .wrapInner($dialogOuter);
             $('.dialog').append($foot);
+            if (this.__dialogC__.status == false) this.root.css('display', 'none');
+            else this.root.css('display', '');
+            // if (this.__dialogC__.status == false) this.destory();
             return this;
+        },
+        setOptions: function (ops) {
+            for (var i in ops) {
+                if (typeof ops[i] !== undefined) this.__dialogC__[i] = ops[i];
+            };
+            if (this.__dialogC__.status == false) this.root.css('display', 'none');
+            else this.root.css('display', '');
+            this.reRender();
+        },
+        reRender: function () {
+            var $dialog = $('.dialog');
+            $dialog.css('width', this.__dialogC__.width + "px")
+                .css('height', this.__dialogC__.height + "px")
+                .css('margin-top', -this.__dialogC__.height * 0.5 + "px")
+                .css('margin-left', -this.__dialogC__.width * 0.5 + "px")
         },
         extends: function (target, ops) {
             for (var i in ops) {
                 if (ops[i]) target[i] = ops[i];
             }
             return target;
+        },
+        destory: function () {
+            $('.dialog-bg').remove();
         }
     };
     return {
