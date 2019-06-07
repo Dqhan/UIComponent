@@ -2,7 +2,7 @@
 ; (function (global, $, factory, plug) {
     global[plug] = factory.call(global, $);
 })(window, $, function ($) {
-    var __dialog__ = function (ops) {
+    var __Dialog__ = function (ops) {
         this.__dialogC__ = {
             root: $('body'),
             width: 400,
@@ -16,16 +16,16 @@
         };
         this.__dialogC__ = this.extends(this.__dialogC__, ops);
     };
-    __dialog__.prototype = {
+    __Dialog__.prototype = {
         init: function () {
             this.root = this.__dialogC__.root;
             this.el = this.__dialogC__.el;
             this.footFragement = this.__dialogC__.footFragement;
-            return this;
+            this.__render__();
         },
-        render: function () {
+        __render__: function () {
             var
-                $dialogOuter = "<div class=\"dialog-bg\"></div>",
+                $dialogOuter = "<div class=\"aui-backdrop\"></div>",
                 $dialog = "<div class=\"dialog\" style=" +
                     "width:" + this.__dialogC__.width + "px" +
                     ";height:" + this.__dialogC__.height + "px" +
@@ -59,9 +59,9 @@
                 .wrapInner($dialog)
                 .wrapInner($dialogOuter);
             $('.dialog').append($foot);
+            $('.dialog-footer button')[0].focus();
             if (this.__dialogC__.status == false) this.root.css('display', 'none');
             else this.root.css('display', '');
-            // if (this.__dialogC__.status == false) this.destory();
             return this;
         },
         setOptions: function (ops) {
@@ -70,14 +70,15 @@
             };
             if (this.__dialogC__.status == false) this.root.css('display', 'none');
             else this.root.css('display', '');
-            this.reRender();
+            this.___reRender__();
         },
-        reRender: function () {
+        ___reRender__: function () {
             var $dialog = $('.dialog');
             $dialog.css('width', this.__dialogC__.width + "px")
                 .css('height', this.__dialogC__.height + "px")
                 .css('margin-top', -this.__dialogC__.height * 0.5 + "px")
-                .css('margin-left', -this.__dialogC__.width * 0.5 + "px")
+                .css('margin-left', -this.__dialogC__.width * 0.5 + "px");
+            $('.dialog-footer button')[0].focus();
         },
         extends: function (target, ops) {
             for (var i in ops) {
@@ -89,7 +90,62 @@
             $('.dialog-bg').remove();
         }
     };
+    var uuid = -1;
+    var __Combobox__ = function (ops) {
+        this.__ComboboxC__ = {
+            root: $('body'),
+            inputId: 'aui-folding-input-',
+            placeHolderId: 'aui-folding-placeholder-'
+        };
+        this.__extends__(ops, this.__ComboboxC__);
+        this.element = this.__ComboboxC__.root;
+        this.__initId__().__init__();
+    }
+
+    __Combobox__.prototype = {
+        __initId__: function () {
+            this.__ComboboxC__.inputId = ++uuid;
+            this.__ComboboxC__.placeHolderId = ++uuid;
+        },
+        __init__: function () {
+            this.element.css('width', this.__ComboboxC__.width + 'px')
+                .css('height', this.__ComboboxC__.height + 'px')
+                .addClass('aui-folding-combobox');
+            this.__createCombobox__()
+                .__createDropDown__()
+                .__createPopup__();
+            return this;
+        },
+        __createCombobox__: function () {
+            var h = 0, fragement = [];
+            fragement[h++] = "<input id='" + this.__ComboboxC__.inputId + "' class=\"aui-folding-input\" />";
+            fragement[h++] = "<div class=\"aui-folding-placeholder\">";
+            fragement[h++] = "<div id='>" + this.__ComboboxC__.placeHolderId + "<' /div>";
+            fragement[h++] = "</div>";
+            this.element.append(fragement.join(''));
+            return this;
+        },
+        __createDropDown__: function () {
+            var h = 0, fragement = [];
+
+            this.element.append(fragement.join(''));
+            return this;
+        },
+        __createPopup__: function () {
+            return this;
+        },
+        setOptions: function () {
+
+        },
+        __extends__: function (ops, target) {
+            for (var i in ops) {
+                if (typeof ops[i] !== undefined) target[i] = ops[i];
+            }
+        }
+    }
+
     return {
-        Dialog: __dialog__
+        Dialog: __Dialog__,
+        Combobox: __Combobox__
     };
 }, "aui");

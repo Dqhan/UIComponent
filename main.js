@@ -38,10 +38,11 @@ class Main extends React.Component {
 
     render() {
         return <div>
-            <section id='banner'>
+            <section>
                 {/* <div id='banner'></div> */}
             </section>
-            <section id='dialog'>
+            <section>
+                <h4>Dialog</h4>
                 <button onClick={this.dialogShowHandler}>Dialog</button>
                 <$$.Dialog
                     id={'dqhan-dialog'}
@@ -58,6 +59,9 @@ class Main extends React.Component {
                     <div>66666</div>
                     <div>66666</div>
                 </$$.Dialog>
+            </section>
+            <section>
+                
             </section>
         </div>
     }

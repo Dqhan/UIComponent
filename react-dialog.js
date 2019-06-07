@@ -21,7 +21,7 @@ class Dialog extends ReactWidget {
             height: this.props.height,
             footFragement: this.props.foot
         });
-        this.element.init().render();
+        this.element.init();
     }
 
     render() {
