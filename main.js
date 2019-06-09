@@ -61,7 +61,21 @@ class Main extends React.Component {
                 </$$.Dialog>
             </section>
             <section>
-                
+                <h4>Combobox</h4>
+                <$$.Combobox
+                    items={
+                        [{
+                            name: 'text1',
+                            value: 'value1'
+                        }, {
+                            name: 'text2',
+                            value: 'value2'
+                        }, {
+                            name: 'text3',
+                            value: 'value3'
+                        }]
+                    }
+                />
             </section>
         </div>
     }

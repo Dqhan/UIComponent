@@ -3,17 +3,22 @@ class Combobox extends ReactWidget {
     constructor(props) {
         super(props);
         this.element = {};
+        this.state = {
+            items: []
+        };
     }
 
     componentWillReceiveProps(newPorps) {
-        this.element.setOptions({
-
-        })
+        if (newPorps.items.length !== 0)
+            this.element.setOptions('setItems', {
+                items: newPorps.items
+            })
     }
 
     componentDidMount() {
-        this.element = new Combobox({
-            root: $(React.findDOMNode(this))
+        this.element = new aui.Combobox({
+            root: $(ReactDOM.findDOMNode(this)),
+            items: this.props.items
         })
     }
 

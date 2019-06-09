@@ -25,7 +25,7 @@
         },
         __render__: function () {
             var
-                $dialogOuter = "<div class=\"aui-backdrop\"></div>",
+                $dialogOuter = "<div class=\"ui-backdrop\"></div>",
                 $dialog = "<div class=\"dialog\" style=" +
                     "width:" + this.__dialogC__.width + "px" +
                     ";height:" + this.__dialogC__.height + "px" +
@@ -92,50 +92,120 @@
     };
     var uuid = -1;
     var __Combobox__ = function (ops) {
+        this.__eventNameSpave__ = ".combobox-event";
         this.__ComboboxC__ = {
             root: $('body'),
-            inputId: 'aui-folding-input-',
-            placeHolderId: 'aui-folding-placeholder-'
+            inputId: 'ui-combobox-input-',
+            dorpdownId: 'ui-combobox-dropdown-',
+            popupId: 'ui-combobox-popup-',
+            placeHolderId: 'ui-combobox-placeholder-',
+            listboxId: 'ui-combobox-listboxId-',
+            items: [],
+            selectedIndex: 0
         };
+        this.__$Dom__ = {};
         this.__extends__(ops, this.__ComboboxC__);
         this.element = this.__ComboboxC__.root;
-        this.__initId__().__init__();
+        this.__initId__().__init__().__load__();
     }
 
     __Combobox__.prototype = {
         __initId__: function () {
-            this.__ComboboxC__.inputId = ++uuid;
-            this.__ComboboxC__.placeHolderId = ++uuid;
+            this.__uuId = ++uuid;
+            this.__ComboboxC__.inputId += uuid;
+            this.__ComboboxC__.dorpdownId += uuid;
+            this.__ComboboxC__.popupId += uuid;
+            this.__ComboboxC__.placeHolderId += uuid;
+            this.__ComboboxC__.listboxId += uuid;
+            return this;
         },
         __init__: function () {
             this.element.css('width', this.__ComboboxC__.width + 'px')
                 .css('height', this.__ComboboxC__.height + 'px')
-                .addClass('aui-folding-combobox');
+                .addClass('ui-combobox');
             this.__createCombobox__()
                 .__createDropDown__()
-                .__createPopup__();
+                .__createPopup__()
+                .__initDom__()
+                .__bindEvent__();
             return this;
         },
         __createCombobox__: function () {
-            var h = 0, fragement = [];
-            fragement[h++] = "<input id='" + this.__ComboboxC__.inputId + "' class=\"aui-folding-input\" />";
-            fragement[h++] = "<div class=\"aui-folding-placeholder\">";
-            fragement[h++] = "<div id='>" + this.__ComboboxC__.placeHolderId + "<' /div>";
-            fragement[h++] = "</div>";
+            var h = -1, fragement = [];
+            fragement[++h] = "<input id='" + this.__ComboboxC__.inputId + "' class=\"ui-combobox-input\" />";
+            fragement[++h] = "<div class=\"ui-combobox-placeholder\">";
+            fragement[++h] = "<div id='>" + this.__ComboboxC__.placeHolderId + "<' /div>";
+            fragement[++h] = "</div>";
             this.element.append(fragement.join(''));
             return this;
         },
         __createDropDown__: function () {
-            var h = 0, fragement = [];
-
+            var h = -1, fragement = [];
+            fragement[++h] = "<div id=" + this.__ComboboxC__.dorpdownId + " class=\"ui-combobox-dropdown-container\">";
+            fragement[++h] = "<div class=\"ui-dorpdown-icon\"></div>";
+            fragement[++h] = "</div>";
             this.element.append(fragement.join(''));
             return this;
         },
         __createPopup__: function () {
+            var h = -1, fragement = [];
+            fragement[++h] = "<div class=\"ui-combobox-popup\" id=" + this.__ComboboxC__.popupId + ">";
+            fragement[++h] = "<div class=\"ui-combobox-listbox\">";
+            fragement[++h] = "<div class=\"ui-combobox-listbox-container\" id=" + this.__ComboboxC__.listboxId + ">";
+            fragement[++h] = "</div>";
+            fragement[++h] = "</div>";
+            fragement[++h] = "</div>";
+            $('body').append(fragement.join(''));
             return this;
         },
-        setOptions: function () {
-
+        __initDom__: function () {
+            this.__$Dom__.$listbox = $(".ui-combobox-listbox");
+            this.__$Dom__.$input = $(".ui-combobox-input");
+            return this;
+        },
+        __load__: function () {
+            this.__addItems__();
+        },
+        setOptions: function (key, ops) {
+            var self = this,
+                clr = {
+                    setStyle: self.__setSytle__,
+                    setItems: self.__setItems__
+                }
+            clr[key](ops);
+        },
+        __setSytle__: function (ops) {
+            $('.ui-combobox-popup').css('width', ops.popupWidth);
+        },
+        __setItems__: function (ops) {
+            this.__ComboboxC__.items = ops.items;
+            this.__addItems__().__setSelectedIndex__(ops.selectedIndex);
+        },
+        __addItems__: function () {
+            var $listbox = $('#' + this.__ComboboxC__.listboxId),
+                i = 0, c = this.__ComboboxC__.items.length, fragement = [];
+            for (; i < c; i++) {
+                fragement.push("<div class=\"ui-combobox-selection-container\">");
+                fragement.push("<div role='option' class=\"ui-combobox-selection\" id=ui-combobox-selection-select-option-" + i + ">");
+                fragement.push(this.__ComboboxC__.items[i].name);
+                fragement.push("</div>");
+                fragement.push("</div>");
+            }
+            $listbox.append(fragement.join(''));
+            return this;
+        },
+        __setSelectedIndex__: function (selectedIndex, dom) {
+            this.__ComboboxC__.selectedIndex = selectedIndex;
+            if (dom) this.__$Dom__.$input[0].value = dom.textContent;
+            return this;
+        },
+        __bindEvent__: function () {
+            var eventName = this.__eventNameSpave__,
+                self = this;
+            this.__$Dom__.$listbox.on('click' + eventName, function (e) {
+                var selectedIndex = e.target.id.replace('ui-combobox-selection-select-option-', '');
+                self.__setSelectedIndex__(selectedIndex, e.target);
+            });
         },
         __extends__: function (ops, target) {
             for (var i in ops) {
