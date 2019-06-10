@@ -1,4 +1,5 @@
 import Main from './main.js';
+require('./widget-core');
 require('./widget');
 require('./react-widget');
 require('./react-dialog');

@@ -17,6 +17,5 @@ class ReactWidget extends React.Component {
 
 }
 
-window.$$ = {};
 
 export default ReactWidget;

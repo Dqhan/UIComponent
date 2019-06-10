@@ -1,7 +1,7 @@
 "use strict";
-; (function (global, $, factory, plug) {
-    global[plug] = factory.call(global, $);
-})(window, $, function ($) {
+; (function (global, $, $$, factory, plug) {
+    global[plug] = factory.call(global, $, $$);
+})(window, $, $$, function ($, $$) {
     var __Dialog__ = function (ops) {
         this.__dialogC__ = {
             root: $('body'),
