@@ -212,10 +212,15 @@
                 self.__ComboboxC__.popupOpend = !self.__ComboboxC__.popupOpend;
                 self.__hideShow__();
             }).on('focus' + eventName, function (e) {
-                var a = e;
+                self.__element__.addClass('ui-combobox-focused');
             }).on('blur' + eventName, function (e) {
-                var a = e;
-            }).on
+                self.__element__.removeClass('ui-combobox-focused');
+                self.__$Dom__.$popup.hide();
+            }).on('mouseover' + eventName, function () {
+                self.__element__.addClass('ui-combobox-mouseover');
+            }).on('mouseleave' + eventName, function () {
+                self.__element__.removeClass('ui-combobox-mouseover');
+            });
             this.__$Dom__.$listbox.on('mousedown' + eventName, function (e) {
                 var selectedIndex = e.target.id.replace('ui-combobox-selection-select-option-', '');
                 self.__setSelectedIndex__(selectedIndex, e.target);
@@ -232,6 +237,7 @@
 
         __hide__: function () {
             this.__$Dom__.$popup.hide();
+            
         },
 
         __show__: function () {
@@ -242,7 +248,7 @@
         __setPopupPosition__() {
             var self = this;
             this.__$Dom__.$popup
-                .css({ 'top': 0 })
+                .css({ top: 0 })
                 .position({
                     my: "left top",
                     at: "left bottom",
