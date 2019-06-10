@@ -101,11 +101,12 @@
             placeHolderId: 'ui-combobox-placeholder-',
             listboxId: 'ui-combobox-listboxId-',
             items: [],
-            selectedIndex: 0
+            selectedIndex: 0,
+            popupOpend: false
         };
         this.__$Dom__ = {};
         this.__extends__(ops, this.__ComboboxC__);
-        this.element = this.__ComboboxC__.root;
+        this.__element__ = this.__ComboboxC__.root;
         this.__initId__().__init__().__load__();
     }
 
@@ -120,7 +121,7 @@
             return this;
         },
         __init__: function () {
-            this.element.css('width', this.__ComboboxC__.width + 'px')
+            this.__element__.css('width', this.__ComboboxC__.width + 'px')
                 .css('height', this.__ComboboxC__.height + 'px')
                 .addClass('ui-combobox');
             this.__createCombobox__()
@@ -136,7 +137,7 @@
             fragement[++h] = "<div class=\"ui-combobox-placeholder\">";
             fragement[++h] = "<div id='>" + this.__ComboboxC__.placeHolderId + "<' /div>";
             fragement[++h] = "</div>";
-            this.element.append(fragement.join(''));
+            this.__element__.append(fragement.join(''));
             return this;
         },
         __createDropDown__: function () {
@@ -144,7 +145,7 @@
             fragement[++h] = "<div id=" + this.__ComboboxC__.dorpdownId + " class=\"ui-combobox-dropdown-container\">";
             fragement[++h] = "<div class=\"ui-dorpdown-icon\"></div>";
             fragement[++h] = "</div>";
-            this.element.append(fragement.join(''));
+            this.__element__.append(fragement.join(''));
             return this;
         },
         __createPopup__: function () {
@@ -159,12 +160,14 @@
             return this;
         },
         __initDom__: function () {
-            this.__$Dom__.$listbox = $(".ui-combobox-listbox");
-            this.__$Dom__.$input = $(".ui-combobox-input");
+            this.__$Dom__.$listbox = $('#' + this.__ComboboxC__.listboxId);
+            this.__$Dom__.$input = $('#' + this.__ComboboxC__.inputId);
+            this.__$Dom__.$popup = $('#' + this.__ComboboxC__.popupId);
             return this;
         },
         __load__: function () {
             this.__addItems__();
+            this.__$Dom__.$popup.hide();
         },
         setOptions: function (key, ops) {
             var self = this,
@@ -175,15 +178,18 @@
             clr[key](ops);
         },
         __setSytle__: function (ops) {
-            $('.ui-combobox-popup').css('width', ops.popupWidth);
+            this.__$Dom__.$popup.css('width', ops.popupWidth)
+                .css('height', ops.popupHeight)
+                .css('max-width', ops.popupMaxWidth)
+                .css('max-height', ops.popupMaxHeight)
+            return this;
         },
         __setItems__: function (ops) {
             this.__ComboboxC__.items = ops.items;
             this.__addItems__().__setSelectedIndex__(ops.selectedIndex);
         },
         __addItems__: function () {
-            var $listbox = $('#' + this.__ComboboxC__.listboxId),
-                i = 0, c = this.__ComboboxC__.items.length, fragement = [];
+            var i = 0, c = this.__ComboboxC__.items.length, fragement = [];
             for (; i < c; i++) {
                 fragement.push("<div class=\"ui-combobox-selection-container\">");
                 fragement.push("<div role='option' class=\"ui-combobox-selection\" id=ui-combobox-selection-select-option-" + i + ">");
@@ -191,7 +197,7 @@
                 fragement.push("</div>");
                 fragement.push("</div>");
             }
-            $listbox.append(fragement.join(''));
+            this.__$Dom__.$listbox.append(fragement.join(''));
             return this;
         },
         __setSelectedIndex__: function (selectedIndex, dom) {
@@ -202,11 +208,49 @@
         __bindEvent__: function () {
             var eventName = this.__eventNameSpave__,
                 self = this;
-            this.__$Dom__.$listbox.on('click' + eventName, function (e) {
+            this.__$Dom__.$input.on('mousedown' + eventName, function (e) {
+                self.__ComboboxC__.popupOpend = !self.__ComboboxC__.popupOpend;
+                self.__hideShow__();
+            }).on('focus' + eventName, function (e) {
+                var a = e;
+            }).on('blur' + eventName, function (e) {
+                var a = e;
+            }).on
+            this.__$Dom__.$listbox.on('mousedown' + eventName, function (e) {
                 var selectedIndex = e.target.id.replace('ui-combobox-selection-select-option-', '');
                 self.__setSelectedIndex__(selectedIndex, e.target);
+                self.__ComboboxC__.popupOpend = false;
+                self.__hideShow__();
             });
         },
+        __hideShow__: function () {
+            if (!this.__ComboboxC__.popupOpend)
+                this.__hide__();
+            else
+                this.__show__();
+        },
+
+        __hide__: function () {
+            this.__$Dom__.$popup.hide();
+        },
+
+        __show__: function () {
+            this.__$Dom__.$popup.show();
+            this.__setPopupPosition__();
+        },
+
+        __setPopupPosition__() {
+            var self = this;
+            this.__$Dom__.$popup
+                .css({ 'top': 0 })
+                .position({
+                    my: "left top",
+                    at: "left bottom",
+                    of: self.__element__,
+                    collision: "flip"
+                })
+        },
+
         __extends__: function (ops, target) {
             for (var i in ops) {
                 if (typeof ops[i] !== undefined) target[i] = ops[i];
