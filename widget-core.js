@@ -13,8 +13,8 @@
         this.params = {};
         $.extend(this, props);
     };
-    window.$$.trigger = function (eventName, callback) {
-        $.Event(eventName);
-        $.trigger(eventName, callback);
-    }
+
+    window.$$.trigger = function (event, el, args) {
+
+    };
 })

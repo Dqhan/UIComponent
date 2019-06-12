@@ -19,7 +19,12 @@ class Combobox extends ReactWidget {
         this.element = new aui.Combobox({
             root: $(ReactDOM.findDOMNode(this)),
             items: this.props.items
-        })
+        });
+        $.Event('selectionChanged', this, this.selectionChangedHandler)
+    }
+
+    selectionChangedHandler(e, args) {
+        $$.trigger(e, args, this.props.selectionChangedHandler);
     }
 
     render() {

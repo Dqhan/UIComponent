@@ -237,7 +237,12 @@
 
         __hide__: function () {
             this.__$Dom__.$popup.hide();
-            
+            $$.trigger("selectionChanged", this.__element__ , $$.Event({
+                element: this.__element__,
+                oldValue: oldValue,
+                newValue: newValue,
+                parameters: this.options.parameters
+            }))
         },
 
         __show__: function () {

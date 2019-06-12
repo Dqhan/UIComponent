@@ -36,6 +36,11 @@ class Main extends React.Component {
         })
     }
 
+    comboboxSelectionChanged(e, args) {
+        var a = e;
+        var b = args;
+    }
+
     render() {
         return <div>
             <section>
@@ -75,6 +80,7 @@ class Main extends React.Component {
                             value: 'value3'
                         }]
                     }
+                    selectionChangedHandler={this.comboboxSelectionChanged.bind(this)}
                 />
             </section>
         </div>
