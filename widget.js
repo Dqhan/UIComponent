@@ -101,8 +101,11 @@
             placeHolderId: 'ui-combobox-placeholder-',
             listboxId: 'ui-combobox-listboxId-',
             items: [],
-            selectedIndex: 0,
-            popupOpend: false
+            popupOpend: false,
+            oldValue: {},
+            newValue: {},
+            selectedIndex: -1,
+            selectedItem: {}
         };
         this.__$Dom__ = {};
         this.__extends__(ops, this.__ComboboxC__);
@@ -163,6 +166,7 @@
             this.__$Dom__.$listbox = $('#' + this.__ComboboxC__.listboxId);
             this.__$Dom__.$input = $('#' + this.__ComboboxC__.inputId);
             this.__$Dom__.$popup = $('#' + this.__ComboboxC__.popupId);
+            this.__$Dom__.$selections = $('.ui-combobox-selection');
             return this;
         },
         __load__: function () {
@@ -173,7 +177,8 @@
             var self = this,
                 clr = {
                     setStyle: self.__setSytle__,
-                    setItems: self.__setItems__
+                    setItems: self.__setItems__,
+                    setSelectedItem: self.__setSelectedItems__
                 }
             clr[key](ops);
         },
@@ -188,6 +193,15 @@
             this.__ComboboxC__.items = ops.items;
             this.__addItems__().__setSelectedIndex__(ops.selectedIndex);
         },
+        __setSelectedItems__: function (ops) {
+            this.__ComboboxC__.selectedItem = ops.selectedItem;
+            this.__ComboboxC__.newValue = ops.selectedItem;
+            $$.trigger('selectionChanged', this.__element__, $$.Event({
+                element: this.__element__,
+                oldValue: this.__ComboboxC__.oldValue,
+                newValue: this.__ComboboxC__.newValue
+            }));
+        },
         __addItems__: function () {
             var i = 0, c = this.__ComboboxC__.items.length, fragement = [];
             for (; i < c; i++) {
@@ -200,9 +214,16 @@
             this.__$Dom__.$listbox.append(fragement.join(''));
             return this;
         },
-        __setSelectedIndex__: function (selectedIndex, dom) {
+        __setSelectedIndex__: function (selectedIndex) {
             this.__ComboboxC__.selectedIndex = selectedIndex;
-            if (dom) this.__$Dom__.$input[0].value = dom.textContent;
+            if (this.__ComboboxC__.selectedIndex != -1) {
+                var inputValue = this.__ComboboxC__.items[this.__ComboboxC__.selectedIndex].value;
+                this.__$Dom__.$input[0].value = inputValue;
+                this.__$Dom__.$listbox[this.__ComboboxC__.selectedIndex].classList.add('ui-combobox-selection-selected');
+            } else {
+                this.__$Dom__.$input[0].value = '';
+                this.__$Dom__.$listbox[0].classList.add('ui-combobox-selection-selected');
+            }
             return this;
         },
         __bindEvent__: function () {
@@ -222,11 +243,12 @@
                 self.__element__.removeClass('ui-combobox-mouseover');
             });
             this.__$Dom__.$listbox.on('mousedown' + eventName, function (e) {
-                var selectedIndex = e.target.id.replace('ui-combobox-selection-select-option-', '');
-                self.__setSelectedIndex__(selectedIndex, e.target);
-                self.__ComboboxC__.popupOpend = false;
-                self.__hideShow__();
+                e.stopPropagation();
+                e.preventDefault();
             });
+            this.__$Dom__.$selections.on('click' + eventName, function (e) {
+               
+            })
         },
         __hideShow__: function () {
             if (!this.__ComboboxC__.popupOpend)
@@ -237,11 +259,10 @@
 
         __hide__: function () {
             this.__$Dom__.$popup.hide();
-            $$.trigger("selectionChanged", this.__element__ , $$.Event({
+            $$.trigger("selectionChanged", this.__element__, $$.Event({
                 element: this.__element__,
-                oldValue: oldValue,
-                newValue: newValue,
-                parameters: this.options.parameters
+                oldValue: this.__ComboboxC__.oldValue,
+                newValue: this.__ComboboxC__.newValue
             }))
         },
 

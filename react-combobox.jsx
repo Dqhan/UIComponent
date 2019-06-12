@@ -13,6 +13,10 @@ class Combobox extends ReactWidget {
             this.element.setOptions('setItems', {
                 items: newPorps.items
             })
+        if (newPorps.selectItem != null)
+            this.element.setOptions('setSelectedItem', {
+                selectedItem: newPorps.selectedItem
+            })
     }
 
     componentDidMount() {
@@ -20,11 +24,11 @@ class Combobox extends ReactWidget {
             root: $(ReactDOM.findDOMNode(this)),
             items: this.props.items
         });
-        $.Event('selectionChanged', this, this.selectionChangedHandler)
+        $(ReactDOM.findDOMNode(this)).on('selectionChanged', this.selectionChangedHandler.bind(this));
     }
 
     selectionChangedHandler(e, args) {
-        $$.trigger(e, args, this.props.selectionChangedHandler);
+        this.props.selectionChanged(e, args);
     }
 
     render() {

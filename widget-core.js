@@ -14,7 +14,8 @@
         $.extend(this, props);
     };
 
-    window.$$.trigger = function (event, el, args) {
-
+    window.$$.trigger = function (type, el, args) {
+        var event = $.Event(type, args);
+        el.trigger(event, args);
     };
 })

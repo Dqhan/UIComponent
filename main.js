@@ -6,7 +6,8 @@ class Main extends React.Component {
 
     initState() {
         this.state = {
-            dialogStatus: false
+            dialogStatus: false,
+            selectItem: null
         }
         return this;
     }
@@ -37,8 +38,7 @@ class Main extends React.Component {
     }
 
     comboboxSelectionChanged(e, args) {
-        var a = e;
-        var b = args;
+        console.log(args);
     }
 
     render() {
@@ -80,7 +80,8 @@ class Main extends React.Component {
                             value: 'value3'
                         }]
                     }
-                    selectionChangedHandler={this.comboboxSelectionChanged.bind(this)}
+                    selectedItem={this.state.selectItem}
+                    selectionChanged={this.comboboxSelectionChanged.bind(this)}
                 />
             </section>
         </div>
