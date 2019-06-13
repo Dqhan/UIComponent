@@ -166,11 +166,10 @@
             this.__$Dom__.$listbox = $('#' + this.__ComboboxC__.listboxId);
             this.__$Dom__.$input = $('#' + this.__ComboboxC__.inputId);
             this.__$Dom__.$popup = $('#' + this.__ComboboxC__.popupId);
-            this.__$Dom__.$selections = $('.ui-combobox-selection');
             return this;
         },
         __load__: function () {
-            this.__addItems__();
+            this.__addItems__().__setSelectionEvent__();
             this.__$Dom__.$popup.hide();
         },
         setOptions: function (key, ops) {
@@ -189,9 +188,10 @@
                 .css('max-height', ops.popupMaxHeight)
             return this;
         },
+
         __setItems__: function (ops) {
             this.__ComboboxC__.items = ops.items;
-            this.__addItems__().__setSelectedIndex__(ops.selectedIndex);
+            this.__addItems__().__setSelectedItem__(ops.selectedItem);
         },
         __setSelectedItems__: function (ops) {
             this.__ComboboxC__.selectedItem = ops.selectedItem;
@@ -214,18 +214,36 @@
             this.__$Dom__.$listbox.append(fragement.join(''));
             return this;
         },
-        __setSelectedIndex__: function (selectedIndex) {
-            this.__ComboboxC__.selectedIndex = selectedIndex;
+        __setSelectedItem__: function (selectedItem) {
+            var clr = {
+                object: function () {
+                    return selectedItem.value;
+                },
+                string: function () {
+                    return selectedItem;
+                }
+            }, selectedText = "";
+            selectedText = clr[typeof selectedItem]();
+            for (var i = 0; i < this.__ComboboxC__.items.length; i++) {
+                if (this.__ComboboxC__.items[i].name == selectedText) {
+                    this.__ComboboxC__.selectedIndex = i;
+                }
+            }
+            this.__$Dom__.$selections.removeClass('ui-combobox-selection-selected');
             if (this.__ComboboxC__.selectedIndex != -1) {
-                var inputValue = this.__ComboboxC__.items[this.__ComboboxC__.selectedIndex].value;
+                var inputValue = this.__ComboboxC__.items[this.__ComboboxC__.selectedIndex].name;
                 this.__$Dom__.$input[0].value = inputValue;
-                this.__$Dom__.$listbox[this.__ComboboxC__.selectedIndex].classList.add('ui-combobox-selection-selected');
+                this.__$Dom__.$selections[this.__ComboboxC__.selectedIndex].classList.add('ui-combobox-selection-selected');
+                this.__ComboboxC__.newValue = this.__ComboboxC__.items[this.__ComboboxC__.selectedIndex];
             } else {
                 this.__$Dom__.$input[0].value = '';
-                this.__$Dom__.$listbox[0].classList.add('ui-combobox-selection-selected');
+                this.__$Dom__.$selections[0].classList.add('ui-combobox-selection-selected');
+                this.__ComboboxC__.newValue = null;
             }
+            this.__hide__();
             return this;
         },
+
         __bindEvent__: function () {
             var eventName = this.__eventNameSpave__,
                 self = this;
@@ -246,10 +264,17 @@
                 e.stopPropagation();
                 e.preventDefault();
             });
-            this.__$Dom__.$selections.on('click' + eventName, function (e) {
-               
-            })
         },
+
+        __setSelectionEvent__: function () {
+            var self = this;
+            this.__$Dom__.$selections = $('.ui-combobox-selection');
+            this.__$Dom__.$selections.on('click' + this.__eventNameSpave__, function (e) {
+                var text = e.currentTarget.textContent;
+                self.__setSelectedItem__(text);
+            });
+        },
+
         __hideShow__: function () {
             if (!this.__ComboboxC__.popupOpend)
                 this.__hide__();
