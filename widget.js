@@ -107,7 +107,9 @@
             selectedIndex: -1,
             selectedItem: {}
         };
+        this.__delay__ = 1000;
         this.__$Dom__ = {};
+        this.__filterSelectionResultIndex__ = [];
         this.__extends__(ops, this.__ComboboxC__);
         this.__element__ = this.__ComboboxC__.root;
         this.__initId__().__init__().__load__();
@@ -169,7 +171,7 @@
             return this;
         },
         __load__: function () {
-            this.__addItems__().__setSelectionEvent__();
+            this.__seSelectionItems__().__setSelectionEvent__();
             this.__$Dom__.$popup.hide();
         },
         setOptions: function (key, ops) {
@@ -177,8 +179,8 @@
                 clr = {
                     setStyle: self.__setSytle__,
                     setItems: self.__setItems__,
-                    setSelectedItem: self.__setSelectedItems__
-                }
+                    setSelectedItem: self.__setSelectedItem__
+                };
             clr[key](ops);
         },
         __setSytle__: function (ops) {
@@ -191,23 +193,15 @@
 
         __setItems__: function (ops) {
             this.__ComboboxC__.items = ops.items;
-            this.__addItems__().__setSelectedItem__(ops.selectedItem);
+            this.__seSelectionItems__().__setSelectedItem__(ops.selectedItem);
         },
-        __setSelectedItems__: function (ops) {
-            this.__ComboboxC__.selectedItem = ops.selectedItem;
-            this.__ComboboxC__.newValue = ops.selectedItem;
-            $$.trigger('selectionChanged', this.__element__, $$.Event({
-                element: this.__element__,
-                oldValue: this.__ComboboxC__.oldValue,
-                newValue: this.__ComboboxC__.newValue
-            }));
-        },
-        __addItems__: function () {
+        __seSelectionItems__: function (items) {
+            var tempItems = items || this.__ComboboxC__.items;
             var i = 0, c = this.__ComboboxC__.items.length, fragement = [];
             for (; i < c; i++) {
                 fragement.push("<div class=\"ui-combobox-selection-container\">");
                 fragement.push("<div role='option' class=\"ui-combobox-selection\" id=ui-combobox-selection-select-option-" + i + ">");
-                fragement.push(this.__ComboboxC__.items[i].name);
+                fragement.push(tempItems[i].name);
                 fragement.push("</div>");
                 fragement.push("</div>");
             }
@@ -245,22 +239,21 @@
         },
 
         __bindEvent__: function () {
-            var eventName = this.__eventNameSpave__,
-                self = this;
-            this.__$Dom__.$input.on('mousedown' + eventName, function (e) {
+            var self = this;
+            this.__$Dom__.$input.on('mousedown' + this.__eventNameSpave__, function (e) {
                 self.__ComboboxC__.popupOpend = !self.__ComboboxC__.popupOpend;
                 self.__hideShow__();
-            }).on('focus' + eventName, function (e) {
+            }).on('focus' + this.__eventNameSpave__, function (e) {
                 self.__element__.addClass('ui-combobox-focused');
-            }).on('blur' + eventName, function (e) {
+            }).on('blur' + this.__eventNameSpave__, function (e) {
                 self.__element__.removeClass('ui-combobox-focused');
                 self.__$Dom__.$popup.hide();
-            }).on('mouseover' + eventName, function () {
+            }).on('mouseover' + this.__eventNameSpave__, function () {
                 self.__element__.addClass('ui-combobox-mouseover');
-            }).on('mouseleave' + eventName, function () {
+            }).on('mouseleave' + this.__eventNameSpave__, function () {
                 self.__element__.removeClass('ui-combobox-mouseover');
-            });
-            this.__$Dom__.$listbox.on('mousedown' + eventName, function (e) {
+            }).on('keydown', + this.__eventNameSpave__, this.__onInputkeyDown__);
+            this.__$Dom__.$listbox.on('mousedown' + this.__eventNameSpave__, function (e) {
                 e.stopPropagation();
                 e.preventDefault();
             });
@@ -275,6 +268,79 @@
             });
         },
 
+        __onInputkeyDown__: function (e) {
+            var self = e.data,
+                keyCode = e.which;
+            this.__debounce__(this.__filterSelection__.bind(this))();
+            // self.__startTimer__();
+        },
+
+        __debounce__: function (fn) {
+            var self,
+                timer;
+            return function () {
+                clearTimeout(timer);
+                timer = setTimeout(fn.call(self), self.__delay__);
+            }
+        },
+
+        __filterSelection__: function () {
+            var condition = this.__getCondition__();
+            if (condition.length == 0) {
+                return;
+            }
+            var i = 0;
+            len = this.__ComboboxC__.items.length,
+                items = this.__ComboboxC__.items;
+            for (var i = 0; i < len; i++) {
+                var name = this.__getInputValue__(items[i]);
+                if (name.indexOf(condition) > -1) {
+                    this.__filterSelectionResultIndex__.push(i);
+                }
+            };
+            this.__updateFilteredSelections__();
+        },
+        __getCondition__: function () {
+            var value = '';
+            value = this.__$Dom__.$input.val().toLowerCase();
+            return value;
+        },
+
+        __getInputValue__: function (item) {
+            return item['name'];
+        },
+
+        __updateFilteredSelections__: function () {
+            var items = this.__ComboboxC__.items,
+                i = 0,
+                len = items.length,
+                result = [];
+            for (; i < len; i++) {
+                if (this.__filterSelectionResultIndex__.includes(i)) {
+                    result.push(items[i]);
+                }
+            }
+            if (result.length == 0) result = items;
+            this.__seSelectionItems__(result);
+        },
+        // __startTimer__: function () {
+        //     var self = this;
+        //     this.__clearTimer__();
+        //     this.__timer__ = setInterval(function () {
+        //         self.__onTimer__();
+        //     }, this.__delay__);
+        // },
+
+        // __onTimer__: function(){
+
+        // },
+
+        // __clearTimer__: function () {
+        //     if (this.__timer__ != null) {
+        //         clearInterval(this.__timer__);
+        //     }
+        // },
+
         __hideShow__: function () {
             if (!this.__ComboboxC__.popupOpend)
                 this.__hide__();
@@ -283,15 +349,18 @@
         },
 
         __hide__: function () {
+            this.__ComboboxC__.popupOpend = false;
             this.__$Dom__.$popup.hide();
             $$.trigger("selectionChanged", this.__element__, $$.Event({
                 element: this.__element__,
                 oldValue: this.__ComboboxC__.oldValue,
                 newValue: this.__ComboboxC__.newValue
             }))
+            this.__ComboboxC__.oldValue = this.__ComboboxC__.newValue;
         },
 
         __show__: function () {
+            this.__ComboboxC__.popupOpend = true;
             this.__$Dom__.$popup.show();
             this.__setPopupPosition__();
         },
