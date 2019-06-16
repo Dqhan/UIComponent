@@ -107,7 +107,7 @@
             selectedIndex: -1,
             selectedItem: {}
         };
-        this.__delay__ = 1000;
+        this.__delay__ = 500;
         this.__$Dom__ = {};
         this.__filterSelectionResultIndex__ = [];
         this.__extends__(ops, this.__ComboboxC__);
@@ -195,10 +195,11 @@
             this.__ComboboxC__.items = ops.items;
             this.__seSelectionItems__().__setSelectedItem__(ops.selectedItem);
         },
-        __seSelectionItems__: function (items) {
+        __seSelectionItems__: function (items, isClearListbox) {
+            if (isClearListbox) this.__$Dom__.$listbox.empty();
             var tempItems = items || this.__ComboboxC__.items;
-            var i = 0, c = this.__ComboboxC__.items.length, fragement = [];
-            for (; i < c; i++) {
+            var i = 0, len = tempItems.length, fragement = [];
+            for (; i < len; i++) {
                 fragement.push("<div class=\"ui-combobox-selection-container\">");
                 fragement.push("<div role='option' class=\"ui-combobox-selection\" id=ui-combobox-selection-select-option-" + i + ">");
                 fragement.push(tempItems[i].name);
@@ -252,7 +253,10 @@
                 self.__element__.addClass('ui-combobox-mouseover');
             }).on('mouseleave' + this.__eventNameSpave__, function () {
                 self.__element__.removeClass('ui-combobox-mouseover');
-            }).on('keydown', + this.__eventNameSpave__, this.__onInputkeyDown__);
+            }).on('keyup', + this.__eventNameSpave__, this.__onInputkeyDown__.bind(this));
+
+            this.__debounceHandler__ = this.__debounce__(this.__filterSelection__.bind(this));
+
             this.__$Dom__.$listbox.on('mousedown' + this.__eventNameSpave__, function (e) {
                 e.stopPropagation();
                 e.preventDefault();
@@ -271,26 +275,26 @@
         __onInputkeyDown__: function (e) {
             var self = e.data,
                 keyCode = e.which;
-            this.__debounce__(this.__filterSelection__.bind(this))();
-            // self.__startTimer__();
+            this.__debounceHandler__(e.target.value);
         },
 
         __debounce__: function (fn) {
-            var self,
-                timer;
-            return function () {
+            var
+                timer,
+                self = this;
+            return function (e) {
                 clearTimeout(timer);
-                timer = setTimeout(fn.call(self), self.__delay__);
+                timer = setTimeout(function () {
+                    fn.apply(self, [e])
+                }, self.__delay__);
             }
         },
 
-        __filterSelection__: function () {
+        __filterSelection__: function (e) {
+            console.log(e);
             var condition = this.__getCondition__();
-            if (condition.length == 0) {
-                return;
-            }
-            var i = 0;
-            len = this.__ComboboxC__.items.length,
+            var i = 0,
+                len = this.__ComboboxC__.items.length,
                 items = this.__ComboboxC__.items;
             for (var i = 0; i < len; i++) {
                 var name = this.__getInputValue__(items[i]);
@@ -320,8 +324,9 @@
                     result.push(items[i]);
                 }
             }
+            this.__filterSelectionResultIndex__.length = 0;
             if (result.length == 0) result = items;
-            this.__seSelectionItems__(result);
+            this.__seSelectionItems__(result, true);
         },
         // __startTimer__: function () {
         //     var self = this;
