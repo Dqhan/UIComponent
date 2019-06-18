@@ -7,7 +7,8 @@ class Main extends React.Component {
     initState() {
         this.state = {
             dialogStatus: false,
-            selectItem: null
+            selectItem0: null,
+            selectItem1: null
         }
         return this;
     }
@@ -37,8 +38,25 @@ class Main extends React.Component {
         })
     }
 
-    comboboxSelectionChanged(e, args) {
-        console.log(args);
+    comboboxSelection0Changed(e, args) {
+        this.state.selectItem0 = args.newValue;
+        if (this.state.selectItem0.value == 'value1') this.state.selectItem1 = {
+            name: 'text6',
+            value: 'value6'
+        }
+        if (this.state.selectItem0.value == 'value2') this.state.selectItem1 = {
+            name: 'text5',
+            value: 'value5'
+        }
+        if (this.state.selectItem0.value == 'value3') this.state.selectItem1 = {
+            name: 'text4',
+            value: 'value4'
+        }
+        this.setState({});
+    }
+
+    comboboxSelection1Changed(e, args) {
+        console.log(args.newValue);
     }
 
     render() {
@@ -67,22 +85,42 @@ class Main extends React.Component {
             </section>
             <section>
                 <h4>Combobox</h4>
-                <$$.Combobox
-                    items={
-                        [{
-                            name: 'text1',
-                            value: 'value1'
-                        }, {
-                            name: 'text2',
-                            value: 'value2'
-                        }, {
-                            name: 'text3',
-                            value: 'value3'
-                        }]
-                    }
-                    selectedItem={this.state.selectItem}
-                    selectionChanged={this.comboboxSelectionChanged.bind(this)}
-                />
+                <div style={{ display: 'inline-block' }}>
+                    <$$.Combobox
+                        items={
+                            [{
+                                name: 'text1',
+                                value: 'value1'
+                            }, {
+                                name: 'text2',
+                                value: 'value2'
+                            }, {
+                                name: 'text3',
+                                value: 'value3'
+                            }]
+                        }
+                        selectedItem={this.state.selectItem0}
+                        selectionChanged={this.comboboxSelection0Changed.bind(this)}
+                    />
+                </div>
+                <div style={{ display: 'inline-block' }}>
+                    <$$.Combobox
+                        items={
+                            [{
+                                name: 'text4',
+                                value: 'value4'
+                            }, {
+                                name: 'text5',
+                                value: 'value5'
+                            }, {
+                                name: 'text6',
+                                value: 'value6'
+                            }]
+                        }
+                        selectedItem={this.state.selectItem1}
+                        selectionChanged={this.comboboxSelection1Changed.bind(this)}
+                    />
+                </div>
             </section>
         </div>
     }

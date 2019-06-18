@@ -13,10 +13,8 @@ class Combobox extends ReactWidget {
             this.element.setOptions('setItems', {
                 items: newPorps.items
             })
-        if (newPorps.selectItem != null)
-            this.element.setOptions('setSelectedItem', {
-                selectedItem: newPorps.selectedItem
-            })
+        if (newPorps.selectedItem != null)
+            this.element.setOptions('setSelectedItem', newPorps.selectedItem)
     }
 
     componentDidMount() {
