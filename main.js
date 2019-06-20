@@ -59,6 +59,14 @@ class Main extends React.Component {
         console.log(args.newValue);
     }
 
+    showLoadingHandler() {
+        $$.loading(true);
+    }
+
+    hideLoadingHanlder() {
+        $$.loading(false);
+    }
+
     render() {
         return <div>
             <section>
@@ -121,6 +129,11 @@ class Main extends React.Component {
                         selectionChanged={this.comboboxSelection1Changed.bind(this)}
                     />
                 </div>
+            </section>
+            <section>
+                <h4>loading</h4>
+                <button onClick={this.showLoadingHandler.bind(this)}>show</button>
+                <button onClick={this.hideLoadingHanlder.bind(this)}>hide</button>
             </section>
         </div>
     }

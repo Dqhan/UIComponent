@@ -2,6 +2,9 @@
 ; (function (global, $, $$, factory, plug) {
     global[plug] = factory.call(global, $, $$);
 })(window, $, $$, function ($, $$) {
+    /*
+     dialog UI
+ */
     var __Dialog__ = function (ops) {
         this.__dialogC__ = {
             root: $('body'),
@@ -82,6 +85,10 @@
             $('.dialog-bg').remove();
         }
     };
+
+    /*
+     combobox UI
+     */
     var uuid = -1;
     var __Combobox__ = function (ops) {
         this.__eventNameSpave__ = ".combobox-event";
@@ -258,7 +265,7 @@
                 e.stopPropagation();
                 e.preventDefault();
             });
-            $('.ui-combobox-dropdown-container').on('click' + this.__eventNameSpave__, function (e) {
+            $('#' + this.__ComboboxC__.dorpdownId).on('click' + this.__eventNameSpave__, function (e) {
                 self.__hideShow__();
             });
 
@@ -389,6 +396,38 @@
                 if (typeof ops[i] !== undefined) target[i] = ops[i];
             }
         }
+    }
+
+    /*
+     loading UI
+     */
+
+    var Loading = function () {
+        this._init()
+            ._createLoading()
+            ._initMember();
+    }
+
+    Loading.prototype = {
+        _init: function () {
+
+        },
+        _initMember: function () {
+
+        },
+        _createLoading: function () {
+
+        },
+        loading: function (isShow) {
+
+        }
+    }
+
+    if (!loader) {
+        var loader = new Loading();
+    }
+    $$.loading = function (isShow) {
+        loader.loading(isShow);
     }
 
     return {
