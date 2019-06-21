@@ -132,8 +132,8 @@ class Main extends React.Component {
             </section>
             <section>
                 <h4>loading</h4>
-                <button onClick={this.showLoadingHandler.bind(this)}>show</button>
-                <button onClick={this.hideLoadingHanlder.bind(this)}>hide</button>
+                <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.showLoadingHandler.bind(this)}>show</button>
+                <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.hideLoadingHanlder.bind(this)}>hide</button>
             </section>
         </div>
     }
