@@ -475,8 +475,27 @@
         loader.loading(isShow);
     }
 
+    var Tabcontrol = function (ops) {
+        this._ops = {
+            items: ops.items || []
+        };
+        this._element = ops.element;
+    }
+
+    Tabcontrol.prototype = {
+        init: function () {
+
+            return this;
+        },
+
+        render: function () {
+
+        },
+    }
+
     return {
         Dialog: __Dialog__,
-        Combobox: __Combobox__
+        Combobox: __Combobox__,
+        Tabcontrol: Tabcontrol
     };
 }, "aui");
