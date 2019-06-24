@@ -84,6 +84,11 @@ class Main extends React.Component {
     render() {
         return <div>
             <section>
+                <h4>loading</h4>
+                <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.showLoadingHandler.bind(this)}>show</button>
+                <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.hideLoadingHanlder.bind(this)}>hide</button>
+            </section>
+            <section>
                 {/* <div id='banner'></div> */}
             </section>
             <section>
@@ -143,11 +148,6 @@ class Main extends React.Component {
                         selectionChanged={this.comboboxSelection1Changed.bind(this)}
                     />
                 </div>
-            </section>
-            <section>
-                <h4>loading</h4>
-                <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.showLoadingHandler.bind(this)}>show</button>
-                <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.hideLoadingHanlder.bind(this)}>hide</button>
             </section>
             <section>
                 <h4>TabControl</h4>

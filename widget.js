@@ -586,9 +586,16 @@
         },
 
         setOptions: function (ops) {
-            var clr = {
-
-            }
+            this._ops.items = ops.items;
+            this._ops.selectedIndex = ops.selectedIndex || this._oldValue.selectedIndex;
+            this._convertHashItems();
+            this._removeTabTabContainer()
+                ._setTabContainer()
+                ._setTabContent();
+        },
+        _removeTabTabContainer: function () {
+            this.$container.empty();
+            return this;
         }
     }
 
