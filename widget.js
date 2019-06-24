@@ -478,20 +478,31 @@
     var TabControl = function (ops) {
         this._ops = {
             items: ops.items || [],
+            hashItems: {},
             selectedIndex: ops.selectedIndex || 0
         };
         this._element = $(ops.element);
         this._tabContainerId = "ui-tabcontrol-container-";
+        this._convertHashItems();
         this._init()
             ._initId()
             ._create()
             ._initMember()
-            ._setTabContianer()
+            ._setTabContainer()
             ._setTabContent()
             ._bindEvent();
     }
 
     TabControl.prototype = {
+        _convertHashItems: function () {
+            var i = 0;
+            for (; i < this._ops.items.length; i++) {
+                this._ops.hashItems[this._ops.items[i].title] = {
+                    selectedIndex: i,
+                    selectedItem: this._ops.items[i]
+                };
+            }
+        },
         _init: function () {
             this._element.addClass('ui-tabcontrol');
             return this;
@@ -521,25 +532,25 @@
             return this;
         },
 
-        _setTabContianer: function () {
+        _setTabContainer: function () {
             var i = 0,
                 items = this._ops.items,
                 len = items.length;
             for (; i < len; i++) {
-                //var html = "";
-                //if (this._ops.selectedIndex == i)
-                //    html += "<div class=\"ui-tabcontrol-container-item active\">";
-                //else
-                //    html += "<div class=\"ui-tabcontrol-container-item\">";
-                //html += items[i].title
-                //html += "</div>";
                 var el = document.createElement('div');
+                el.textContent = items[i].title;
                 $(el).addClass('ui-tabcontrol-container-item');
                 if (this._ops.selectedIndex == i) $(el).addClass('active');
-                el.on('click', this._tabClickHandler.bind(this))
+                el.onclick = this._tabClickHandler.bind(this);
                 this.$container.append(el);
             }
             return this;
+        },
+
+        _resetTabContainer: function () {
+            var $targets = this.$container.children();
+            $targets.removeClass('active');
+            $($targets[this._ops.selectedIndex]).addClass('active');
         },
 
         _bindEvent: function () {
@@ -547,13 +558,17 @@
         },
 
         _tabClickHandler: function (e) {
-            var self = this;
+            var self = this,
+                newValue = this._ops.hashItems[e.target.textContent];
             $$.trigger("tabHandleChanged", self._element, $$.Event({
                 element: self._element,
-                oldValue: 'oldValue',
-                newValue: 'newValue'
-            }))
-
+                oldValue: this._oldValue,
+                newValue: newValue
+            }));
+            this._ops.selectedIndex = newValue.selectedIndex;
+            this._oldValue = newValue;
+            this._resetTabContainer();
+            this._setTabContent();
         },
 
         _setTabContent: function () {
@@ -567,10 +582,13 @@
                 else
                     $(this.$contents[i]).css('display', '');
             }
+            return this;
         },
 
-        setOptions: function () {
+        setOptions: function (ops) {
+            var clr = {
 
+            }
         }
     }
 

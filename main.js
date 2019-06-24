@@ -78,7 +78,7 @@ class Main extends React.Component {
     }
 
     tabSelectChangedHandler(e, args) {
-
+        console.log(args);
     }
 
     render() {

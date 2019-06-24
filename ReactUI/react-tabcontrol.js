@@ -19,6 +19,7 @@ class TabControl extends ReactWidget {
             items: this.props.items,
             selectedIndex: this.props.selectedIndex
         });
+        $(ReactDOM.findDOMNode(this)).on('tabHandleChanged', this.props.selectChanged.bind(this));
     }
 
     render() {
