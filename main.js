@@ -34,6 +34,13 @@ class Main extends React.Component {
         // });
         // banner.init();
         // banner.render();
+        var banner = new window.banner.Banner({
+            pDom: document.getElementById('demo'),
+            dom: document.getElementById('banner')
+        });
+        banner.init();
+        banner.render();
+
     }
 
     dialogCloseHandler() {
@@ -81,15 +88,28 @@ class Main extends React.Component {
         console.log(args);
     }
 
+    showBanner() {
+        $('#demo').css('display', '');
+    }
+
+    hideBanner() {
+        $('#demo').css('display', 'none');
+    }
+
     render() {
         return <div>
             <section>
-                <h4>loading</h4>
+                <h4>Loading</h4>
                 <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.showLoadingHandler.bind(this)}>show</button>
                 <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.hideLoadingHanlder.bind(this)}>hide</button>
             </section>
             <section>
-                {/* <div id='banner'></div> */}
+                <h4>anner</h4>
+                <button onClick={this.showBanner.bind(this)}>show</button>
+                <button onClick={this.hideBanner.bind(this)}>hide</button>
+                <div id='demo' style={{ display: 'none' }}>
+                    <div id='banner'></div>
+                </div>
             </section>
             <section>
                 <h4>Dialog</h4>
@@ -160,6 +180,34 @@ class Main extends React.Component {
                     <div>2</div>
                     <div>3</div>
                 </$$.TabControl>
+            </section>
+            <section>
+                <h4>Pager</h4>
+
+            </section>
+            <section>
+                <h4>MessageBar</h4>
+
+            </section>
+            <section>
+                <h4>PeoplePicker</h4>
+
+            </section>
+            <section>
+                <h4>Processer</h4>
+
+            </section>
+            <section>
+                <h4>Table</h4>
+
+            </section>
+            <section>
+                <h4>TipMessager</h4>
+
+            </section>
+            <section>
+                <h4>Validation</h4>
+
             </section>
         </div>
     }

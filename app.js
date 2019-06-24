@@ -5,9 +5,9 @@ require('./react-widget');
 require('./react-dialog');
 require('./react-combobox');
 require('./ReactUI/react-tabcontrol');
-// require('./banner');
+require('./banner');
 require('./aui.less');
-// require('./banner.css');
+// require('./banner.less');
 ReactDOM.render(
     <Main />,
     document.getElementById('app')
