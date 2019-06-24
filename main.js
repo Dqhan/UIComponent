@@ -7,8 +7,17 @@ class Main extends React.Component {
     initState() {
         this.state = {
             dialogStatus: false,
+
             selectItem0: null,
-            selectItem1: null
+            selectItem1: null,
+
+            tabItems: [
+                { title: 'tab1' },
+                { title: 'tab2' },
+                { title: 'tab3' },
+            ],
+            selectedTabIndex: 0,
+
         }
         return this;
     }
@@ -16,6 +25,7 @@ class Main extends React.Component {
     setBind() {
         this.dialogCloseHandler = this.dialogCloseHandler.bind(this);
         this.dialogShowHandler = this.dialogShowHandler.bind(this);
+        this.tabSelectChangedHandler = this.tabSelectChangedHandler.bind(this);
     }
 
     componentDidMount() {
@@ -65,6 +75,10 @@ class Main extends React.Component {
 
     hideLoadingHanlder() {
         $$.loading(false);
+    }
+
+    tabSelectChangedHandler(e, args) {
+
     }
 
     render() {
@@ -134,6 +148,18 @@ class Main extends React.Component {
                 <h4>loading</h4>
                 <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.showLoadingHandler.bind(this)}>show</button>
                 <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.hideLoadingHanlder.bind(this)}>hide</button>
+            </section>
+            <section>
+                <h4>TabControl</h4>
+                <$$.TabControl
+                    items={this.state.tabItems}
+                    selectedIndex={this.state.selectedTabIndex}
+                    selectChanged={this.tabSelectChangedHandler}
+                >
+                    <div>1</div>
+                    <div>2</div>
+                    <div>3</div>
+                </$$.TabControl>
             </section>
         </div>
     }

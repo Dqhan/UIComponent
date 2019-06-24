@@ -488,3 +488,36 @@ button {
         transform: rotate(360deg)
     }
 }
+
+
+.ui-tabcontrol {
+    .ui-tab-container {
+        .ui-tabcontrol-container-item {
+            display: inline-block;
+            padding: 10px 20px;
+            text-align: center;
+            border: 1px solid #ff9900;
+            border-radius: 1px;
+            border-right: 0px;
+            cursor: pointer;
+
+            &:hover {
+                color: #bbb;
+            }
+
+            &:last-child {
+                border-right: 1px solid #ff9900;
+            }
+        }
+
+        .active {
+            border-top: 3px solid #000000;
+            background-color: #bbbbbb;
+            border-bottom: 1px solid #bbbbbb;
+        }
+    }
+
+    .ui-tabcontrol-content {
+        background-color: #bbbbbb;
+    }
+}

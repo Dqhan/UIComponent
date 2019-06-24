@@ -475,27 +475,108 @@
         loader.loading(isShow);
     }
 
-    var Tabcontrol = function (ops) {
+    var TabControl = function (ops) {
         this._ops = {
-            items: ops.items || []
+            items: ops.items || [],
+            selectedIndex: ops.selectedIndex || 0
         };
-        this._element = ops.element;
+        this._element = $(ops.element);
+        this._tabContainerId = "ui-tabcontrol-container-";
+        this._init()
+            ._initId()
+            ._create()
+            ._initMember()
+            ._setTabContianer()
+            ._setTabContent()
+            ._bindEvent();
     }
 
-    Tabcontrol.prototype = {
-        init: function () {
-
+    TabControl.prototype = {
+        _init: function () {
+            this._element.addClass('ui-tabcontrol');
             return this;
         },
 
-        render: function () {
+        _initId: function () {
+            this._tabContainerId += uuid;
+            return this;
+        },
+
+        _create: function () {
+            this._createTab();
+            return this;
+        },
+
+        _createTab: function () {
+            var fragement = [],
+                h = -1;
+            fragement[++h] = "<div id= " + this._tabContainerId + " class=\"ui-tab-container\">";
+            fragement[++h] = "</div>";
+            this._element.prepend(fragement.join(''));
+        },
+
+        _initMember: function () {
+            this.$container = $('#' + this._tabContainerId);
+            this.$contents = $('.ui-tabcontrol-content').children();
+            return this;
+        },
+
+        _setTabContianer: function () {
+            var i = 0,
+                items = this._ops.items,
+                len = items.length;
+            for (; i < len; i++) {
+                //var html = "";
+                //if (this._ops.selectedIndex == i)
+                //    html += "<div class=\"ui-tabcontrol-container-item active\">";
+                //else
+                //    html += "<div class=\"ui-tabcontrol-container-item\">";
+                //html += items[i].title
+                //html += "</div>";
+                var el = document.createElement('div');
+                $(el).addClass('ui-tabcontrol-container-item');
+                if (this._ops.selectedIndex == i) $(el).addClass('active');
+                el.on('click', this._tabClickHandler.bind(this))
+                this.$container.append(el);
+            }
+            return this;
+        },
+
+        _bindEvent: function () {
+            return this;
+        },
+
+        _tabClickHandler: function (e) {
+            var self = this;
+            $$.trigger("tabHandleChanged", self._element, $$.Event({
+                element: self._element,
+                oldValue: 'oldValue',
+                newValue: 'newValue'
+            }))
 
         },
+
+        _setTabContent: function () {
+            this.$contents.addClass('ui-tabcontrol-content-item');
+            var i = 0,
+                items = this._ops.items,
+                len = items.length;
+            for (; i < len; i++) {
+                if (i !== this._ops.selectedIndex)
+                    $(this.$contents[i]).css('display', 'none');
+                else
+                    $(this.$contents[i]).css('display', '');
+            }
+        },
+
+        setOptions: function () {
+
+        }
     }
 
     return {
         Dialog: __Dialog__,
         Combobox: __Combobox__,
-        Tabcontrol: Tabcontrol
+        TabControl: TabControl
     };
 }, "aui");

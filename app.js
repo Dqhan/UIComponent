@@ -4,6 +4,7 @@ require('./widget');
 require('./react-widget');
 require('./react-dialog');
 require('./react-combobox');
+require('./ReactUI/react-tabcontrol');
 // require('./banner');
 require('./aui.less');
 // require('./banner.css');

@@ -1,4 +1,4 @@
-import ReactWidget from './react-widget';
+import ReactWidget from '../react-widget';
 
 class TabControl extends ReactWidget {
     constructor(props) {
@@ -8,22 +8,26 @@ class TabControl extends ReactWidget {
 
     componentWillReceiveProps(newProps) {
         this.element.setOptions({
-            width: this.props.width,
-            height: this.props.height,
-            status: newProps.status
+            items: newProps.items,
+            selectedIndex: newProps.selectedIndex
         });
     }
 
     componentDidMount() {
         this.element = new aui.TabControl({
-            element: this.element,
-            items: this.items
+            element: ReactDOM.findDOMNode(this),
+            items: this.props.items,
+            selectedIndex: this.props.selectedIndex
         });
     }
 
     render() {
         return <div>
-
+            <div className='ui-tabcontrol-content'>
+                {this.props.children}
+            </div>
         </div>
     }
 }
+
+window.$$.TabControl = TabControl;
