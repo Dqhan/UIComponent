@@ -98,6 +98,7 @@ class Main extends React.Component {
 
     render() {
         return <div>
+            <h3 style={{ display: 'inline-block', textAlign: 'center', width: '100%' }}>Dqhan'UI</h3>
             <section>
                 <h4>Loading</h4>
                 <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.showLoadingHandler.bind(this)}>show</button>
