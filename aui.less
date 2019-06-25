@@ -1,7 +1,7 @@
 section {
-    display: block;
-    border-bottom: 1px solid #FF9900;
-    padding      : 10px;
+    display         : block;
+    border-bottom   : 1px solid #FF9900;
+    padding         : 10px;
     background-color: beige;
 }
 
@@ -525,5 +525,52 @@ button {
 
     .ui-tabcontrol-content {
         background-color: #bbbbbb;
+    }
+}
+
+.ui-pager-container {
+    .ui-pager-trangleBtn {
+        display: inline-block;
+        margin : 0 10px;
+
+        &>button {
+            padding      : 5px;
+            border-radius: 10px;
+        }
+
+        .ui-pager-triangle-left-as {
+            &::before {
+                content: '\25C4'
+            }
+        }
+
+        .ui-pager-triangle-right-as {
+            &::before {
+                content: '\25BA'
+            }
+        }
+    }
+
+    .pager-content {
+        display: inline-block;
+
+        &>button {
+            padding: 5px 8px;
+            margin : 0 5px;
+        }
+    }
+
+    .ui-pager-go {
+        display: inline-block;
+
+        .ui-pager-go-input {
+            display: inline-block;
+            width  : 20px;
+            padding: 5px;
+        }
+        .ui-pager-go-btn{
+            margin: 0 10px;
+            padding: 5px;
+        }
     }
 }

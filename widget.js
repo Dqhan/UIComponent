@@ -640,6 +640,7 @@
             fragement[++h] = "<div class=\"ui-pager-go\">";
             fragement[++h] = "<input type=\"text\" class=\"ui-pager-go-input\" value=\"1\" />";
             fragement[++h] = "<button class=\"ui-pager-go-btn\">";
+            fragement[++h] = "GO";
             fragement[++h] = "</div>";
             $(this._element).append(fragement.join(''));
             return this;
