@@ -483,6 +483,7 @@
         };
         this._element = $(ops.element);
         this._tabContainerId = "ui-tabcontrol-container-";
+        this._oldValue = { selectedIndex: 0 };
         this._convertHashItems();
         this._init()
             ._initId()
@@ -599,9 +600,56 @@
         }
     }
 
+    var Pager = function (ops) {
+        this._ops = {
+            count: ops.count || 0,
+            selectedIndex: ops.selectedIndex || 0,
+            size: ops.size || 0
+        };
+        this._element = ops.element || document.getElementsByTagName('body');
+        this._init()
+            ._create()
+    };
+
+    Pager.prototype = {
+        _init: function () {
+            $(this._element).addClass('ui-pager-container')
+            return this;
+        },
+
+        _create: function () {
+            var fragement = [], h = -1;
+            fragement[++h] = "<div class=\"ui-pager-trangleBtn\">";
+            fragement[++h] = "<button>";
+            fragement[++h] = "<span class=\"ui-pager-triangle-left-as\"></span>";
+            fragement[++h] = "</button>";
+            fragement[++h] = "</div>";
+
+            fragement[++h] = "<div class=\"pager-content\">";
+            for (var i = 0; i < this._ops.count; i++) {
+                fragement[++h] = "<button class=\"pager-content-btn\" value=" + i + ">" + i + "</button>";
+            }
+            fragement[++h] = "</div>";
+
+            fragement[++h] = "<div class=\"ui-pager-trangleBtn\">";
+            fragement[++h] = "<button>";
+            fragement[++h] = "<span class=\"ui-pager-triangle-right-as\"></span>";
+            fragement[++h] = "</button>";
+            fragement[++h] = "</div>";
+
+            fragement[++h] = "<div class=\"ui-pager-go\">";
+            fragement[++h] = "<input type=\"text\" class=\"ui-pager-go-input\" value=\"1\" />";
+            fragement[++h] = "<button class=\"ui-pager-go-btn\">";
+            fragement[++h] = "</div>";
+            $(this._element).append(fragement.join(''));
+            return this;
+        }
+    }
+
     return {
         Dialog: __Dialog__,
         Combobox: __Combobox__,
-        TabControl: TabControl
+        TabControl: TabControl,
+        Pager: Pager,
     };
 }, "aui");

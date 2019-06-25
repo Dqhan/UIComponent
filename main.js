@@ -18,6 +18,10 @@ class Main extends React.Component {
             ],
             selectedTabIndex: 0,
 
+
+            pageSize: 10,
+            selectedPage: 1
+
         }
         return this;
     }
@@ -96,6 +100,10 @@ class Main extends React.Component {
         $('#demo').css('display', 'none');
     }
 
+    pagerChangedHandler(e, args) {
+        console.log(args);
+    }
+
     render() {
         return <div>
             <h3 style={{ display: 'inline-block', textAlign: 'center', width: '100%' }}>Dqhan'UI</h3>
@@ -105,7 +113,7 @@ class Main extends React.Component {
                 <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.hideLoadingHanlder.bind(this)}>hide</button>
             </section>
             <section>
-                <h4>anner</h4>
+                <h4>Banner</h4>
                 <button onClick={this.showBanner.bind(this)}>show</button>
                 <button onClick={this.hideBanner.bind(this)}>hide</button>
                 <div id='demo' style={{ display: 'none' }}>
@@ -184,7 +192,12 @@ class Main extends React.Component {
             </section>
             <section>
                 <h4>Pager</h4>
-
+                <$$.Pager
+                    pageSize={this.state.pageSize}
+                    pageCount={10}
+                    selectedPage={this.state.selectedPage}
+                    selectedPageChanged={this.pagerChangedHandler.bind(this)}
+                />
             </section>
             <section>
                 <h4>MessageBar</h4>

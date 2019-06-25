@@ -7,7 +7,7 @@ require('./react-combobox');
 require('./ReactUI/react-tabcontrol');
 require('./banner');
 require('./aui.less');
-// require('./banner.less');
+require('./ReactUI/react-pager');
 ReactDOM.render(
     <Main />,
     document.getElementById('app')
