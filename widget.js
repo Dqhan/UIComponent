@@ -611,10 +611,15 @@
             ._create()
             ._createPagerBtn()
             ._createLeftBtn()
-            ._createRightBtn();
+            ._createRightBtn()
+            ._createGoBtn();
+        this._inputValue = 1;
     };
 
     Pager.prototype = {
+        _initId: function () {
+            
+        },
         _init: function () {
             $(this._element).addClass('ui-pager-container')
             return this;
@@ -630,12 +635,11 @@
             fragement[++h] = "</div>";
             fragement[++h] = "<div class=\"ui-pager-go\">";
             fragement[++h] = "<input type=\"text\" class=\"ui-pager-go-input\" value=\"1\" />";
-            fragement[++h] = "<button class=\"ui-pager-go-btn\">";
-            fragement[++h] = "GO";
             fragement[++h] = "</div>";
             $(this._element).append(fragement.join(''));
             return this;
         },
+
         _createPagerBtn: function () {
             var $target = $('.pager-content');
             for (var i = 0; i < this._ops.count; i++) {
@@ -649,6 +653,7 @@
             }
             return this;
         },
+
         _createLeftBtn: function () {
             var left = $('.ui-pager-trangleBtn')[0],
                 leftBtn = document.createElement('button');
@@ -687,6 +692,22 @@
             var
                 selectedIndex = parseInt(e.target.value);
             this._setSelectIndex(selectedIndex);
+        },
+
+        _createGoBtn: function () {
+            var el = document.createElement('button');
+            el.textContent = "GO";
+            el.onclick = this._goBtnClick.bind(this);
+            $(el).addClass('ui-pager-go-btn');
+            $('.ui-pager-go').append(el);
+            return this;
+        },
+
+        _goBtnClick: function () {
+            var value = e.target.value;
+            if (value == '') throw new Error('Value i error.');
+            var targetIndex = parseInt(value);
+            this._setSelectIndex(targetIndex);
         },
 
         _setSelectIndex: function (index) {
