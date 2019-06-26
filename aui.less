@@ -531,10 +531,10 @@ button {
 .ui-pager-container {
     .ui-pager-trangleBtn {
         display: inline-block;
-        margin : 0 10px;
+        margin: 0 10px;
 
-        &>button {
-            padding      : 5px;
+        & > button {
+            padding: 5px;
             border-radius: 10px;
         }
 
@@ -554,9 +554,14 @@ button {
     .pager-content {
         display: inline-block;
 
-        &>button {
+        & > button {
             padding: 5px 8px;
-            margin : 0 5px;
+            margin: 0 5px;
+        }
+
+        .active {
+            background: #9D9D9D;
+            color: #fff;
         }
     }
 
@@ -565,10 +570,11 @@ button {
 
         .ui-pager-go-input {
             display: inline-block;
-            width  : 20px;
+            width: 20px;
             padding: 5px;
         }
-        .ui-pager-go-btn{
+
+        .ui-pager-go-btn {
             margin: 0 10px;
             padding: 5px;
         }

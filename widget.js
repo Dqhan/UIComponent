@@ -603,12 +603,15 @@
     var Pager = function (ops) {
         this._ops = {
             count: ops.count || 0,
-            selectedIndex: ops.selectedIndex || 0,
+            selectedIndex: ops.selectedIndex || 1,
             size: ops.size || 0
         };
         this._element = ops.element || document.getElementsByTagName('body');
         this._init()
             ._create()
+            ._createPagerBtn()
+            ._createLeftBtn()
+            ._createRightBtn();
     };
 
     Pager.prototype = {
@@ -620,23 +623,11 @@
         _create: function () {
             var fragement = [], h = -1;
             fragement[++h] = "<div class=\"ui-pager-trangleBtn\">";
-            fragement[++h] = "<button>";
-            fragement[++h] = "<span class=\"ui-pager-triangle-left-as\"></span>";
-            fragement[++h] = "</button>";
             fragement[++h] = "</div>";
-
             fragement[++h] = "<div class=\"pager-content\">";
-            for (var i = 0; i < this._ops.count; i++) {
-                fragement[++h] = "<button class=\"pager-content-btn\" value=" + i + ">" + i + "</button>";
-            }
             fragement[++h] = "</div>";
-
             fragement[++h] = "<div class=\"ui-pager-trangleBtn\">";
-            fragement[++h] = "<button>";
-            fragement[++h] = "<span class=\"ui-pager-triangle-right-as\"></span>";
-            fragement[++h] = "</button>";
             fragement[++h] = "</div>";
-
             fragement[++h] = "<div class=\"ui-pager-go\">";
             fragement[++h] = "<input type=\"text\" class=\"ui-pager-go-input\" value=\"1\" />";
             fragement[++h] = "<button class=\"ui-pager-go-btn\">";
@@ -644,8 +635,78 @@
             fragement[++h] = "</div>";
             $(this._element).append(fragement.join(''));
             return this;
+        },
+        _createPagerBtn: function () {
+            var $target = $('.pager-content');
+            for (var i = 0; i < this._ops.count; i++) {
+                var btnEl = document.createElement('button');
+                $(btnEl).addClass('pager-content-btn');
+                btnEl.onclick = this._pageBtnClick.bind(this);
+                btnEl.value = i + 1;
+                btnEl.textContent = i + 1;
+                if (i + 1 == this._ops.selectedIndex) $(btnEl).addClass('active');
+                $target.append(btnEl);
+            }
+            return this;
+        },
+        _createLeftBtn: function () {
+            var left = $('.ui-pager-trangleBtn')[0],
+                leftBtn = document.createElement('button');
+            $(leftBtn).addClass('ui-pager-triangle-left-as');
+            leftBtn.onclick = this._leftBtnClick.bind(this);
+            $(left).append(leftBtn)
+            return this;
+        },
+
+        _leftBtnClick: function () {
+            if (this._ops.selectedIndex != 1)
+                this._ops.selectedIndex -= 1;
+            else
+                return;
+            this._setSelectIndex(this._ops.selectedIndex);
+        },
+
+        _createRightBtn: function () {
+            var right = $('.ui-pager-trangleBtn')[1],
+                rightBtn = document.createElement('button');
+            $(rightBtn).addClass('ui-pager-triangle-right-as');
+            rightBtn.onclick = this._rightBtnClick.bind(this);
+            $(right).append(rightBtn)
+            return this;
+        },
+
+        _rightBtnClick: function () {
+            if (this._ops.selectedIndex != this._ops.count)
+                this._ops.selectedIndex += 1;
+            else
+                return;
+            this._setSelectIndex(this._ops.selectedIndex);
+        },
+
+        _pageBtnClick: function (e) {
+            var
+                selectedIndex = parseInt(e.target.value);
+            this._setSelectIndex(selectedIndex);
+        },
+
+        _setSelectIndex: function (index) {
+            var selectedIndex = index || 1;
+            var $element = $(this._element);
+            $$.trigger("selectedPageChanged", $element, $$.Event({
+                element: $element,
+                oldValue: null,
+                newValue: selectedIndex
+            }));
+            this._ops.selectedIndex = selectedIndex;
+            this._resetPager();
+        },
+
+        _resetPager: function () {
+            $('.pager-content-btn').removeClass('active');
+            var current = $('.pager-content-btn')[this._ops.selectedIndex - 1];
+            $(current).addClass('active');
         }
-    }
+    };
 
     return {
         Dialog: __Dialog__,
