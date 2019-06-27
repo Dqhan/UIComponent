@@ -105,7 +105,7 @@ class Main extends React.Component {
     }
 
     render() {
-        return <div>
+        return <div style={{ backgroundColor: '#7f8ea0', color:'#fd6a7f' }}>
             <h3 style={{ display: 'inline-block', textAlign: 'center', width: '100%' }}>Dqhan'UI</h3>
             <section>
                 <h4>Loading</h4>
