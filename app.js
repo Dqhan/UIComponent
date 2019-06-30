@@ -1,13 +1,14 @@
 import Main from './main.js';
+require('./aui.less');
 require('./widget-core');
 require('./widget');
 require('./react-widget');
 require('./react-dialog');
 require('./react-combobox');
-require('./ReactUI/react-tabcontrol');
 require('./banner');
-require('./aui.less');
 require('./ReactUI/react-pager');
+require('./ReactUI/react-tabcontrol');
+require('./ReactUI/react-messagerBar');
 ReactDOM.render(
     <Main />,
     document.getElementById('app')

@@ -20,8 +20,11 @@ class Main extends React.Component {
 
 
             pageSize: 10,
-            selectedPage: 1
+            selectedPage: 1,
 
+            msgShow: false,
+            msgType: 'success',
+            msg: ''
         }
         return this;
     }
@@ -104,9 +107,41 @@ class Main extends React.Component {
         console.log(args);
     }
 
+    successMsgBtnClick() {
+        this.setState({
+            msgShow: !this.state.msgShow,
+            msgType: 'success',
+            msg: 'Success Message Bar'
+        })
+    }
+
+    errorMsgBtnClick() {
+        this.setState({
+            msgShow: !this.state.msgShow,
+            msgType: 'error',
+            msg: 'Error Message Bar'
+        })
+    }
+
+    infoMsgBtnClick() {
+        this.setState({
+            msgShow: !this.state.msgShow,
+            msgType: 'info',
+            msg: 'Info Message Bar'
+        })
+    }
+
+    warnMsgBtnClick() {
+        this.setState({
+            msgShow: !this.state.msgShow,
+            msgType: 'warn',
+            msg: 'Warn Message Bar'
+        })
+    }
+
     render() {
-        return <div style={{ backgroundColor: '#7f8ea0', color:'#fd6a7f' }}>
-            <h3 style={{ display: 'inline-block', textAlign: 'center', width: '100%' }}>Dqhan'UI</h3>
+        return <div style={{ backgroundColor: '#7f8ea0', color: '#fd6a7f' }}>
+            <h3 style={{ display: 'inline-block', textAlign: 'center', width: '100%' }}>Dqhan's UI</h3>
             <section>
                 <h4>Loading</h4>
                 <button style={{ position: 'relative', zIndex: '100000000' }} onClick={this.showLoadingHandler.bind(this)}>show</button>
@@ -201,7 +236,15 @@ class Main extends React.Component {
             </section>
             <section>
                 <h4>MessageBar</h4>
-
+                <$$.MessageBar
+                    show={this.state.msgShow}
+                    type={this.state.msgType}
+                    msg={this.state.msg}
+                />
+                <button onClick={this.errorMsgBtnClick.bind(this)}>error</button>
+                <button onClick={this.successMsgBtnClick.bind(this)}>success</button>
+                <button onClick={this.infoMsgBtnClick.bind(this)}>info</button>
+                <button onClick={this.warnMsgBtnClick.bind(this)}>warn</button>
             </section>
             <section>
                 <h4>PeoplePicker</h4>

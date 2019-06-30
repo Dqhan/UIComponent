@@ -788,10 +788,100 @@
         //}
     };
 
+    var MessageBar = function (ops) {
+        this._ops = {
+            msg: ops.msg || 'Message is empty.',
+            type: ops.type || 'success',
+            show: ops.show || false
+        };
+        this._element = ops.element;
+        this._initId()
+            ._init()
+            ._initMember()
+            ._bindEvent()
+            ._setMessage();
+    }
+
+    MessageBar.prototype = {
+        _initId: function () {
+            ++uuid;
+            this._messageId = "ui-message-id-" + uuid;
+            this._element.id = this._messageId;
+            return this;
+        },
+        _init: function () {
+            var fragement = [], h = -1;
+            fragement[++h] = "<div class=\"ui-message\">";
+            fragement[++h] = "<div class=\"ui-message-content\">";
+            fragement[++h] = this._ops.msg;
+            fragement[++h] = "</div>";
+            fragement[++h] = "<div class=\"ui-message-btn\">";
+            fragement[++h] = "</div>";
+            fragement[++h] = "</div>";
+            $(this._element).append();
+            return this;
+        },
+
+        _initMember: function () {
+            this.$btn = $('#' + this._messageId + " .ui-message-btn");
+            return this;
+        },
+
+        _bindEvent: function () {
+            this.$btn.on('click', this._messageBtnClick.bind(this));
+            return this;
+        },
+
+        _setMessage: function () {
+            var clr_display = {
+                false: function () {
+                    $(this._element).css('display', 'none');
+                },
+                true: function () {
+                    $(this._element).css('display', '');
+                }
+            };
+            clr_display[this._ops.show]();
+            $(this._element).removeClass('success')
+                .removeClass('error')
+                .removeClass('info')
+                .removeClass('warn');
+            var clr_type = {
+                success: function () {
+                    $(this._element).addClass('success');
+                },
+                error: function () {
+                    $(this._element).addClass('error');
+                },
+                info: function () {
+                    $(this._element).addClass('info');
+                },
+                warn: function () {
+                    $(this._element).addClass('warn');
+                }
+            }
+            clr_type[this._ops.type]();
+            return this;
+        },
+
+        _messageBtnClick: function () {
+            $(this._element).css('display', 'none');
+        },
+
+        setOptions: function (ops) {
+            this._ops.type = ops.type;
+            this._ops.msg = ops.msg;
+            this._ops.show = ops.show;
+            this._setMessage();
+        }
+
+    }
+
     return {
         Dialog: __Dialog__,
         Combobox: __Combobox__,
         TabControl: TabControl,
         Pager: Pager,
+        MessageBar: MessageBar
     };
 }, "aui");
