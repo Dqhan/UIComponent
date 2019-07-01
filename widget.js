@@ -807,23 +807,25 @@
             ++uuid;
             this._messageId = "ui-message-id-" + uuid;
             this._element.id = this._messageId;
+            $(this._element).addClass('ui-message');
             return this;
         },
         _init: function () {
             var fragement = [], h = -1;
-            fragement[++h] = "<div class=\"ui-message\">";
+            fragement[++h] = "<div>";
             fragement[++h] = "<div class=\"ui-message-content\">";
             fragement[++h] = this._ops.msg;
             fragement[++h] = "</div>";
             fragement[++h] = "<div class=\"ui-message-btn\">";
             fragement[++h] = "</div>";
             fragement[++h] = "</div>";
-            $(this._element).append();
+            $(this._element).append(fragement.join(''));
             return this;
         },
 
         _initMember: function () {
             this.$btn = $('#' + this._messageId + " .ui-message-btn");
+            this.$content = $('#' + this._messageId + " .ui-message-content");
             return this;
         },
 
@@ -833,35 +835,37 @@
         },
 
         _setMessage: function () {
+            var self = this;
             var clr_display = {
                 false: function () {
-                    $(this._element).css('display', 'none');
+                    $(self._element).css('display', 'none');
                 },
                 true: function () {
-                    $(this._element).css('display', '');
+                    $(self._element).css('display', '');
                 }
             };
-            clr_display[this._ops.show]();
-            $(this._element).removeClass('success')
+            clr_display[self._ops.show]();
+            $(self._element).removeClass('success')
                 .removeClass('error')
                 .removeClass('info')
                 .removeClass('warn');
             var clr_type = {
                 success: function () {
-                    $(this._element).addClass('success');
+                    $(self._element).addClass('success');
                 },
                 error: function () {
-                    $(this._element).addClass('error');
+                    $(self._element).addClass('error');
                 },
                 info: function () {
-                    $(this._element).addClass('info');
+                    $(self._element).addClass('info');
                 },
                 warn: function () {
-                    $(this._element).addClass('warn');
+                    $(self._element).addClass('warn');
                 }
             }
-            clr_type[this._ops.type]();
-            return this;
+            clr_type[self._ops.type]();
+            this.$content.text(self._ops.msg);
+            return self;
         },
 
         _messageBtnClick: function () {
