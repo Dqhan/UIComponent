@@ -812,12 +812,12 @@
         },
         _init: function () {
             var fragement = [], h = -1;
-            fragement[++h] = "<div>";
+            fragement[++h] = "<div class=\"icon\">";
+            fragement[++h] = "</div>";
             fragement[++h] = "<div class=\"ui-message-content\">";
             fragement[++h] = this._ops.msg;
             fragement[++h] = "</div>";
             fragement[++h] = "<div class=\"ui-message-btn\">";
-            fragement[++h] = "</div>";
             fragement[++h] = "</div>";
             $(this._element).append(fragement.join(''));
             return this;
@@ -826,6 +826,7 @@
         _initMember: function () {
             this.$btn = $('#' + this._messageId + " .ui-message-btn");
             this.$content = $('#' + this._messageId + " .ui-message-content");
+            this.$icon = $('#' + this._messageId + " .icon");
             return this;
         },
 
@@ -852,15 +853,31 @@
             var clr_type = {
                 success: function () {
                     $(self._element).addClass('success');
+                    self.$icon.removeClass('fi-page-round-infor-a info');
+                    self.$icon.removeClass('fi-page-round-error-a error');
+                    self.$icon.removeClass('fi-page-circle-warning-a warn');
+                    self.$icon.addClass('fi-page-round-finish-a success');
                 },
                 error: function () {
                     $(self._element).addClass('error');
+                    self.$icon.removeClass('fi-page-round-finish-a success');
+                    self.$icon.removeClass('fi-page-round-infor-a info');
+                    self.$icon.removeClass('fi-page-circle-warning-a warn');
+                    self.$icon.addClass('fi-page-round-error-a error');
                 },
                 info: function () {
                     $(self._element).addClass('info');
+                    self.$icon.removeClass('fi-page-round-finish-a success');
+                    self.$icon.removeClass('fi-page-round-error-a error');
+                    self.$icon.removeClass('fi-page-circle-warning-a warn');
+                    self.$icon.addClass('fi-page-round-infor-a info info');
                 },
                 warn: function () {
                     $(self._element).addClass('warn');
+                    self.$icon.removeClass('fi-page-round-finish-a success');
+                    self.$icon.removeClass('fi-page-round-infor-a info');
+                    self.$icon.removeClass('fi-page-round-error-a error');
+                    self.$icon.addClass('fi-page-circle-warning-a warn');
                 }
             }
             clr_type[self._ops.type]();

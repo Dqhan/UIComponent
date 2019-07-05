@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     mode: "development",
@@ -30,16 +31,22 @@ module.exports = {
                 loader: "style-loader!css-loader!less-loader"
             },
             {
-                test: /\.(png|jpg|jpeg|gif|svg)$/,
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    }
+                ]
+            },
+
+            {
+                test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|eot)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: 'url-loader',
-                    // options: {
-                    //     limit: 10240,
-                    //     name: "[name].[ext]",
-                    //     mimetype: 'image/png',
-                    //     outputPath: 'images/'
-                    // },
+                    loader: 'url-loader'
                 }
             }
         ]

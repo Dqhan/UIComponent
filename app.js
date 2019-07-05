@@ -1,4 +1,5 @@
 import Main from './main.js';
+require('./font/style.css');
 require('./aui.less');
 require('./widget-core');
 require('./widget');
