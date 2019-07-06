@@ -693,3 +693,32 @@ button {
         }
     }
 }
+
+.ui-people-picker-dropdown {
+    display         : table;
+    position        : absolute;
+    z-index         : 10;
+    width           : 304px;
+    border          : 1px solid #bbbbbb;
+    overflow        : hidden;
+    list-style      : none;
+    background-color: #ffffff;
+
+    .ui-people-picker-dropdown-selection-container {
+        display: table-row;
+
+        .ui-people-picker-dropdown-selection-item {
+            display    : table-cell;
+            border     : 1px solid #ffffff;
+            outline    : 0;
+            white-space: nowrap;
+            padding    : 13px 0 13px 5px;
+            line-height: 1px;
+            cursor     : default;
+            &:hover {
+                background-color: #F0F0F0;
+            }
+
+        }
+    }
+}
