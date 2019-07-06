@@ -898,11 +898,98 @@
 
     }
 
+    var PeoplePicker = function (ops) {
+        this._ops = {
+            items: ops.items,
+            selectedItem: ops.selectedItem
+        };
+        this._element = ops.element;
+        this._initId()
+            ._init()
+            ._create()
+            ._initMember()
+            ._bindEvent();
+    }
+    PeoplePicker.prototype = {
+        _initId: function () {
+            uuid++;
+            this._peoplePickerId = "ui-people-picker-" + uuid;
+            return this;
+        },
+        _init: function () {
+            $(this._element).addClass('ui-people-picker');
+            return this;
+        },
+        _create: function () {
+            var _input = this._createInput();
+            $(this._element).append(_input);
+            this._createPopup();
+            this._setPopupPosition();
+            return this;
+        },
+        _createInput: function () {
+            var fragement = [], h = -1;
+            fragement[++h] = "<div class=\"ui-people-picker-container\">";
+            fragement[++h] = "<div class=\"ui-people-picker-container-main\" contenteditable placeholder=\"请输入...\">";
+            fragement[++h] = "</div>";
+            fragement[++h] = "<div class=\"ui-people-picker-container-icon\">";
+            fragement[++h] = "<div class=\"fi-page-user-a\"></div>";
+            fragement[++h] = "</div>";
+            fragement[++h] = "</div>";
+            return fragement.join('');
+        },
+        _createPopup: function () {
+            var fragement = [], h = -1;
+            fragement[++h] = "<div class=\"ui-people-picker-dropdown\">";
+            for (var i = 0; i < this._ops.items.length; i++) {
+                fragement[++h] = "<div class=\"ui-people-picker-dropdown-item\">" + this._ops.items[i].name + "</div>";
+            }
+            $dropdown_el.append(fragement.join(''));
+            fragement[++h] = "</div>";
+            $(body).append(fragement.join(''));
+            return this;
+        },
+
+        _initMember: function () {
+            this.$input = $('#' + this._peoplePickerId + " .ui-people-picker-container-main");
+            this.$popup = $('#' + this._peoplePickerId + " .ui-people-picker-dropdown");
+            this.$dropdown_items = $('.ui-people-picker-dropdown-item');
+        },
+
+        _bindEvent: function () {
+            this.$input.on('focus', this._inputFocusHandler.bind(this))
+                .on('blur', this._inputBlurHandler.bind(this));
+            this.$dropdown_items.on('click', this._downdropitemsClickHandler.bind(this));
+        },
+
+        _inputFocusHandler: function () {
+
+        },
+        _inputBlurHandler: function () {
+
+        }
+        _setPopupPosition: function () {
+            var self = this;
+            this.$popup
+                .css({ top: 0 })
+                .position({
+                    my: "left top",
+                    at: "left bottom",
+                    of: self._element,
+                    collision: "flip"
+                })
+        },
+        _downdropitemsClickHandler: function () {
+
+        },
+    }
+
     return {
         Dialog: __Dialog__,
         Combobox: __Combobox__,
         TabControl: TabControl,
         Pager: Pager,
-        MessageBar: MessageBar
+        MessageBar: MessageBar,
+        PeoplePicker: PeoplePicker
     };
 }, "aui");

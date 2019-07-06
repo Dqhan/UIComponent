@@ -248,7 +248,17 @@ class Main extends React.Component {
             </section>
             <section>
                 <h4>PeoplePicker</h4>
-
+                <$$.PeoplePicker
+                    items={[
+                        { id: 0, name: 'dqhan0' },
+                        { id: 1, name: 'dqhan1' },
+                        { id: 2, name: 'dqhan2' },
+                        { id: 3, name: 'dqhan3' },
+                    ]}
+                    selectedItem={
+                        { id: 2, name: 'dqhan2' }
+                    }
+                />
             </section>
             <section>
                 <h4>Processer</h4>

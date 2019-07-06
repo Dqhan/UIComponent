@@ -10,6 +10,7 @@ require('./banner');
 require('./ReactUI/react-pager');
 require('./ReactUI/react-tabcontrol');
 require('./ReactUI/react-messagerBar');
+require('./ReactUI/react-peoplePicker');
 ReactDOM.render(
     <Main />,
     document.getElementById('app')

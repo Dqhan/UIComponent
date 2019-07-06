@@ -6,22 +6,25 @@ class PeoplePicker extends ReactWidget {
     }
 
     componentDidMount() {
-       
+        this.element = new aui.PeoplePicker({
+            element: ReactDOM.findDOMNode(this),
+            items: this.props.items,
+            selectedItem: this.props.selectedItem
+        });
     }
 
 
     componentWillReceiveProps(newProps) {
-       
+        this.element.setOptions(
+            {
+                items: newProps.items,
+                selectedItem: newProps.selectedItem
+            }
+        );
     }
 
     render() {
-        return <React.Fragment>
-            <$$.Dialog>
-                <div>
-                    <input /> 
-                </div>
-            </$$.Dialog>
-        </React.Fragment>
+        return <div></div>
     }
 }
 
