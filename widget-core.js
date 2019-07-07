@@ -18,4 +18,8 @@
         var event = $.Event(type, args);
         el.trigger(event, args);
     };
+
+    Array.prototype.remove = function (item) {
+
+    }
 })

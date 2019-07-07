@@ -903,7 +903,8 @@
             items: ops.items,
             selectedItem: ops.selectedItem,
             hashItems: {},
-            filterSelectionResultIndex: []
+            filterSelectionResultIndex: [],
+            resultValue: []
         };
         this._ops.hashItems = this._convetToHash();
         this._element = ops.element;
@@ -945,11 +946,12 @@
         _createInput: function () {
             var fragement = [], h = -1;
             fragement[++h] = "<div class=\"ui-people-picker-container\">";
-            fragement[++h] = "<div class=\"ui-people-picker-container-main\" contenteditable placeholder=\"请输入...\">";
-            fragement[++h] = "</div>";
-            fragement[++h] = "<div class=\"ui-people-picker-container-icon\">";
-            fragement[++h] = "<div class=\"fi-page-user-a\"></div>";
-            fragement[++h] = "</div>";
+            // fragement[++h] = "<div class=\"ui-people-picker-container-input\" contenteditable placeholder=\"请输入...\">";
+            // fragement[++h] = "</div>";
+            // fragement[++h] = "<div class=\"ui-people-picker-container-input\">";
+            // fragement[++h] = "</div>";
+            fragement[++h] = "<input class=\"ui-people-picker-container-input\" />";
+            fragement[++h] = "<div class=\"ui-people-picker-container-icon fi-page-user-a\">";
             fragement[++h] = "</div>";
             return fragement.join('');
         },
@@ -967,9 +969,10 @@
         },
 
         _initMember: function () {
-            this.$input = $('#' + this._peoplePickerId + " .ui-people-picker-container-main");
+            this.$container = $('#' + this._peoplePickerId + " .ui-people-picker-container");
+            this.$input = $('#' + this._peoplePickerId + " .ui-people-picker-container-input");
             this.$popup = $('#' + this._peoplePickerPopupId);
-            this.$dropdown_items = $('.ui-people-picker-dropdown-item');
+            this.$dropdown_items = $('#' + this._peoplePickerPopupId + ' .ui-people-picker-dropdown-selection-item');
             return this;
         },
 
@@ -981,19 +984,53 @@
         },
 
         _inputFocusHandler: function () {
+            this._show();
+        },
+
+        _show: function () {
             this.$popup.show();
             this._setPopupPosition();
         },
 
-        _inputBlurHandler: function () {
+        _hide: function () {
             this.$popup.hide();
+        },
+        _inputBlurHandler: function () {
+            // this._hide();
         },
 
         _inputKeyupHandler: function (e) {
-
+            var condition = this._getCondition();
+            var i = 0, items = this._ops.items, len = items.length;
+            for (; i < len; i++) {
+                var text = items[i].name;
+                if (text.indexOf(condition) > -1) {
+                    this._ops.filterSelectionResultIndex.push(i);
+                }
+            }
+            this._filterSelection();
+            switch (e.which) {
+                case 8:
+                    this._deleteResult();
+                    break;
+            }
+        },
+        _filterSelection: function () {
+            var items = this._ops.items,
+                len = items.length,
+                i = 0;
+            for (; i < len; i++) {
+                if (this._ops.filterSelectionResultIndex.includes(i)) {
+                    $(this.$dropdown_items[i]).show();
+                } else {
+                    $(this.$dropdown_items[i]).hide();
+                }
+            }
+            this._ops.filterSelectionResultIndex.length = 0;
+            this._show();
         },
         _getCondition: function () {
-            return this.$input.val().toLowerCase();
+            return this.$input.text().toLowerCase();
         },
         _setPopupPosition: function () {
             var self = this;
@@ -1007,9 +1044,50 @@
                 })
         },
 
-        _downdropitemsClickHandler: function () {
+        _downdropitemsClickHandler: function (e) {
+            var target = this._ops.items.filter(i => i.name == e.target.innerText)[0];
+            this._addResult(target);
+        },
+        _addResult: function (target) {
+            this._ops.resultValue.unshift(target);
+            this._setSelectedItemsToInput();
+            var self = this;
+            $$.Event({
+                element: self._element,
+                oldValue: null,
+                newValue: self._ops.resultValue
+            });
+        },
+        _deleteResult: function () {
+            this._ops.resultValue.splice(this._ops.resultValue.length - 1, 1);
+            this._setSelectedItemsToInput();
+            var self = this;
+            $$.Event({
+                element: self._element,
+                oldValue: null,
+                newValue: self._ops.resultValue
+            });
+        },
+        _setSelectedItemsToInput: function () {
+            $('#' + this._peoplePickerId + ' .selectedItem').remove();
+            var fragement = [], h = -1, items = this._ops.resultValue, len = items.length;
+            for (var i = 0; i < len; i++) {
+                fragement[++h] = "<div class=\"selectedItem\">";
+                fragement[++h] = items[i].name;
+                fragement[++h] = "<div class=\"selectedItem-icon\"></div>";
+                fragement[++h] = "</div>";
+            }
+            this.$container.prepend(fragement.join(''));
+            this._bindEventForSelectedItem();
+        },
+
+        _bindEventForSelectedItem: function () {
 
         },
+
+        setOptions: function () {
+
+        }
     }
 
     return {
