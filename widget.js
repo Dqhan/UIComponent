@@ -969,6 +969,7 @@
             this.$input = $('#' + this._peoplePickerId + " .ui-people-picker-container-input");
             this.$popup = $('#' + this._peoplePickerPopupId);
             this.$dropdown_items = $('#' + this._peoplePickerPopupId + ' .ui-people-picker-dropdown-selection-item');
+            this.$icon = $('#' + this._peoplePickerId + " .ui-people-picker-container-icon");
             return this;
         },
 
@@ -978,6 +979,16 @@
                 .on('blur', this._inputBlurHandler.bind(this))
                 .on('keyup', this._inputKeyupHandler.bind(this))
             this.$dropdown_items.on('click', this._downdropitemsClickHandler.bind(this));
+            this.$icon.on('click', this._iconClickHandler.bind(this));
+        },
+
+        _iconClickHandler: function () {
+            var $element = $(this._element);
+            $$.trigger("openPopup", $element, $$.Event({
+                element: $element,
+                oldValue: null,
+                newValue: null
+            }));
         },
 
         _inputFocusHandler: function () {
@@ -1090,12 +1101,41 @@
         }
     }
 
+    var Table = function (ops) {
+        this._ops = {
+            element: ops.element,
+            items: ops.items
+        }
+        this._initId()
+            ._init()
+            ._create()
+            ._initMember()
+    };
+
+    Table.prototype = {
+        _initId: function () {
+            ++uuid;
+            this.tableId = "ui-table-" + uuid;
+        },
+        _init: function () {
+            $(element).addClass('ui-table');
+            element.id = this.tableId;
+        },
+        _initMember: function () {
+
+        },
+        _create: function () {
+
+        }
+    }
+
     return {
         Dialog: __Dialog__,
         Combobox: __Combobox__,
         TabControl: TabControl,
         Pager: Pager,
         MessageBar: MessageBar,
-        PeoplePicker: PeoplePicker
+        PeoplePicker: PeoplePicker,
+        Table: Table
     };
 }, "aui");
