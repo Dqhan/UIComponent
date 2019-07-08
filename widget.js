@@ -946,11 +946,7 @@
         _createInput: function () {
             var fragement = [], h = -1;
             fragement[++h] = "<div class=\"ui-people-picker-container\">";
-            // fragement[++h] = "<div class=\"ui-people-picker-container-input\" contenteditable placeholder=\"请输入...\">";
-            // fragement[++h] = "</div>";
-            // fragement[++h] = "<div class=\"ui-people-picker-container-input\">";
-            // fragement[++h] = "</div>";
-            fragement[++h] = "<input class=\"ui-people-picker-container-input\" />";
+            fragement[++h] = "<input type=\"text\" class=\"ui-people-picker-container-input\" />";
             fragement[++h] = "<div class=\"ui-people-picker-container-icon fi-page-user-a\">";
             fragement[++h] = "</div>";
             return fragement.join('');
@@ -977,7 +973,8 @@
         },
 
         _bindEvent: function () {
-            this.$input.on('focus', this._inputFocusHandler.bind(this))
+            this.$input
+                //.on('focus', this._inputFocusHandler.bind(this))
                 .on('blur', this._inputBlurHandler.bind(this))
                 .on('keyup', this._inputKeyupHandler.bind(this))
             this.$dropdown_items.on('click', this._downdropitemsClickHandler.bind(this));
@@ -1030,7 +1027,7 @@
             this._show();
         },
         _getCondition: function () {
-            return this.$input.text().toLowerCase();
+            return this.$input.val().toLowerCase();
         },
         _setPopupPosition: function () {
             var self = this;
@@ -1047,6 +1044,7 @@
         _downdropitemsClickHandler: function (e) {
             var target = this._ops.items.filter(i => i.name == e.target.innerText)[0];
             this._addResult(target);
+            this._hide();
         },
         _addResult: function (target) {
             this._ops.resultValue.unshift(target);
@@ -1057,6 +1055,8 @@
                 oldValue: null,
                 newValue: self._ops.resultValue
             });
+            //this._filterSelection();
+            this.$input.val("");
         },
         _deleteResult: function () {
             this._ops.resultValue.splice(this._ops.resultValue.length - 1, 1);
