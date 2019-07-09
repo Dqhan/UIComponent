@@ -1,6 +1,6 @@
 import ReactWidget from '../react-widget';
 
-class CTable extends ReactWidget {
+class Table extends ReactWidget {
     constructor(props) {
         super(props);
     }
@@ -8,13 +8,32 @@ class CTable extends ReactWidget {
     componentDidMount() {
         this.element = new aui.Table({
             element: ReactDOM.findDOMNode(this),
+            columns: this.props.columns,
+            items: this.props.items,
+            rowTempate: this.props.rowTempate
         });
     }
 
 
+    getRows() {
+        var
+            len = this.props.items.length,
+            rows = [],
+            i = 0;
+        for (; i < len; i++) {
+            rows.push(
+                <this.props.rowTempate
+
+                />
+            )
+        }
+        return rows;
+    }
+
     componentWillReceiveProps(newProps) {
         this.element.setOptions({
-
+            columns: newProps.columns,
+            items: newProps.items
         })
     }
 
@@ -23,4 +42,4 @@ class CTable extends ReactWidget {
     }
 }
 
-window.$$.CTable = CTable;
+window.$$.Table = Table;

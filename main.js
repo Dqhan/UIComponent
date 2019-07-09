@@ -266,7 +266,32 @@ class Main extends React.Component {
             </section>
             <section>
                 <h4>Table</h4>
-
+                <$$.Table
+                    columns={[
+                        {
+                            name: 'column0',
+                            width: '200px'
+                        },
+                        {
+                            name: 'column1',
+                            width: '200px'
+                        },
+                        {
+                            name: 'column2',
+                            width: '200px'
+                        },
+                        {
+                            name: 'column3',
+                            width: '200px'
+                        },
+                    ]}
+                    items={[
+                        { text0: "text0", text1: "text1", text2: "text2", text3: "text3" },
+                        { text0: "text0", text1: "text1", text2: "text2", text3: "text3" },
+                        { text0: "text0", text1: "text1", text2: "text2", text3: "text3" }
+                    ]}
+                    rowTempate={RowTempate}
+                />
             </section>
             <section>
                 <h4>TipMessager</h4>
@@ -279,5 +304,21 @@ class Main extends React.Component {
         </div>
     }
 }
+
+class RowTempate extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        data = this.props.rowDate;
+        return <div data-part="row">
+            <div data-part="cell">{data.text0}</div>
+            <div data-part="cell">{data.text1}</div>
+            <div data-part="cell">{data.text2}</div>
+            <div data-part="cell">{data.text3}</div>
+        </div>
+    }
+};
 
 export default Main;

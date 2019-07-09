@@ -11,6 +11,7 @@ require('./ReactUI/react-pager');
 require('./ReactUI/react-tabcontrol');
 require('./ReactUI/react-messagerBar');
 require('./ReactUI/react-peoplePicker');
+require('./ReactUI/react-table');
 ReactDOM.render(
     <Main />,
     document.getElementById('app')

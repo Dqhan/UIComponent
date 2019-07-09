@@ -1103,9 +1103,10 @@
 
     var Table = function (ops) {
         this._ops = {
-            element: ops.element,
+            columns: ops.columns,
             items: ops.items
         }
+        this._element = ops.element;
         this._initId()
             ._init()
             ._create()
@@ -1116,17 +1117,50 @@
         _initId: function () {
             ++uuid;
             this.tableId = "ui-table-" + uuid;
+            return this;
         },
         _init: function () {
-            $(element).addClass('ui-table');
-            element.id = this.tableId;
+            $(this._element).addClass('ui-table');
+            this._element.id = this.tableId;
+            return this;
         },
         _initMember: function () {
-
+            return this;
         },
         _create: function () {
-
+            this._createTable()
+            return this;
+        },
+        _createTable: function () {
+            var fragement = [], h = -1;
+            fragement[++h] = "<table class=\"ui-table\">";
+            fragement[++h] = this._createHeader();
+            fragement[++h] = this._createBody();
+            fragement[++h] = "</table>";
+            $(this._element).append(fragement.join(''));
+        },
+        _createHeader: function () {
+            var fragement = [], h = -1;
+            fragement[++h] = "<thead>";
+            fragement[++h] = "<tr>";
+            for (var i = 0; i < this._ops.columns.length; i++) {
+                fragement[++h] = "<th style=\"width: " + this._ops.columns[i].width + " \">";
+                fragement[++h] = this._ops.columns[i].name
+                fragement[++h] = "</th>";
+            }
+            fragement[++h] = "</tr>";
+            fragement[++h] = "</thead>";
+            return fragement.join('');
+        },
+        _createBody: function () {
+            var fragement = [], h = -1;
+            fragement[++h] = "<tbody>";
+            fragement[++h] = "<tr>";
+            fragement[++h] = "</tr>";
+            fragement[++h] = "</tbody>";
+            return fragement.join('');
         }
+
     }
 
     return {
