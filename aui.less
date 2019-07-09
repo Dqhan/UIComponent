@@ -3,9 +3,9 @@ body {
 }
 
 section {
-    display: block;
-    border-bottom: 1px solid #fd6a7f;
-    padding: 10px;
+    display         : block;
+    border-bottom   : 1px solid #fd6a7f;
+    padding         : 10px;
     background-color: #ffffff;
 }
 
@@ -14,11 +14,11 @@ section {
 */
 .ui-dorpdown-icon {
     height: auto;
-    width: 20px;
+    width : 20px;
 
     &:after {
         content: '\25BC';
-        color: #bbb;
+        color  : #bbb;
     }
 }
 
@@ -26,52 +26,52 @@ section {
     dialog 
 */
 button {
-    border: 1px solid #9D9D9D;
+    border          : 1px solid #9D9D9D;
     background-color: #fff;
-    height: auto;
-    padding: 5px 20px;
-    border-radius: 5px;
-    color: #9D9D9D;
-    font-weight: inherit;
-    font-style: inherit;
-    font-family: inherit;
-    cursor: pointer;
+    height          : auto;
+    padding         : 5px 20px;
+    border-radius   : 5px;
+    color           : #9D9D9D;
+    font-weight     : inherit;
+    font-style      : inherit;
+    font-family     : inherit;
+    cursor          : pointer;
 
     &:hover {
         background: #9D9D9D;
-        color: #fff;
+        color     : #fff;
     }
 }
 
 .ui-backdrop {
-    POSITION: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    POSITION        : fixed;
+    left            : 0;
+    top             : 0;
+    right           : 0;
+    bottom          : 0;
     background-color: rgba(34, 34, 34, 0.5);
-    z-index: 99;
+    z-index         : 99;
 }
 
 .dialog {
-    position: fixed;
-    z-index: 100;
-    top: 50%;
-    left: 50%;
-    right: 0;
-    bottom: 0;
-    border: 1px solid #ff9900;
+    position     : fixed;
+    z-index      : 100;
+    top          : 50%;
+    left         : 50%;
+    right        : 0;
+    bottom       : 0;
+    border       : 1px solid #ff9900;
     border-radius: 5px;
-    text-align: center;
-    background: #ffffff;
+    text-align   : center;
+    background   : #ffffff;
 
     .dialog-title {
-        width: auto;
-        height: 40px;
-        line-height: 40px;
+        width           : auto;
+        height          : 40px;
+        line-height     : 40px;
         background-color: #ff9900;
-        font-weight: bold;
-        color: #ffffff;
+        font-weight     : bold;
+        color           : #ffffff;
     }
 
     .dialog-content {
@@ -79,12 +79,12 @@ button {
     }
 
     .dialog-footer {
-        position: absolute;
-        bottom: 0px;
+        position        : absolute;
+        bottom          : 0px;
         background-color: #ff9900;
-        width: 100%;
-        height: auto;
-        padding: 2px 0;
+        width           : 100%;
+        height          : auto;
+        padding         : 2px 0;
     }
 }
 
@@ -93,78 +93,78 @@ button {
 */
 .banner {
     position: relative;
-    width: 100%;
-    height: 400px;
+    width   : 100%;
+    height  : 400px;
 
     .banner-indicators {
-        position: absolute;
-        bottom: 20px;
-        z-index: 10;
-        width: 60%;
+        position    : absolute;
+        bottom      : 20px;
+        z-index     : 10;
+        width       : 60%;
         padding-left: 0;
-        list-style: none;
-        text-align: center;
-        width: 25%;
-        left: 42%;
+        list-style  : none;
+        text-align  : center;
+        width       : 25%;
+        left        : 42%;
 
         .banner-indicators-item {
-            list-style: none;
-            float: left;
-            width: 50px;
-            padding: 5px 0;
-            margin: 0 2px;
-            opacity: 0.5;
-            border: 0;
+            list-style      : none;
+            float           : left;
+            width           : 50px;
+            padding         : 5px 0;
+            margin          : 0 2px;
+            opacity         : 0.5;
+            border          : 0;
             background-color: #fff;
-            height: auto;
-            border-radius: 5px;
-            margin-right: 50px;
-            cursor: pointer;
+            height          : auto;
+            border-radius   : 5px;
+            margin-right    : 50px;
+            cursor          : pointer;
         }
 
         .active {
-            background-image: -webkit-linear-gradient(left, #9D9D9D, #000000 25%, #4F4F4F 50%, #000000 75%, #9D9D9D 100%);
+            background-image       : -webkit-linear-gradient(left, #9D9D9D, #000000 25%, #4F4F4F 50%, #000000 75%, #9D9D9D 100%);
             -webkit-text-fill-color: transparent;
-            -webkit-animation: indicators-animation 2s infinite linear;
+            -webkit-animation      : indicators-animation 2s infinite linear;
         }
 
         @-webkit-keyframes indicators-animation {
             0% {
                 background: #9D9D9D;
-                border: 3px solid #ffffff;
+                border    : 3px solid #ffffff;
             }
 
             50% {
                 background: #000000;
-                border: 3px solid #9D9D9D;
+                border    : 3px solid #9D9D9D;
             }
 
             100% {
                 background: #9D9D9D;
-                border: 3px solid #ffffff;
+                border    : 3px solid #ffffff;
             }
         }
     }
 
     .banner-inner {
-        width: 100%;
-        height: 100%;
+        width   : 100%;
+        height  : 100%;
         overflow: hidden;
 
         .banner-content {
-            width: 300%;
-            height: 100%;
-            transform: translate3d(-66.66666666%, 0, 0);
-            transition: transform 0.6s ease-in-out;
+            width             : 300%;
+            height            : 100%;
+            transform         : translate3d(-66.66666666%, 0, 0);
+            transition        : transform 0.6s ease-in-out;
             -webkit-transition: -webkit-transform 0.6s ease-in-out;
 
             .banner-item {
-                display: inline-block;
-                position: relative;
-                width: 33.333333333%;
-                height: 100%;
+                display          : inline-block;
+                position         : relative;
+                width            : 33.333333333%;
+                height           : 100%;
                 background-repeat: no-repeat;
-                background-size: cover;
+                background-size  : cover;
 
                 &:nth-child(1) {
                     background-image: url('./Image/banner0.jpg');
@@ -180,16 +180,16 @@ button {
 
                 .banner-item-inner {
                     .title {
-                        visibility: hidden;
-                        transform: translate3d(-15%, 350%, 0);
-                        transition: transform 0.3s ease-in-out;
+                        visibility        : hidden;
+                        transform         : translate3d(-15%, 350%, 0);
+                        transition        : transform 0.3s ease-in-out;
                         -webkit-transition: -webkit-transform 0.3s ease-in-out;
                     }
 
                     .description {
-                        visibility: hidden;
-                        transform: translate3d(100%, 300%, 0);
-                        transition: transform 0.3s ease-in-out;
+                        visibility        : hidden;
+                        transform         : translate3d(100%, 300%, 0);
+                        transition        : transform 0.3s ease-in-out;
                         -webkit-transition: -webkit-transform 0.3s ease-in-out;
                     }
                 }
@@ -197,21 +197,21 @@ button {
                 .active {
                     .title {
                         visibility: visible;
-                        transform: translate3d(30%, 350%, 0);
+                        transform : translate3d(30%, 350%, 0);
                     }
 
                     .description {
                         visibility: visible;
-                        transform: translate3d(60%, 300%, 0);
+                        transform : translate3d(60%, 300%, 0);
                     }
                 }
 
                 .banner-item-inner {
                     p {
-                        font-size: 40px;
+                        font-size  : 40px;
                         font-weight: bold;
-                        color: #fff;
-                        font-style: italic;
+                        color      : #fff;
+                        font-style : italic;
                     }
                 }
             }
@@ -220,55 +220,55 @@ button {
 }
 
 .ui-combobox {
-    position: relative;
-    width: 200px;
-    min-width: 50px;
-    height: 30px;
-    line-height: 30px;
-    background-color: #fff;
-    border: 1px solid #bbb;
-    outline: 0;
-    -moz-box-sizing: border-box;
+    position          : relative;
+    width             : 200px;
+    min-width         : 50px;
+    height            : 30px;
+    line-height       : 30px;
+    background-color  : #fff;
+    border            : 1px solid #bbb;
+    outline           : 0;
+    -moz-box-sizing   : border-box;
     -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+    box-sizing        : border-box;
 
     .ui-combobox-input {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        margin: 0 auto;
-        outline: 0;
-        overflow: hidden;
-        resize: none;
-        border: none;
-        background: #fff;
-        cursor: default;
-        padding: 1px 30px 1px 5px;
-        -moz-box-sizing: border-box;
+        position          : absolute;
+        width             : 100%;
+        height            : 100%;
+        margin            : 0 auto;
+        outline           : 0;
+        overflow          : hidden;
+        resize            : none;
+        border            : none;
+        background        : #fff;
+        cursor            : default;
+        padding           : 1px 30px 1px 5px;
+        -moz-box-sizing   : border-box;
         -webkit-box-sizing: border-box;
-        box-sizing: border-box;
+        box-sizing        : border-box;
     }
 
     .ui-combobox-dropdown-container {
-        position: absolute;
-        height: 100%;
-        right: 0;
-        top: 0;
+        position   : absolute;
+        height     : 100%;
+        right      : 0;
+        top        : 0;
         border-left: 1px solid transparent;
-        cursor: default;
+        cursor     : default;
     }
 
     .ui-combobox-placeholder {
-        position: absolute;
-        display: table;
-        table-layout: fixed;
-        height: 100%;
-        top: 0;
-        left: 5px;
-        -moz-box-sizing: border-box;
+        position          : absolute;
+        display           : table;
+        table-layout      : fixed;
+        height            : 100%;
+        top               : 0;
+        left              : 5px;
+        -moz-box-sizing   : border-box;
         -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        color: #aaa;
+        box-sizing        : border-box;
+        color             : #aaa;
     }
 }
 
@@ -285,25 +285,25 @@ button {
 }
 
 .ui-combobox-popup {
-    position: absolute;
-    width: 198px;
-    height: auto;
+    position        : absolute;
+    width           : 198px;
+    height          : auto;
     background-color: #ffffff;
-    border: 1px solid #bbb;
-    box-sizing: content-box;
+    border          : 1px solid #bbb;
+    box-sizing      : content-box;
 
     .ui-combobox-listbox {
-        height: auto;
-        max-height: 300px;
-        min-height: 22px;
-        list-style: none;
-        overflow: auto;
+        height          : auto;
+        max-height      : 300px;
+        min-height      : 22px;
+        list-style      : none;
+        overflow        : auto;
         background-color: #ffffff;
-        box-sizing: border-box;
+        box-sizing      : border-box;
 
         .ui-combobox-listbox-container {
             display: table;
-            width: 100%;
+            width  : 100%;
 
             .ui-combobox-selection-container {
                 display: table-row;
@@ -313,13 +313,13 @@ button {
                 }
 
                 .ui-combobox-selection {
-                    display: table-cell;
-                    border: 1px solid #ffffff;
-                    outline: 0;
+                    display    : table-cell;
+                    border     : 1px solid #ffffff;
+                    outline    : 0;
                     white-space: nowrap;
-                    padding: 13px 0 13px 5px;
+                    padding    : 13px 0 13px 5px;
                     line-height: 1px;
-                    cursor: default;
+                    cursor     : default;
                 }
 
                 .ui-combobox-selection-selected {
@@ -335,117 +335,117 @@ button {
 */
 
 .ui-loading {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 99999;
-    display: block;
+    position  : fixed;
+    left      : 0;
+    right     : 0;
+    top       : 0;
+    bottom    : 0;
+    z-index   : 99999;
+    display   : block;
     text-align: center;
 
     &::before {
-        content: '';
-        height: 100%;
-        width: 0;
+        content       : '';
+        height        : 100%;
+        width         : 0;
         vertical-align: middle;
-        display: inline-block;
+        display       : inline-block;
     }
 
     .ui-loading-dialog {
-        position: relative;
+        position      : relative;
         vertical-align: middle;
-        display: inline-block;
+        display       : inline-block;
 
         .ui-loading-circle {
-            position: relative;
-            height: 60px;
-            width: 60px;
-            border-radius: 50%;
+            position        : relative;
+            height          : 60px;
+            width           : 60px;
+            border-radius   : 50%;
             background-color: #9D9D9D;
 
             &::before {
-                height: 4px;
-                width: 100%;
-                left: 0;
-                top: 28px;
-                z-index: 1;
-                position: absolute;
-                content: "";
+                height    : 4px;
+                width     : 100%;
+                left      : 0;
+                top       : 28px;
+                z-index   : 1;
+                position  : absolute;
+                content   : "";
                 background: #fff;
             }
 
             &::after {
-                width: 4px;
-                height: 100%;
-                top: 0;
-                right: 28px;
-                position: absolute;
-                content: "";
+                width     : 4px;
+                height    : 100%;
+                top       : 0;
+                right     : 28px;
+                position  : absolute;
+                content   : "";
                 background: #ffffff;
             }
 
             .left {
                 position: absolute;
-                height: 100%;
-                width: 50%;
+                height  : 100%;
+                width   : 50%;
                 overflow: hidden;
-                left: 0;
+                left    : 0;
             }
 
             .right {
                 position: absolute;
                 overflow: hidden;
-                height: 100%;
-                width: 50%;
-                left: 50%;
+                height  : 100%;
+                width   : 50%;
+                left    : 50%;
             }
 
             .center {
-                position: absolute;
-                top: 6px;
-                left: 6px;
-                height: 48px;
-                width: 48px;
-                background: #fff;
+                position     : absolute;
+                top          : 6px;
+                left         : 6px;
+                height       : 48px;
+                width        : 48px;
+                background   : #fff;
                 border-radius: 50%;
             }
 
             .anim {
-                position: absolute;
-                left: 100%;
-                top: 0;
-                height: 100%;
-                width: 100%;
-                border-radius: 999px;
-                background-color: #ff9900;
-                -webkit-animation: aui-circle-loading-left 2s infinite;
-                animation: aui-circle-loading-left 2s infinite;
-                -webkit-transform-origin: 0 50% 0;
-                transform-origin: 0 50% 0;
-                -webkit-animation-duration: 2s;
+                position                         : absolute;
+                left                             : 100%;
+                top                              : 0;
+                height                           : 100%;
+                width                            : 100%;
+                border-radius                    : 999px;
+                background-color                 : #ff9900;
+                -webkit-animation                : aui-circle-loading-left 2s infinite;
+                animation                        : aui-circle-loading-left 2s infinite;
+                -webkit-transform-origin         : 0 50% 0;
+                transform-origin                 : 0 50% 0;
+                -webkit-animation-duration       : 2s;
                 -webkit-animation-timing-function: linear;
-                animation-duration: 2s;
-                animation-timing-function: linear;
+                animation-duration               : 2s;
+                animation-timing-function        : linear;
             }
 
 
             .right .anim {
                 -webkit-animation-name: aui-circle-loading-right;
-                animation-name: aui-circle-loading-right;
+                animation-name        : aui-circle-loading-right;
             }
 
             .left .anim {
                 border-bottom-left-radius: 0;
-                border-top-left-radius: 0;
+                border-top-left-radius   : 0;
             }
 
             .right .anim {
                 border-bottom-right-radius: 0;
-                border-top-right-radius: 0;
-                left: -100%;
-                -webkit-transform-origin: 100% 50% 0;
-                transform-origin: 100% 50% 0;
+                border-top-right-radius   : 0;
+                left                      : -100%;
+                -webkit-transform-origin  : 100% 50% 0;
+                transform-origin          : 100% 50% 0;
             }
         }
     }
@@ -500,13 +500,13 @@ button {
 .ui-tabcontrol {
     .ui-tab-container {
         .ui-tabcontrol-container-item {
-            display: inline-block;
-            padding: 10px 20px;
-            text-align: center;
-            border: 1px solid #ff9900;
+            display      : inline-block;
+            padding      : 10px 20px;
+            text-align   : center;
+            border       : 1px solid #ff9900;
             border-radius: 1px;
-            border-right: 0px;
-            cursor: pointer;
+            border-right : 0px;
+            cursor       : pointer;
 
             &:hover {
                 color: #bbb;
@@ -518,9 +518,9 @@ button {
         }
 
         .active {
-            border-top: 3px solid #000000;
+            border-top      : 3px solid #000000;
             background-color: #bbbbbb;
-            border-bottom: 1px solid #bbbbbb;
+            border-bottom   : 1px solid #bbbbbb;
 
             &:hover {
                 color: #ffffff;
@@ -536,10 +536,10 @@ button {
 .ui-pager-container {
     .ui-pager-trangleBtn {
         display: inline-block;
-        margin: 0 10px;
+        margin : 0 10px;
 
-        & > button {
-            padding: 5px;
+        &>button {
+            padding      : 5px;
             border-radius: 10px;
         }
 
@@ -559,19 +559,19 @@ button {
     .pager-content {
         display: inline-block;
 
-        & > button {
+        &>button {
             padding: 5px 8px;
-            margin: 0 5px;
+            margin : 0 5px;
         }
 
         .button-bald {
-            border: 0;
+            border    : 0;
             background: 0 0;
         }
 
         .active {
             background: #9D9D9D;
-            color: #fff;
+            color     : #fff;
         }
     }
 
@@ -580,59 +580,59 @@ button {
 
         .ui-pager-go-input {
             display: inline-block;
-            width: 20px;
+            width  : 20px;
             padding: 5px;
         }
 
         .ui-pager-go-btn {
-            margin: 0 10px;
+            margin : 0 10px;
             padding: 5px;
         }
     }
 }
 
 .ui-message {
-    width: 100%;
+    width           : 100%;
     background-color: #dddddd;
-    border-radius: 3px;
-    padding: 7px;
-    color: #9D9D9D;
-    margin: 20px 0px;
+    border-radius   : 3px;
+    padding         : 7px;
+    color           : #9D9D9D;
+    margin          : 20px 0px;
 
     .icon {
-        display: inline-block;
+        display     : inline-block;
         margin-right: 3px;
 
         &.success {
-            color: #5c7;
+            color : #5c7;
             border: 0;
         }
 
         &.error {
-            color: #f88;
+            color : #f88;
             border: 0;
         }
 
         &.info {
-            color: #5ae;
+            color : #5ae;
             border: 0;
         }
 
         &.warn {
-            color: #fa4;
+            color : #fa4;
             border: 0;
         }
     }
 
     .ui-message-content {
-        display: inline-block;
+        display       : inline-block;
         vertical-align: bottom;
     }
 
     .ui-message-btn {
-        float: right;
+        float  : right;
         display: inline-block;
-        cursor: pointer;
+        cursor : pointer;
 
         &::before {
             content: '\2716'
@@ -642,46 +642,46 @@ button {
 
 .success {
     background-color: #efe;
-    border: 1px solid #5c7;
+    border          : 1px solid #5c7;
 }
 
 .error {
     background-color: #fff1f1;
-    border: 1px solid #f88;
+    border          : 1px solid #f88;
 }
 
 .warn {
     background-color: #fffbee;
-    border: 1px solid #fa4;
+    border          : 1px solid #fa4;
 }
 
 .info {
     background-color: #eef9ff;
-    border: 1px solid #5ae;
+    border          : 1px solid #5ae;
 }
 
 .ui-people-picker {
-    width: 300px;
-    height: 30px;
+    width      : 300px;
+    height     : 30px;
     line-height: 30px;
-    border: 1px solid #bbbbbb;
-    padding: 2px;
+    border     : 1px solid #bbbbbb;
+    padding    : 2px;
 
     .ui-people-picker-container {
         display: flex;
 
         .selectedItem {
-            border: 1px solid #eee;
+            border          : 1px solid #eee;
             background-color: #eee;
-            padding: 2px;
-            border-radius: 10px;
-            cursor: pointer;
-            height: 20px;
-            line-height: 20px;
+            padding         : 2px;
+            border-radius   : 10px;
+            cursor          : pointer;
+            height          : 20px;
+            line-height     : 20px;
 
             .selectedItem-icon {
-                width: auto;
-                display: inline-block;
+                width      : auto;
+                display    : inline-block;
                 margin-left: 2px;
 
                 &::before {
@@ -691,12 +691,12 @@ button {
         }
 
         .ui-people-picker-container-input {
-            flex: 1;
-            display: inline-block;
-            height: 24px;
+            flex       : 1;
+            display    : inline-block;
+            height     : 24px;
             line-height: 24px;
-            overflow: hidden;
-            border: 0px;
+            overflow   : hidden;
+            border     : 0px;
 
             &:focus {
                 outline: none;
@@ -704,38 +704,38 @@ button {
         }
 
         .ui-people-picker-container-icon {
-            display: inline-block;
+            display       : inline-block;
             vertical-align: middle;
-            width: 10%;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            cursor: pointer;
+            width         : 10%;
+            height        : 30px;
+            line-height   : 30px;
+            text-align    : center;
+            cursor        : pointer;
         }
     }
 }
 
 .ui-people-picker-dropdown {
-    display: table;
-    position: absolute;
-    z-index: 10;
-    width: 304px;
-    border: 1px solid #bbbbbb;
-    overflow: hidden;
-    list-style: none;
+    display         : table;
+    position        : absolute;
+    z-index         : 10;
+    width           : 304px;
+    border          : 1px solid #bbbbbb;
+    overflow        : hidden;
+    list-style      : none;
     background-color: #ffffff;
 
     .ui-people-picker-dropdown-selection-container {
         display: table-row;
 
         .ui-people-picker-dropdown-selection-item {
-            display: table-cell;
-            border: 1px solid #ffffff;
-            outline: 0;
+            display    : table-cell;
+            border     : 1px solid #ffffff;
+            outline    : 0;
             white-space: nowrap;
-            padding: 13px 0 13px 5px;
+            padding    : 13px 0 13px 5px;
             line-height: 1px;
-            cursor: default;
+            cursor     : default;
 
             &:hover {
                 background-color: #F0F0F0;
@@ -746,5 +746,13 @@ button {
 
 .ui-table {
     display: table;
-    border: 1px solid #bbbbbb;
+    border : 1px solid #bbbbbb;
+
+    div[data-part="row"] {
+        display: table-row;
+    }
+
+    div[data-part="cell"] {
+        display: table-cell;
+    }
 }

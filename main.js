@@ -311,7 +311,7 @@ class RowTempate extends React.Component {
     }
 
     render() {
-        data = this.props.rowDate;
+        var data = this.props.rowDate;
         return <div data-part="row">
             <div data-part="cell">{data.text0}</div>
             <div data-part="cell">{data.text1}</div>

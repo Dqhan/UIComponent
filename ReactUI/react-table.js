@@ -23,11 +23,23 @@ class Table extends ReactWidget {
         for (; i < len; i++) {
             rows.push(
                 <this.props.rowTempate
-
+                    key={i}
+                    rowDate={this.props.items[i]}
                 />
             )
         }
         return rows;
+    }
+
+    getColumns() {
+        var
+            len = this.props.columns.length,
+            columns = [],
+            i = 0;
+        for (; i < len; i++) {
+            columns.push(<div data-part="cell" key={i} style={{ width: this.props.columns[i].width }}>{this.props.columns[i].name}</div>);
+        }
+        return columns;
     }
 
     componentWillReceiveProps(newProps) {
@@ -38,7 +50,12 @@ class Table extends ReactWidget {
     }
 
     render() {
-        return <div></div>
+        return <div>
+            <div data-part="row">
+                {this.getColumns()}
+            </div>
+            {this.getRows()}
+        </div>
     }
 }
 

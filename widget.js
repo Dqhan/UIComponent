@@ -1133,33 +1133,33 @@
         },
         _createTable: function () {
             var fragement = [], h = -1;
-            fragement[++h] = "<table class=\"ui-table\">";
-            fragement[++h] = this._createHeader();
-            fragement[++h] = this._createBody();
-            fragement[++h] = "</table>";
+            // fragement[++h] = "<table class=\"ui-table\">";
+            // fragement[++h] = this._createHeader();
+            // fragement[++h] = this._createBody();
+            // fragement[++h] = "</table>";
             $(this._element).append(fragement.join(''));
         },
-        _createHeader: function () {
-            var fragement = [], h = -1;
-            fragement[++h] = "<thead>";
-            fragement[++h] = "<tr>";
-            for (var i = 0; i < this._ops.columns.length; i++) {
-                fragement[++h] = "<th style=\"width: " + this._ops.columns[i].width + " \">";
-                fragement[++h] = this._ops.columns[i].name
-                fragement[++h] = "</th>";
-            }
-            fragement[++h] = "</tr>";
-            fragement[++h] = "</thead>";
-            return fragement.join('');
-        },
-        _createBody: function () {
-            var fragement = [], h = -1;
-            fragement[++h] = "<tbody>";
-            fragement[++h] = "<tr>";
-            fragement[++h] = "</tr>";
-            fragement[++h] = "</tbody>";
-            return fragement.join('');
-        }
+        // _createHeader: function () {
+        //     var fragement = [], h = -1;
+        //     fragement[++h] = "<thead>";
+        //     fragement[++h] = "<tr>";
+        //     for (var i = 0; i < this._ops.columns.length; i++) {
+        //         fragement[++h] = "<th style=\"width: " + this._ops.columns[i].width + " \">";
+        //         fragement[++h] = this._ops.columns[i].name
+        //         fragement[++h] = "</th>";
+        //     }
+        //     fragement[++h] = "</tr>";
+        //     fragement[++h] = "</thead>";
+        //     return fragement.join('');
+        // },
+        // _createBody: function () {
+        //     var fragement = [], h = -1;
+        //     fragement[++h] = "<tbody>";
+        //     fragement[++h] = "<tr>";
+        //     fragement[++h] = "</tr>";
+        //     fragement[++h] = "</tbody>";
+        //     return fragement.join('');
+        // }
 
     }
 
