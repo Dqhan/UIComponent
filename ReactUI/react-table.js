@@ -12,6 +12,7 @@ class Table extends ReactWidget {
             items: this.props.items,
             rowTempate: this.props.rowTempate
         });
+        this.bindEvent();
     }
 
 
@@ -29,6 +30,29 @@ class Table extends ReactWidget {
             )
         }
         return rows;
+    }
+
+    bindEvent() {
+        var target = $('div[row="table-body-row"]>div[data-part="cell"]');
+        target.on('click', this.rowClickHandler.bind(this))
+            .on('rowChanged', this.selectionChangedHandler.bind(this))
+            .on('')
+    }
+
+    rowClickHandler() {
+        $$.trigger("rowChanged", null, $$.Event({
+            element: null,
+            oldValue: '',
+            newValue: ''
+        }))
+    }
+
+    selectionChangedHandler() {
+        $$.trigger("selectionChanged", null, $$.Event({
+            element: null,
+            oldValue: '',
+            newValue: ''
+        }))
     }
 
     getColumns() {

@@ -139,6 +139,10 @@ class Main extends React.Component {
         })
     }
 
+    rowChangedHandler(e, args) {
+
+    }
+
     render() {
         return <div style={{ backgroundColor: '#7f8ea0', color: '#fd6a7f' }}>
             <h3 style={{ display: 'inline-block', textAlign: 'center', width: '100%' }}>Dqhan's UI</h3>
@@ -250,10 +254,10 @@ class Main extends React.Component {
                 <h4>PeoplePicker</h4>
                 <$$.PeoplePicker
                     items={[
-                        { userId: 0, userName: 'dqhan0', age: 18, sex: 'female' },
-                        { userId: 1, userName: 'dqhan1', age: 19, sex: 'male' },
-                        { userId: 2, userName: 'dqhan2', age: 20, sex: 'male' },
-                        { userId: 3, userName: 'dqhan3', age: 21, sex: 'female' },
+                        { userId: 0, name: 'dqhan0', age: 18, sex: 'female' },
+                        { userId: 1, name: 'dqhan1', age: 19, sex: 'male' },
+                        { userId: 2, name: 'dqhan2', age: 20, sex: 'male' },
+                        { userId: 3, name: 'dqhan3', age: 21, sex: 'female' },
                     ]}
                     selectedItem={
                         { id: 2, name: 'dqhan2' }
@@ -291,6 +295,7 @@ class Main extends React.Component {
                         { text0: "text0", text1: "text1", text2: "text2", text3: "text3" }
                     ]}
                     rowTempate={RowTempate}
+                    rowChangedHandler={this.rowChangedHandler.bind(this)}
                 />
             </section>
             <section>

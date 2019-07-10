@@ -77,6 +77,7 @@ class PeoplePicker extends ReactWidget {
                     items={this.props.items}
                     rowTempate={RowTempate}
                 />
+                <TextArea />
             </$$.Dialog>
         </div>
     }
@@ -91,10 +92,22 @@ class RowTempate extends React.Component {
         var data = this.props.rowDate;
         return <div role="table-body-row" data-part="row">
             <div data-part="cell">{data.userId}</div>
-            <div data-part="cell">{data.userName}</div>
+            <div data-part="cell">{data.name}</div>
             <div data-part="cell">{data.age}</div>
             <div data-part="cell">{data.sex}</div>
         </div>
     }
 };
 window.$$.PeoplePicker = PeoplePicker;
+
+class TextArea extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return <div className='ui-people-picker-textarea'>
+
+        </div>
+    }
+}
