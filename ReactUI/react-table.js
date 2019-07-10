@@ -33,26 +33,28 @@ class Table extends ReactWidget {
     }
 
     bindEvent() {
-        var target = $('div[row="table-body-row"]>div[data-part="cell"]');
-        target.on('click', this.rowClickHandler.bind(this))
-            .on('rowChanged', this.selectionChangedHandler.bind(this))
-            .on('')
+        var target = $('div[role="table-body-row"]>div[data-part="cell"]');
+        target.on('click', this.rowClickHandler.bind(this));
+        var form_input = $('div[role="table-body-row"] input');
+        form_input.on('click', this.inputChangedHandler.bind(this));
     }
 
     rowClickHandler() {
-        $$.trigger("rowChanged", null, $$.Event({
+        this.props.rowChangedHandler($$.Event({
             element: null,
             oldValue: '',
-            newValue: ''
-        }))
+            newValue: '',
+            type: 'click'
+        }));
     }
 
-    selectionChangedHandler() {
-        $$.trigger("selectionChanged", null, $$.Event({
+    inputChangedHandler() {
+        this.props.rowChangedHandler($$.Event({
             element: null,
             oldValue: '',
-            newValue: ''
-        }))
+            newValue: '',
+            type: 'change'
+        }));
     }
 
     getColumns() {

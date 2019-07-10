@@ -318,6 +318,9 @@ class RowTempate extends React.Component {
     render() {
         var data = this.props.rowDate;
         return <div role="table-body-row" data-part="row">
+            <div data-part="cell">
+                <input type='checkbox'  />
+            </div>
             <div data-part="cell">{data.text0}</div>
             <div data-part="cell">{data.text1}</div>
             <div data-part="cell">{data.text2}</div>
