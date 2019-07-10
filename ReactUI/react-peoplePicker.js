@@ -5,7 +5,25 @@ class PeoplePicker extends ReactWidget {
         super(props);
         this.element = {};
         this.state = {
-            dialogStatus: false
+            dialogStatus: false,
+            columns: [
+                {
+                    name: 'User Id',
+                    width: '200px'
+                },
+                {
+                    name: 'User Name',
+                    width: '200px'
+                },
+                {
+                    name: 'Age',
+                    width: '200px'
+                },
+                {
+                    name: 'Sex',
+                    width: '200px'
+                },
+            ]
         }
     }
 
@@ -34,7 +52,7 @@ class PeoplePicker extends ReactWidget {
         })
     }
 
-    openPopupHandler(){
+    openPopupHandler() {
         this.setState({
             dialogStatus: true
         })
@@ -43,6 +61,7 @@ class PeoplePicker extends ReactWidget {
     render() {
         return <div>
             <$$.Dialog
+                title="PeoplePicker"
                 width={600}
                 height={500}
                 status={this.state.dialogStatus}
@@ -53,11 +72,29 @@ class PeoplePicker extends ReactWidget {
                     }
                 ]}
             >
-                <div>66666</div>
-                <div>66666</div>
+                <$$.Table
+                    columns={this.state.columns}
+                    items={this.props.items}
+                    rowTempate={RowTempate}
+                />
             </$$.Dialog>
         </div>
     }
 }
 
+class RowTempate extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        var data = this.props.rowDate;
+        return <div role="table-body-row" data-part="row">
+            <div data-part="cell">{data.userId}</div>
+            <div data-part="cell">{data.userName}</div>
+            <div data-part="cell">{data.age}</div>
+            <div data-part="cell">{data.sex}</div>
+        </div>
+    }
+};
 window.$$.PeoplePicker = PeoplePicker;

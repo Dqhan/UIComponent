@@ -8,6 +8,7 @@ class Dialog extends ReactWidget {
 
     componentWillReceiveProps(newProps) {
         this.element.setOptions({
+            title: this.props.title,
             width: this.props.width,
             height: this.props.height,
             status: newProps.status
@@ -17,11 +18,11 @@ class Dialog extends ReactWidget {
     componentDidMount() {
         this.element = new aui.Dialog({
             root: $(ReactDOM.findDOMNode(this)),
+            title: this.props.title,
             width: this.props.width,
             height: this.props.height,
             footFragement: this.props.foot
         });
-        this.element.init();
     }
 
     render() {

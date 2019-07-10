@@ -51,7 +51,7 @@ class Table extends ReactWidget {
 
     render() {
         return <div>
-            <div data-part="row">
+            <div role='table-head-row' data-part="row">
                 {this.getColumns()}
             </div>
             {this.getRows()}

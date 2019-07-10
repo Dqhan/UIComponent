@@ -250,10 +250,10 @@ class Main extends React.Component {
                 <h4>PeoplePicker</h4>
                 <$$.PeoplePicker
                     items={[
-                        { id: 0, name: 'dqhan0' },
-                        { id: 1, name: 'dqhan1' },
-                        { id: 2, name: 'dqhan2' },
-                        { id: 3, name: 'dqhan3' },
+                        { userId: 0, userName: 'dqhan0', age: 18, sex: 'female' },
+                        { userId: 1, userName: 'dqhan1', age: 19, sex: 'male' },
+                        { userId: 2, userName: 'dqhan2', age: 20, sex: 'male' },
+                        { userId: 3, userName: 'dqhan3', age: 21, sex: 'female' },
                     ]}
                     selectedItem={
                         { id: 2, name: 'dqhan2' }
@@ -312,7 +312,7 @@ class RowTempate extends React.Component {
 
     render() {
         var data = this.props.rowDate;
-        return <div data-part="row">
+        return <div role="table-body-row" data-part="row">
             <div data-part="cell">{data.text0}</div>
             <div data-part="cell">{data.text1}</div>
             <div data-part="cell">{data.text2}</div>

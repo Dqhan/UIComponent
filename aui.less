@@ -746,13 +746,38 @@ button {
 
 .ui-table {
     display: table;
-    border : 1px solid #bbbbbb;
+    border: 1px solid #bbbbbb;
+
+    div[role="table-head-row"] {
+        background-color: #bbbbbb;
+
+        & div[data-part="cell"] {
+            &:hover {
+                background-color: #9D9D9D;
+            }
+        }
+    }
 
     div[data-part="row"] {
         display: table-row;
     }
 
+    div[role="table-body-row"] {
+        &:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        &:nth-child(even) {
+            background-color: #f6f6f6
+        }
+
+        &:hover {
+            background-color: #e0e0e0;
+        }
+    }
+
     div[data-part="cell"] {
         display: table-cell;
+        padding: 10px;
     }
 }

@@ -10,7 +10,7 @@
             root: $('body'),
             width: 400,
             height: 500,
-            title: 'Dialog',
+            title: ops.title,
             footFragement: [],
             status: false
         };
@@ -18,9 +18,13 @@
 
         };
         this.__dialogC__ = this.extends(this.__dialogC__, ops);
+        this.__init__();
     };
     __Dialog__.prototype = {
-        init: function () {
+        __initId__: function () {
+
+        },
+        __init__: function () {
             this.root = this.__dialogC__.root;
             this.el = this.__dialogC__.el;
             this.footFragement = this.__dialogC__.footFragement;
@@ -1160,7 +1164,9 @@
         //     fragement[++h] = "</tbody>";
         //     return fragement.join('');
         // }
+        setOptions: function (ops) {
 
+        }
     }
 
     return {
