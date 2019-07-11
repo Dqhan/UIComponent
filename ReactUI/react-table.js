@@ -3,6 +3,7 @@ import ReactWidget from '../react-widget';
 class Table extends ReactWidget {
     constructor(props) {
         super(props);
+        this.table = {};
     }
 
     componentDidMount() {
@@ -12,9 +13,13 @@ class Table extends ReactWidget {
             items: this.props.items,
             rowTempate: this.props.rowTempate
         });
-        this.bindEvent();
+        this.table = $(ReactDOM.findDOMNode(this));
+        this.table.on('rowDataChanged', this.rowDataChanged.bind(this));
     }
 
+    rowDataChanged(e, args) {
+        this.props.rowDataChanged(args);
+    }
 
     getRows() {
         var
@@ -30,31 +35,6 @@ class Table extends ReactWidget {
             )
         }
         return rows;
-    }
-
-    bindEvent() {
-        var target = $('div[role="table-body-row"]>div[data-part="cell"]');
-        target.on('click', this.rowClickHandler.bind(this));
-        var form_input = $('div[role="table-body-row"] input');
-        form_input.on('click', this.inputChangedHandler.bind(this));
-    }
-
-    rowClickHandler() {
-        this.props.rowChangedHandler($$.Event({
-            element: null,
-            oldValue: '',
-            newValue: '',
-            type: 'click'
-        }));
-    }
-
-    inputChangedHandler() {
-        this.props.rowChangedHandler($$.Event({
-            element: null,
-            oldValue: '',
-            newValue: '',
-            type: 'change'
-        }));
     }
 
     getColumns() {
