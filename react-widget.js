@@ -4,13 +4,17 @@ class ReactWidget extends React.Component {
         this.ReactWidgetFn = this.createObjectFn();
     }
 
+
+    componentDidMount() {
+    }
+
     createObjectFn() {
         function ReactWidget() {
         }
 
         ReactWidget.prototype = Object.create(Array.prototype, {
             constructor: ReactWidget,
-            
+
         });
         return new ReactWidget();
     }

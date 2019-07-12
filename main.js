@@ -24,7 +24,10 @@ class Main extends React.Component {
 
             msgShow: false,
             msgType: 'success',
-            msg: ''
+            msg: '',
+
+
+            isSelectAll: false
         }
         return this;
     }
@@ -139,8 +142,24 @@ class Main extends React.Component {
         })
     }
 
-    rowChangedHandler(e, args) {
+    rowDataChangedHandler(e, args) {
+        var action = args.actionType;
+        switch (action) {
+            case "checked":
+                console.log(args);
+                break;
+            case "click":
+                console.log(args);
+                break;
+            default:
+                break;
+        }
+    }
 
+    handleIsSelectAllChanged() {
+        this.setState({
+            isSelectAll: !this.state.isSelectAll
+        })
     }
 
     render() {
@@ -273,8 +292,12 @@ class Main extends React.Component {
                 <$$.Table
                     columns={[
                         {
-                            name: 'column0',
-                            width: '200px'
+                            width: '30px',
+                            template: <input type="checkbox" checked={this.state.isSelectAll} onChange={this.handleIsSelectAllChanged.bind(this)} />,
+                        },
+                        {
+                            name: 'action',
+                            width: '50px'
                         },
                         {
                             name: 'column1',
@@ -288,6 +311,10 @@ class Main extends React.Component {
                             name: 'column3',
                             width: '200px'
                         },
+                        {
+                            name: 'column4',
+                            width: '200px'
+                        },
                     ]}
                     items={[
                         { text0: "text0", text1: "text1", text2: "text2", text3: "text3" },
@@ -295,7 +322,7 @@ class Main extends React.Component {
                         { text0: "text0", text1: "text1", text2: "text2", text3: "text3" }
                     ]}
                     rowTempate={RowTempate}
-                    rowChangedHandler={this.rowChangedHandler.bind(this)}
+                    rowDataChanged={this.rowDataChangedHandler.bind(this)}
                 />
             </section>
             <section>
@@ -310,16 +337,33 @@ class Main extends React.Component {
     }
 }
 
-class RowTempate extends React.Component {
+class RowTempate extends $$.DataGridRow {
     constructor(props) {
         super(props);
+        this.handleCheckboxChanged = this.handleCheckboxChanged.bind(this);
+        this.handleBtnClickHandler = this.handleBtnClickHandler.bind(this);
+    }
+
+    handleCheckboxChanged(e) {
+        this.trigger('rowDataChanged', e, {
+            actionType: "checked"
+        });
+    }
+
+    handleBtnClickHandler(e) {
+        this.trigger('rowDataChanged', e, {
+            actionType: "click"
+        });
     }
 
     render() {
         var data = this.props.rowDate;
         return <div role="table-body-row" data-part="row">
             <div data-part="cell">
-                <input type='checkbox'  />
+                <input type='checkbox' onChange={this.handleCheckboxChanged} />
+            </div>
+            <div data-part="cell">
+                <button onClick={this.handleBtnClickHandler}>Click</button>
             </div>
             <div data-part="cell">{data.text0}</div>
             <div data-part="cell">{data.text1}</div>

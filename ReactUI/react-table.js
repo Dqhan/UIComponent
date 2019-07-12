@@ -18,7 +18,7 @@ class Table extends ReactWidget {
     }
 
     rowDataChanged(e, args) {
-        this.props.rowDataChanged(args);
+        this.props.rowDataChanged(e, args);
     }
 
     getRows() {
@@ -43,7 +43,12 @@ class Table extends ReactWidget {
             columns = [],
             i = 0;
         for (; i < len; i++) {
-            columns.push(<div data-part="cell" key={i} style={{ width: this.props.columns[i].width }}>{this.props.columns[i].name}</div>);
+            if (this.props.columns[i].template)
+                columns.push(<div data-part="cell" key={i} style={{ width: this.props.columns[i].width }}>
+                    {this.props.columns[i].template}
+                </div>);
+            else
+                columns.push(<div data-part="cell" key={i} style={{ width: this.props.columns[i].width }}>{this.props.columns[i].name}</div>);
         }
         return columns;
     }
