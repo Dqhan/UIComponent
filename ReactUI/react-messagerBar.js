@@ -1,4 +1,4 @@
-import ReactWidget from '../react-widget';
+import ReactWidget from './react-widget';
 
 class MessageBar extends ReactWidget {
     constructor(props) {

@@ -1,0 +1,16 @@
+require('./widget-core');
+require('./widget');
+require('./aui.less');
+require('./ReactUI/react-combobox');
+require('./ReactUI/react-dataGridRow');
+require('./ReactUI/react-dialog');
+require('./ReactUI/react-messagerBar');
+require('./ReactUI/react-pager');
+require('./ReactUI/react-peoplePicker');
+require('./ReactUI/react-processer');
+require('./ReactUI/react-tabcontrol');
+require('./ReactUI/react-table');
+require('./ReactUI/react-tipMessager');
+require('./ReactUI/react-validation');
+require('./ReactUI/react-widget');
+require('./ReactUI/banner');
