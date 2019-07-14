@@ -7,84 +7,111 @@
  */
     var __Dialog__ = function (ops) {
         this.__dialogC__ = {
-            root: $('body'),
             width: 400,
             height: 500,
-            title: ops.title,
+            title: ops.title || 'Dialog',
             footFragement: [],
             status: false
         };
-        this.__events__ = {
-
-        };
+        this.__element__ = ops.element || document.getElementsByTagName('body');
+        this.$element = $(this.__element__);
         this.__dialogC__ = this.extends(this.__dialogC__, ops);
-        this.__init__();
+        this.__initId__()
+            .__init__()
+            .__render__()
+            .__initMember__();
+        this.footFragement.length !== 0 && this.__createFooter__();
+        this.__bindEvent__();
     };
     __Dialog__.prototype = {
         __initId__: function () {
+            uuid++;
+            this.__dialogId__ = "ui-dialog-" + uuid;
+            return this;
+        },
 
-        },
         __init__: function () {
-            this.root = this.__dialogC__.root;
-            this.el = this.__dialogC__.el;
             this.footFragement = this.__dialogC__.footFragement;
-            this.__render__();
+            return this;
         },
+
+        __initMember__: function () {
+            this.$dialog = $('#' + this.__dialogId__);
+            return this;
+        },
+
         __render__: function () {
             var
                 $dialogOuter = "<div class=\"ui-backdrop\"></div>",
-                $dialog = "<div class=\"dialog\" style=" +
+                $dialog = "<div id=" + this.__dialogId__ + " class=\"dialog\" style=" +
                     "width:" + this.__dialogC__.width + "px" +
                     ";height:" + this.__dialogC__.height + "px" +
                     ";margin-top:" + -this.__dialogC__.height * 0.5 + "px" +
                     ";margin-left:" + -this.__dialogC__.width * 0.5 + "px" +
                     "></div>",
                 $dialogTitle = "<div class=\"dialog-title\">" + this.__dialogC__.title + "</div>",
-                $dialogContent = "<div class=\"dialog-content\"></div>",
-                $foot = document.createElement('div');
-            $foot.classList.add("dialog-footer");
-            if (this.footFragement.length !== 0)
-                this.footFragement.forEach(function (el, index) {
-                    var button = document.createElement('button');
-                    button.textContent = el.text;
-                    button.onclick = function () {
-                        el.click();
-                    }
-                    $foot.appendChild(button);
-                });
-            this.root
+                $dialogContent = "<div class=\"dialog-content\"></div>";
+            this.$element
                 .wrapInner($dialogContent)
                 .prepend($dialogTitle)
                 .wrapInner($dialog)
                 .wrapInner($dialogOuter);
-            $('.dialog').append($foot);
-            $('.dialog-footer button')[0].focus();
-            if (this.__dialogC__.status == false) this.root.css('display', 'none');
-            else this.root.css('display', '');
+            if (this.__dialogC__.status == false) this.$element.css('display', 'none');
+            else this.$element.css('display', '');
             return this;
         },
+
+        __createFooter__: function () {
+            var fragement = [], h = -1;
+            fragement[++h] = "<div class=\"dialog-footer\">";
+            this.footFragement.forEach(function (el, index) {
+                fragement[++h] = "<button>";
+                fragement[++h] = el.text;
+                fragement[++h] = "</button>";
+            });
+            fragement[++h] = "</div>";
+            this.$dialog.append(fragement.join(''));
+            this.__initBtnMember__();
+        },
+
+        __initBtnMember__: function () {
+            this.$btns = $('#' + this.__dialogId__ + ' .dialog-footer button');
+            this.$btns[0].focus();
+        },
+
+        __bindEvent__: function () {
+            this.$btns.on('click', this.__btnClickHandler__.bind(this));
+            return this;
+        },
+
+        __btnClickHandler__() {
+            $$.trigger('btnClick', this.$dialog, $$.Event({}));
+        },
+
         setOptions: function (ops) {
             for (var i in ops) {
                 if (typeof ops[i] !== undefined) this.__dialogC__[i] = ops[i];
             };
-            if (this.__dialogC__.status == false) this.root.css('display', 'none');
-            else this.root.css('display', '');
+            if (this.__dialogC__.status == false) this.$element.css('display', 'none');
+            else this.$element.css('display', '');
             this.___reRender__();
         },
+
         ___reRender__: function () {
-            var $dialog = $('.dialog');
-            $dialog.css('width', this.__dialogC__.width + "px")
+            this.$dialog.css('width', this.__dialogC__.width + "px")
                 .css('height', this.__dialogC__.height + "px")
                 .css('margin-top', -this.__dialogC__.height * 0.5 + "px")
                 .css('margin-left', -this.__dialogC__.width * 0.5 + "px");
-            $('.dialog-footer button')[0].focus();
+            $('#' + this.__dialogId__ + ' .dialog-footer button')[0].focus();
         },
+
         extends: function (target, ops) {
             for (var i in ops) {
                 if (ops[i]) target[i] = ops[i];
             }
             return target;
         },
+
         destory: function () {
             $('.dialog-bg').remove();
         }
@@ -1167,7 +1194,100 @@
         setOptions: function (ops) {
 
         }
+    };
+
+    var TipConform = function () {
+        this._initId()
+            ._init()
+    };
+
+    TipConform.prototype = {
+        _init: function () {
+            return this;
+        },
+
+        _initId: function () {
+            uuid++;
+            this.tipConformId = "ui-tip-conform-" + uuid;
+            this.tipConformOuterId = "ui-tip-conform" + uuid;
+            return this;
+        },
+
+        // setConform: function () {
+
+        // },
+
+        conform: function (ops) {
+            if (typeof ops.status == undefined) throw new Error('status can not be empty.')
+            var self = this;
+            var clr = {
+                show: function (ops) {
+                    self._render(ops);
+                },
+                hide: function () {
+                    self._destory();
+                }
+            }
+            clr[ops.status](ops);
+        },
+
+        _render: function (ops) {
+            var fragement = [], h = -1;
+            fragement[++h] = "<div id=" + this.tipConformOuterId + " class=\"ui-backdrop-outer\">";
+            fragement[++h] = "<div class=\"ui-backdrop\"></div>";
+            fragement[++h] = "<div id=" + this.tipConformId + " class=\"ui-tip-conform\" >";
+            fragement[++h] = "<div class=\"ui-tip-conform-header\">";
+            fragement[++h] = "Tip Conform";
+            fragement[++h] = "</div>";
+            fragement[++h] = "<div class=\"ui-tip-conform-contianer\">"
+            fragement[++h] = ops.message || 'message is empty.';
+            fragement[++h] = "</div>";
+            fragement[++h] = "</div>";
+            fragement[++h] = "</div>";
+            $('body').append(fragement.join(''));
+            this._initMember()
+                ._createBtn()
+                ._bindEvent();
+            return this;
+        },
+
+        _initMember: function () {
+            this.$tipConform = $('#' + this.tipConformId);
+            this.$tipConformOuter = $('#' + this.tipConformOuterId);
+            this.$header = $('#' + this.tipConformId + " .ui-tip-conform-header");
+            return this;
+        },
+
+        _createBtn: function () {
+            var fragement = [], h = -1;
+            fragement[++h] = "<span class=\"icon fi-page-remove-a\"></span>";
+            this.$header.append(fragement.join(''));
+            this._setBtn();
+            return this;
+        },
+
+        _setBtn: function () {
+            this.$btn = $('#' + this.tipConformId + " .icon");
+        },
+
+        _bindEvent: function () {
+            var self = this;
+            this.$btn.on('click', function () {
+                self._destory();
+            })
+        },
+
+        _destory: function () {
+            this.$tipConformOuter.length != 0 && this.$tipConformOuter.remove();
+        }
     }
+
+    var tipConform = new TipConform();
+
+    $$.conform = function (ops) {
+        tipConform.conform(ops)
+    };
+
 
     return {
         Dialog: __Dialog__,

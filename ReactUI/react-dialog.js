@@ -17,12 +17,16 @@ class Dialog extends ReactWidget {
 
     componentDidMount() {
         this.element = new aui.Dialog({
-            root: $(ReactDOM.findDOMNode(this)),
+            element: $(ReactDOM.findDOMNode(this)),
             title: this.props.title,
             width: this.props.width,
             height: this.props.height,
             footFragement: this.props.foot
         });
+        var i = 0;
+        for (; i < this.props.foot.length; i++) {
+            $(ReactDOM.findDOMNode(this)).on('btnClick', this.props.foot[0].click)
+        };
     }
 
     render() {

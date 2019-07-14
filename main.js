@@ -162,6 +162,13 @@ class Main extends React.Component {
         })
     }
 
+    showTipBtnClick() {
+        $$.conform({
+            message: 'tip message.',
+            status: 'show'
+        });
+    }
+
     render() {
         return <div style={{ backgroundColor: '#7f8ea0', color: '#fd6a7f' }}>
             <h3 style={{ display: 'inline-block', textAlign: 'center', width: '100%' }}>Dqhan's UI</h3>
@@ -326,8 +333,8 @@ class Main extends React.Component {
                 />
             </section>
             <section>
-                <h4>TipMessager</h4>
-
+                <h4>TipConform</h4>
+                <button onClick={this.showTipBtnClick.bind(this)}>show</button>
             </section>
             <section>
                 <h4>Validation</h4>
