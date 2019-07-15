@@ -1288,6 +1288,59 @@
         tipConform.conform(ops)
     };
 
+    var TextArea = function (ops) {
+        this._element = ops.element || document.getElementsByTagName('body');
+        this.$element = $(this._element);
+        this._ops = {
+            items: ops.items
+        };
+        this._initId()
+            ._init()
+            ._create()
+            ._initMember()
+            ._bindEvent();
+    };
+
+    TextArea.prototype = {
+        _initId: function () {
+            uuid++;
+            this.textAreaId = "ui-textarea-" + uuid;
+            return this;
+        },
+
+        _init: function () {
+            this._element.id = this.textAreaId;
+            return this;
+        },
+
+        _create: function () {
+            var items = this._ops.items,
+                len = items.length,
+                fragement = [],
+                h = -1;
+            for (var i = 0; i < len; i++) {
+                fragement[++h] = "<div class=\"ui-textarea-item\">";
+                fragement[++h] = items[i].name;
+                fragement[++h] = "<span class=\"icon\"></span>"
+                fragement[++h] = "</div>";
+            }
+            this.$element.append(fragement.join(''));
+            return this;
+        },
+
+        _initMember: function () {
+            this.$item = $('#' + this.textAreaId + ' .ui-textarea-item');
+            return this;
+        },
+
+        _bindEvent: function () {
+            this.$item.on('click', this._itemClickHandler.bind(this));
+        },
+
+        _itemClickHandler: function () {
+
+        }
+    };
 
     return {
         Dialog: __Dialog__,
@@ -1296,6 +1349,7 @@
         Pager: Pager,
         MessageBar: MessageBar,
         PeoplePicker: PeoplePicker,
-        Table: Table
+        Table: Table,
+        TextArea: TextArea
     };
 }, "aui");

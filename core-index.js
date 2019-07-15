@@ -15,3 +15,4 @@ require('./ReactUI/react-tipConform');
 require('./ReactUI/react-validation');
 require('./ReactUI/react-widget');
 require('./ReactUI/banner');
+require('./ReactUI/react-textArea');

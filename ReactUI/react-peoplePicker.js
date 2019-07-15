@@ -23,7 +23,8 @@ class PeoplePicker extends ReactWidget {
                     name: 'Sex',
                     width: '200px'
                 },
-            ]
+            ],
+            selectedItems: []
         }
     }
 
@@ -58,6 +59,22 @@ class PeoplePicker extends ReactWidget {
         })
     }
 
+    deleteItemHandler(e, args) {
+        var items = args.selectedItems;
+    }
+
+
+    rowDataChangedHandler(e, args) {
+        var action = args.actionType;
+        switch (action) {
+            case "click":
+                console.log(args);
+                break;
+            default:
+                break;
+        }
+    }
+
     render() {
         return <div>
             <$$.Dialog
@@ -76,8 +93,12 @@ class PeoplePicker extends ReactWidget {
                     columns={this.state.columns}
                     items={this.props.items}
                     rowTempate={RowTempate}
+                    rowDataChanged={this.rowDataChangedHandler.bind(this)}
                 />
-                <TextArea />
+                <$$.TextArea
+                    selectedItems={this.state.selectedItems}
+                    deleteItemHandler={this.deleteItemHandler.bind(this)}
+                />
             </$$.Dialog>
         </div>
     }
@@ -86,11 +107,18 @@ class PeoplePicker extends ReactWidget {
 class RowTempate extends React.Component {
     constructor(props) {
         super(props);
+        this.handleBtnClickHandler = this.handleBtnClickHandler.bind(this);
+    }
+
+    handleBtnClickHandler(e) {
+        this.trigger('rowDataChanged', e, {
+            actionType: "click"
+        });
     }
 
     render() {
         var data = this.props.rowDate;
-        return <div role="table-body-row" data-part="row">
+        return <div role="table-body-row" data-part="row" onClick={this.handleBtnClickHandler}>
             <div data-part="cell">{data.userId}</div>
             <div data-part="cell">{data.name}</div>
             <div data-part="cell">{data.age}</div>
@@ -99,15 +127,3 @@ class RowTempate extends React.Component {
     }
 };
 window.$$.PeoplePicker = PeoplePicker;
-
-class TextArea extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return <div className='ui-people-picker-textarea'>
-
-        </div>
-    }
-}
