@@ -8,7 +8,8 @@ class DataGridRow extends React.Component {
     trigger(type, e, args) {
         var $table = $(e.target.closest('.ui-table'));
         $$.trigger(type, $table, $$.Event({
-            actionType: args.actionType
+            actionType: args.actionType,
+            data: args.data
         }));
     }
 }

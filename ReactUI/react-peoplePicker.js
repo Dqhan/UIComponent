@@ -25,7 +25,8 @@ class PeoplePicker extends ReactWidget {
                 },
             ],
             selectedItems: []
-        }
+        };
+        this.unique = {};
     }
 
     componentDidMount() {
@@ -60,19 +61,39 @@ class PeoplePicker extends ReactWidget {
     }
 
     deleteItemHandler(e, args) {
-        var items = args.selectedItems;
+        this.state.selectedItems = args.items;
+        for (var key in this.unique) {
+            delete this.unique[key];
+        }
+        this.state.selectedItems.forEach(s => {
+            if (!this.unique[s.name]) {
+                this.unique[s.name] = true;
+            } else {
+                this.unique[s.name] = false;
+            }
+        })
     }
 
 
     rowDataChangedHandler(e, args) {
-        var action = args.actionType;
+        var action = args.actionType,
+            data = args.data;
         switch (action) {
             case "click":
-                console.log(args);
+                this.rowClickHandler(data);
                 break;
             default:
                 break;
         }
+    }
+
+    rowClickHandler(data) {
+        var userName = data.name;
+        if (!this.unique[userName]) {
+            this.state.selectedItems.push(data);
+            this.unique[userName] = true;
+        };
+        this.setState(this.state);
     }
 
     render() {
@@ -104,21 +125,24 @@ class PeoplePicker extends ReactWidget {
     }
 }
 
-class RowTempate extends React.Component {
+class RowTempate extends $$.DataGridRow {
     constructor(props) {
         super(props);
-        this.handleBtnClickHandler = this.handleBtnClickHandler.bind(this);
     }
 
-    handleBtnClickHandler(e) {
+    handleBtnClickHandler(data, e) {
         this.trigger('rowDataChanged', e, {
-            actionType: "click"
+            actionType: "click",
+            data: {
+                id: data.userId,
+                name: data.name
+            }
         });
     }
 
     render() {
         var data = this.props.rowDate;
-        return <div role="table-body-row" data-part="row" onClick={this.handleBtnClickHandler}>
+        return <div role="table-body-row" data-part="row" onClick={this.handleBtnClickHandler.bind(this, data)}>
             <div data-part="cell">{data.userId}</div>
             <div data-part="cell">{data.name}</div>
             <div data-part="cell">{data.age}</div>

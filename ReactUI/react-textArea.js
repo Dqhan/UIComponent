@@ -7,15 +7,15 @@ class TextArea extends ReactWidget {
 
 
     componentWillReceiveProps(newProps) {
-        //this.element.setOptions({
-        //    items: newProps.items,
-        //    selectedIndex: newProps.selectedIndex
-        //});
+        this.element.setOptions({
+            items: newProps.selectedItems
+        });
     }
 
     componentDidMount() {
         this.element = new aui.TextArea({
             element: ReactDOM.findDOMNode(this),
+            items: this.props.selectedItems
         });
         $(ReactDOM.findDOMNode(this)).on('deleteItemHandler', this.props.deleteItemHandler.bind(this));
     }

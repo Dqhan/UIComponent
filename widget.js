@@ -1337,9 +1337,36 @@
             this.$item.on('click', this._itemClickHandler.bind(this));
         },
 
-        _itemClickHandler: function () {
+        _itemClickHandler: function (e) {
+            var text = e.currentTarget.textContent;
+            var result = this._ops.items.filter(i => i.name != text);
+            this._ops.items = result;
+            $$.trigger('deleteItemHandler', this.$element, $$.Event({
+                items: result
+            }));
+            this._renderTextArea();
+        },
 
+        _renderTextArea: function () {
+            this.$element.empty();
+            var items = this._ops.items,
+                len = items.length,
+                fragement = [],
+                h = -1;
+            for (var i = 0; i < len; i++) {
+                fragement[++h] = "<div class=\"ui-textarea-item\">";
+                fragement[++h] = items[i].name;
+                fragement[++h] = "<span class=\"icon\"></span>"
+                fragement[++h] = "</div>";
+            }
+            this.$element.append(fragement.join(''));
+        },
+
+        setOptions: function () {
+            this._renderTextArea();
+            this._initMember()._bindEvent();
         }
+
     };
 
     return {
