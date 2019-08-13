@@ -11,7 +11,6 @@ require('./ReactUI/react-peoplePicker');
 require('./ReactUI/react-processer');
 require('./ReactUI/react-tabcontrol');
 require('./ReactUI/react-table');
-require('./ReactUI/react-tipConform');
 require('./ReactUI/react-validation');
 require('./ReactUI/react-widget');
 require('./ReactUI/banner');
