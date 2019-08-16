@@ -4,7 +4,12 @@
 })(window, $, function ($) {
     var __Banner__ = function (ops) {
         this.__BannerC__ = {
+            id: ops.id,
+            element: ops.element,
             currentIndex: 0,
+            banner1: ops.banner1,
+            banner2: ops.banner2,
+            banner3: ops.banner3
         };
         this.timer = null;
         this.banner0 = null;
@@ -12,12 +17,16 @@
         this.banner2 = null;
         this.bannerContent = null;
         this.elmentDuration = 1 / 3 * 100;
-        this.extend(ops);
+        this.init()
+            .render();
+
     };
     __Banner__.prototype = {
         init: function () {
-            this.dom = this.__BannerC__.dom;
-            this.dom.classList.add('banner');
+            this.element = this.__BannerC__.element;
+            this.element.id = this.__BannerC__.id;
+            this.element.classList.add('banner');
+            return this;
         },
         render: function () {
             var fragement = [];
@@ -28,11 +37,12 @@
             fragement.push("</ol>");
             fragement.push("<div class='banner-inner'>");
             fragement.push("<div class='banner-content'>");
-            fragement.push("<div class='banner-item'><div class='banner-item-inner'><p class='title'>Test1</p><p class='description'>Test1</p></div></div>");
-            fragement.push("<div class='banner-item'><div class='banner-item-inner'><p class='title'>Test2</p><p class='description'>Test2</p></div></div>");
-            fragement.push("<div class='banner-item'><div class='banner-item-inner'><p class='title'>Test3</p><p class='description'>Test3</p></div></div>");
-            this.dom.innerHTML = fragement.join('');
-            this.__bind__().__run__();
+            fragement.push("<div class='banner-item'><div class='banner-item-inner'><p class='title'>" + this.__BannerC__.banner1.leftText + "</p><p class='description'> " + this.__BannerC__.banner1.rightText + "</p></div></div>");
+            fragement.push("<div class='banner-item'><div class='banner-item-inner'><p class='title'> " + this.__BannerC__.banner2.leftText + "</p><p class='description'>" + this.__BannerC__.banner2.rightText + "</p></div></div>");
+            fragement.push("<div class='banner-item'><div class='banner-item-inner'><p class='title'>" + this.__BannerC__.banner3.leftText + "</p><p class='description'>" + this.__BannerC__.banner3.rightText + "</p></div></div>");
+            this.element.innerHTML = fragement.join('');
+            this.__bind__()
+                .__run__();
         },
 
         __run__: function () {
@@ -61,15 +71,12 @@
             }
         },
 
-        extend: function (ops) {
-            this.__BannerC__.dom = ops.dom;
-        },
-
         __bind__: function () {
             var self = this, el = document.getElementsByClassName('banner-indicators-item'), i = 0, len = el.length;
             for (; i < len; i++) {
                 el[i].addEventListener('click', function (e) {
                     var targetIndex = e.target.tabIndex;
+                    if (self.__BannerC__.currentIndex == targetIndex) return;
                     self.__BannerC__.currentIndex = targetIndex;
                     self.__renderBannerByCurrentIndex__();
                     window.clearInterval(self.timer);
@@ -112,6 +119,7 @@
 
         destory: function () {
             window.clearInterval(this.timer);
+            this.element.remove();
         }
 
     };

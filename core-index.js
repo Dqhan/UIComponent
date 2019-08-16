@@ -13,4 +13,5 @@ require('./ReactUI/react-table');
 require('./ReactUI/react-validation');
 require('./ReactUI/react-widget');
 require('./ReactUI/banner');
+require('./ReactUI/react-banner');
 require('./ReactUI/react-textArea');
