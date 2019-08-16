@@ -1,5 +1,4 @@
 require('./aui.less');
-require('./font/style.css');
 require('./widget-core');
 require('./widget');
 require('./ReactUI/react-combobox');

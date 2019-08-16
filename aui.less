@@ -1,12 +1,7 @@
+@import './font/style.css';
+
 body {
     font-size: 13px;
-}
-
-section {
-    display         : block;
-    border-bottom   : 1px solid #fd6a7f;
-    padding         : 10px;
-    background-color: #ffffff;
 }
 
 /*
@@ -26,20 +21,19 @@ section {
     dialog 
 */
 button {
-    border          : 1px solid #9D9D9D;
-    background-color: #fff;
+    background-color: #70c3ff;
     height          : auto;
-    padding         : 5px 20px;
-    border-radius   : 5px;
-    color           : #9D9D9D;
+    padding         : 5px 10px;
+    color           : #ffffff;
     font-weight     : inherit;
     font-style      : inherit;
     font-family     : inherit;
     cursor          : pointer;
+    border          : 0;
+    border-radius   : 2px;
 
     &:hover {
-        background: #9D9D9D;
-        color     : #fff;
+        color: #eef;
     }
 }
 
@@ -852,10 +846,10 @@ button {
         padding: 10px;
     }
 
-    .ui-tip-conform-footer{
+    .ui-tip-conform-footer {
         background-color: #ff9900;
-        flex-basis: 30px;
-        line-height: 30px;
-        text-align: right;
+        flex-basis      : 30px;
+        line-height     : 30px;
+        text-align      : right;
     }
 }
