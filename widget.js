@@ -122,7 +122,6 @@
           .css("height", this.__dialogC__.height + "px")
           .css("margin-top", -this.__dialogC__.height * 0.5 + "px")
           .css("margin-left", -this.__dialogC__.width * 0.5 + "px");
-        $("#" + this.__dialogId__ + " .dialog-footer button")[0].focus();
       },
 
       extends: function (target, ops) {
@@ -1452,19 +1451,7 @@
       // },
 
       conform: function (ops) {
-        if (typeof ops.status == undefined)
-          throw new Error("status can not be empty.");
-        var self = this;
-
-        var clr = {
-          show: function (ops) {
-            self._render(ops);
-          },
-          hide: function () {
-            self._destory();
-          }
-        };
-        clr[ops.status](ops);
+        this._render(ops);
       },
 
       _render: function (ops) {
@@ -1546,9 +1533,8 @@
       }
     };
 
-    var tipConform = new TipConform();
-
     $$.conform = function (ops) {
+      var tipConform = new TipConform();
       tipConform.conform(ops);
     };
 
