@@ -530,47 +530,44 @@ button {
 .ui-pager-container {
     .ui-pager-trangleBtn {
         display: inline-block;
-        margin : 0 10px;
+        margin : 0 5px;
 
         &>button {
-            padding      : 5px;
-            border-radius: 10px;
-        }
-
-        .ui-pager-triangle-left-as {
-            &::before {
-                content: '\25C4'
-            }
-        }
-
-        .ui-pager-triangle-right-as {
-            &::before {
-                content: '\25BA'
-            }
+            padding      : 4px;
+            border-radius: 15px;
         }
     }
 
     .pager-content {
         display: inline-block;
 
-        &>button {
-            padding: 5px 8px;
-            margin : 0 5px;
+        .pager-content-btn {
+            border       : 1px solid #70c3ff;
+            border-radius: 20px;
+            padding      : 5px 10px;
+            margin       : 0 5px;
         }
 
         .button-bald {
             border    : 0;
             background: 0 0;
+            color     : #70c3ff;
         }
 
         .active {
-            background: #9D9D9D;
-            color     : #fff;
+            background: #ffffff;
+            color     : #70c3ff;
+
+            &:hover {
+                background: #D2E9FF;
+            }
         }
     }
 
     .ui-pager-go {
-        display: inline-block;
+        display       : inline-block;
+        vertical-align: bottom;
+        margin-left   : 5px;
 
         .ui-pager-go-input {
             display: inline-block;
@@ -579,8 +576,9 @@ button {
         }
 
         .ui-pager-go-btn {
-            margin : 0 10px;
-            padding: 5px;
+            vertical-align: bottom;
+            margin        : 0 10px;
+            padding       : 5px;
         }
     }
 }
@@ -742,10 +740,10 @@ button {
     position        : absolute;
     z-index         : 10;
     width           : 304px;
-    border          : 1px solid #bbbbbb;
+    border          : 1px solid #70c3ff;
     overflow        : hidden;
     list-style      : none;
-    background-color: #ffffff;
+    background-color: #70c3ff;
 
     .ui-people-picker-dropdown-selection-container {
         display: table-row;
@@ -768,14 +766,15 @@ button {
 
 .ui-table {
     display: table;
-    border : 1px solid #bbbbbb;
+    border : 1px solid #70c3ff;
 
     div[role="table-head-row"] {
-        background-color: #bbbbbb;
+        background-color: #70c3ff;
+        color           : #ffffff;
 
         & div[data-part="cell"] {
             &:hover {
-                background-color: #9D9D9D;
+                background-color: #C4E1FF;
             }
         }
     }
@@ -794,7 +793,7 @@ button {
         }
 
         &:hover {
-            background-color: #e0e0e0;
+            background-color: #C4E1FF;
         }
     }
 

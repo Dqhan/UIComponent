@@ -1,16 +1,16 @@
 "use strict";
-(function (global, $, $$, factory, plug) {
+(function(global, $, $$, factory, plug) {
   global[plug] = factory.call(global, $, $$);
 })(
   window,
   $,
   $$,
-  function ($, $$) {
+  function($, $$) {
     /**
      * dialog UI
-     * @param {*} ops 
+     * @param {*} ops
      */
-    var __Dialog__ = function (ops) {
+    var __Dialog__ = function(ops) {
       this.__dialogC__ = {
         width: 400,
         height: 500,
@@ -29,23 +29,23 @@
       this.__bindEvent__();
     };
     __Dialog__.prototype = {
-      __initId__: function () {
+      __initId__: function() {
         uuid++;
         this.__dialogId__ = "ui-dialog-" + uuid;
         return this;
       },
 
-      __init__: function () {
+      __init__: function() {
         this.footFragement = this.__dialogC__.footFragement;
         return this;
       },
 
-      __initMember__: function () {
+      __initMember__: function() {
         this.$dialog = $("#" + this.__dialogId__);
         return this;
       },
 
-      __render__: function () {
+      __render__: function() {
         var $dialogOuter = '<div class="ui-backdrop"></div>',
           $dialog =
             "<div id=" +
@@ -78,11 +78,11 @@
         return this;
       },
 
-      __createFooter__: function () {
+      __createFooter__: function() {
         var fragement = [],
           h = -1;
         fragement[++h] = '<div class="dialog-footer">';
-        this.footFragement.forEach(function (el, index) {
+        this.footFragement.forEach(function(el, index) {
           fragement[++h] = "<button>";
           fragement[++h] = el.text;
           fragement[++h] = "</button>";
@@ -92,12 +92,12 @@
         this.__initBtnMember__();
       },
 
-      __initBtnMember__: function () {
+      __initBtnMember__: function() {
         this.$btns = $("#" + this.__dialogId__ + " .dialog-footer button");
         this.$btns[0].focus();
       },
 
-      __bindEvent__: function () {
+      __bindEvent__: function() {
         this.$btns.on("click", this.__btnClickHandler__.bind(this));
         return this;
       },
@@ -106,7 +106,7 @@
         $$.trigger("btnClick", this.$dialog, $$.Event({}));
       },
 
-      setOptions: function (ops) {
+      setOptions: function(ops) {
         for (var i in ops) {
           if (typeof ops[i] !== undefined) this.__dialogC__[i] = ops[i];
         }
@@ -116,7 +116,7 @@
         this.___reRender__();
       },
 
-      ___reRender__: function () {
+      ___reRender__: function() {
         this.$dialog
           .css("width", this.__dialogC__.width + "px")
           .css("height", this.__dialogC__.height + "px")
@@ -124,14 +124,14 @@
           .css("margin-left", -this.__dialogC__.width * 0.5 + "px");
       },
 
-      extends: function (target, ops) {
+      extends: function(target, ops) {
         for (var i in ops) {
           if (ops[i]) target[i] = ops[i];
         }
         return target;
       },
 
-      destory: function () {
+      destory: function() {
         $(".dialog-bg").remove();
       }
     };
@@ -140,7 +140,7 @@
      combobox UI
      */
     var uuid = -1;
-    var __Combobox__ = function (ops) {
+    var __Combobox__ = function(ops) {
       this.__eventNameSpave__ = ".combobox-event";
       this.__ComboboxC__ = {
         root: $("body"),
@@ -167,7 +167,7 @@
     };
 
     __Combobox__.prototype = {
-      __initId__: function () {
+      __initId__: function() {
         this.__uuId = ++uuid;
         this.__ComboboxC__.inputId += uuid;
         this.__ComboboxC__.dorpdownId += uuid;
@@ -176,7 +176,7 @@
         this.__ComboboxC__.listboxId += uuid;
         return this;
       },
-      __init__: function () {
+      __init__: function() {
         this.__element__
           .css("width", this.__ComboboxC__.width + "px")
           .css("height", this.__ComboboxC__.height + "px")
@@ -188,7 +188,7 @@
           .__bindEvent__();
         return this;
       },
-      __createCombobox__: function () {
+      __createCombobox__: function() {
         var h = -1,
           fragement = [];
         fragement[++h] =
@@ -202,7 +202,7 @@
         this.__element__.append(fragement.join(""));
         return this;
       },
-      __createDropDown__: function () {
+      __createDropDown__: function() {
         var h = -1,
           fragement = [];
         fragement[++h] =
@@ -214,7 +214,7 @@
         this.__element__.append(fragement.join(""));
         return this;
       },
-      __createPopup__: function () {
+      __createPopup__: function() {
         var h = -1,
           fragement = [];
         fragement[++h] =
@@ -232,17 +232,17 @@
         $("body").append(fragement.join(""));
         return this;
       },
-      __initDom__: function () {
+      __initDom__: function() {
         this.__$Dom__.$listbox = $("#" + this.__ComboboxC__.listboxId);
         this.__$Dom__.$input = $("#" + this.__ComboboxC__.inputId);
         this.__$Dom__.$popup = $("#" + this.__ComboboxC__.popupId);
         return this;
       },
-      __load__: function () {
+      __load__: function() {
         this.__seSelectionItems__().__setSelectionEvent__();
         this.__$Dom__.$popup.hide();
       },
-      setOptions: function (key, ops) {
+      setOptions: function(key, ops) {
         var self = this,
           clr = {
             setStyle: self.__setSytle__.bind(this),
@@ -251,7 +251,7 @@
           };
         clr[key](ops);
       },
-      __setSytle__: function (ops) {
+      __setSytle__: function(ops) {
         this.__$Dom__.$popup
           .css("width", ops.popupWidth)
           .css("height", ops.popupHeight)
@@ -260,13 +260,13 @@
         return this;
       },
 
-      __setItems__: function (ops) {
+      __setItems__: function(ops) {
         this.__ComboboxC__.items = ops.items;
         this.__seSelectionItems__()
           .__setSelectionEvent__()
           .__setSelectedItem__(ops.selectedItem);
       },
-      __seSelectionItems__: function () {
+      __seSelectionItems__: function() {
         var tempItems = this.__ComboboxC__.items;
         var i = 0,
           len = tempItems.length,
@@ -276,8 +276,8 @@
           fragement.push('<div class="ui-combobox-selection-container">');
           fragement.push(
             "<div role='option' class=\"ui-combobox-selection\" id=ui-combobox-selection-select-option-" +
-            i +
-            ">"
+              i +
+              ">"
           );
           fragement.push(tempItems[i].name);
           fragement.push("</div>");
@@ -286,16 +286,16 @@
         this.__$Dom__.$listbox.append(fragement.join(""));
         return this;
       },
-      __setSelectedItem__: function (selectedItem) {
+      __setSelectedItem__: function(selectedItem) {
         var self = this,
           clr = {
-            object: function () {
+            object: function() {
               return selectedItem.name;
             },
-            string: function () {
+            string: function() {
               return selectedItem;
             },
-            undefined: function () {
+            undefined: function() {
               return self.__ComboboxC__.items[0];
             }
           },
@@ -329,23 +329,23 @@
         return this;
       },
 
-      __bindEvent__: function () {
+      __bindEvent__: function() {
         var self = this;
         this.__$Dom__.$input
-          .on("mousedown" + this.__eventNameSpave__, function (e) {
+          .on("mousedown" + this.__eventNameSpave__, function(e) {
             self.__hideShow__();
           })
-          .on("focus" + this.__eventNameSpave__, function (e) {
+          .on("focus" + this.__eventNameSpave__, function(e) {
             self.__element__.addClass("ui-combobox-focused");
           })
-          .on("blur" + this.__eventNameSpave__, function (e) {
+          .on("blur" + this.__eventNameSpave__, function(e) {
             self.__element__.removeClass("ui-combobox-focused");
             self.__hide__();
           })
-          .on("mouseover" + this.__eventNameSpave__, function () {
+          .on("mouseover" + this.__eventNameSpave__, function() {
             self.__element__.addClass("ui-combobox-mouseover");
           })
-          .on("mouseleave" + this.__eventNameSpave__, function () {
+          .on("mouseleave" + this.__eventNameSpave__, function() {
             self.__element__.removeClass("ui-combobox-mouseover");
           })
           .on(
@@ -360,27 +360,27 @@
 
         this.__$Dom__.$listbox.on(
           "mousedown" + this.__eventNameSpave__,
-          function (e) {
+          function(e) {
             e.stopPropagation();
             e.preventDefault();
           }
         );
         $("#" + this.__ComboboxC__.dorpdownId).on(
           "click" + this.__eventNameSpave__,
-          function (e) {
+          function(e) {
             self.__hideShow__();
           }
         );
       },
 
-      __setSelectionEvent__: function () {
+      __setSelectionEvent__: function() {
         var self = this;
         this.__$Dom__.$selections = $(
           "#" + this.__ComboboxC__.listboxId + " .ui-combobox-selection"
         );
         this.__$Dom__.$selections.on(
           "click" + this.__eventNameSpave__,
-          function (e) {
+          function(e) {
             var text = e.currentTarget.textContent;
             self.__setSelectedItem__(text);
             $$.trigger(
@@ -398,24 +398,24 @@
         return this;
       },
 
-      __onInputkeyDown__: function (e) {
+      __onInputkeyDown__: function(e) {
         var self = e.data,
           keyCode = e.which;
         this.__debounceHandler__(e.target.value);
       },
 
-      __debounce__: function (fn) {
+      __debounce__: function(fn) {
         var timer,
           self = this;
-        return function (e) {
+        return function(e) {
           clearTimeout(timer);
-          timer = setTimeout(function () {
+          timer = setTimeout(function() {
             fn.apply(self, [e]);
           }, self.__delay__);
         };
       },
 
-      __filterSelection__: function (e) {
+      __filterSelection__: function(e) {
         console.log(e);
         var condition = this.__getCondition__();
         var i = 0,
@@ -430,17 +430,17 @@
         this.__updateFilteredSelections__();
         this.__filterSelectionResultIndex__.length = 0;
       },
-      __getCondition__: function () {
+      __getCondition__: function() {
         var value = "";
         value = this.__$Dom__.$input.val().toLowerCase();
         return value;
       },
 
-      __getInputValue__: function (item) {
+      __getInputValue__: function(item) {
         return item["name"];
       },
 
-      __updateFilteredSelections__: function () {
+      __updateFilteredSelections__: function() {
         var items = this.__ComboboxC__.items,
           i = 0,
           len = items.length;
@@ -454,18 +454,18 @@
         this.__show__();
       },
 
-      __hideShow__: function () {
+      __hideShow__: function() {
         this.__ComboboxC__.popupOpend = !this.__ComboboxC__.popupOpend;
         if (this.__ComboboxC__.popupOpend) this.__show__();
         else this.__hide__();
       },
 
-      __hide__: function () {
+      __hide__: function() {
         this.__ComboboxC__.popupOpend = false;
         this.__$Dom__.$popup.hide();
       },
 
-      __show__: function () {
+      __show__: function() {
         this.__ComboboxC__.popupOpend = true;
         this.__$Dom__.$popup.show();
         this.__setPopupPosition__();
@@ -502,7 +502,7 @@
         console.log("no select items.");
       },
 
-      __setPopupPosition__: function () {
+      __setPopupPosition__: function() {
         var self = this;
         this.__$Dom__.$popup.css({ top: 0 }).position({
           my: "left top",
@@ -512,7 +512,7 @@
         });
       },
 
-      __extends__: function (ops, target) {
+      __extends__: function(ops, target) {
         for (var i in ops) {
           if (typeof ops[i] !== undefined) target[i] = ops[i];
         }
@@ -523,7 +523,7 @@
      loading UI
      */
 
-    var Loading = function () {
+    var Loading = function() {
       this._initId()
         ._init()
         ._createLoading()
@@ -531,34 +531,34 @@
     };
 
     Loading.prototype = {
-      _init: function () {
+      _init: function() {
         this._element = document.createElement("div");
         this._element.classList.add("ui-loading");
         this._element.id = this._loadingId;
         return this;
       },
-      _initId: function () {
+      _initId: function() {
         this.__uuId = ++uuid;
         this._loadingId = "ui-loading-" + this.__uuId;
         return this;
       },
-      _initMember: function () {
+      _initMember: function() {
         return this;
       },
-      _createLoading: function () {
+      _createLoading: function() {
         var backDrop = this._createBackDrop();
         var animation = this._createLoadingAnimation();
         $(this._element).append(backDrop);
         $(this._element).append(animation);
         return this;
       },
-      _createBackDrop: function () {
+      _createBackDrop: function() {
         var fragement = [],
           h = -1;
         fragement[++h] = '<div class="ui-backdrop"></div>';
         return fragement.join("");
       },
-      _createLoadingAnimation: function () {
+      _createLoadingAnimation: function() {
         var fragement = [],
           h = -1;
         fragement[++h] = '<div class="ui-loading-dialog">';
@@ -574,16 +574,16 @@
         fragement[++h] = "</div>";
         return fragement.join("");
       },
-      loading: function (isShow) {
+      loading: function(isShow) {
         var self = this;
         var clr = {
-          true: function () {
+          true: function() {
             $("body").append(self._element);
           },
-          false: function () {
+          false: function() {
             self._element.remove();
           },
-          undefined: function () {
+          undefined: function() {
             throw new Error("arguments can not empty.");
           }
         };
@@ -594,11 +594,11 @@
     if (!loader) {
       var loader = new Loading();
     }
-    $$.loading = function (isShow) {
+    $$.loading = function(isShow) {
       loader.loading(isShow);
     };
 
-    var TabControl = function (ops) {
+    var TabControl = function(ops) {
       this._ops = {
         items: ops.items || [],
         hashItems: {},
@@ -618,7 +618,7 @@
     };
 
     TabControl.prototype = {
-      _convertHashItems: function () {
+      _convertHashItems: function() {
         var i = 0;
         for (; i < this._ops.items.length; i++) {
           this._ops.hashItems[this._ops.items[i].title] = {
@@ -627,22 +627,22 @@
           };
         }
       },
-      _init: function () {
+      _init: function() {
         this._element.addClass("ui-tabcontrol");
         return this;
       },
 
-      _initId: function () {
+      _initId: function() {
         this._tabContainerId += uuid;
         return this;
       },
 
-      _create: function () {
+      _create: function() {
         this._createTab();
         return this;
       },
 
-      _createTab: function () {
+      _createTab: function() {
         var fragement = [],
           h = -1;
         fragement[++h] =
@@ -651,13 +651,13 @@
         this._element.prepend(fragement.join(""));
       },
 
-      _initMember: function () {
+      _initMember: function() {
         this.$container = $("#" + this._tabContainerId);
         this.$contents = $(".ui-tabcontrol-content").children();
         return this;
       },
 
-      _setTabContainer: function () {
+      _setTabContainer: function() {
         var i = 0,
           items = this._ops.items,
           len = items.length;
@@ -672,17 +672,17 @@
         return this;
       },
 
-      _resetTabContainer: function () {
+      _resetTabContainer: function() {
         var $targets = this.$container.children();
         $targets.removeClass("active");
         $($targets[this._ops.selectedIndex]).addClass("active");
       },
 
-      _bindEvent: function () {
+      _bindEvent: function() {
         return this;
       },
 
-      _tabClickHandler: function (e) {
+      _tabClickHandler: function(e) {
         var self = this,
           newValue = this._ops.hashItems[e.target.textContent];
         $$.trigger(
@@ -700,7 +700,7 @@
         this._setTabContent();
       },
 
-      _setTabContent: function () {
+      _setTabContent: function() {
         this.$contents.addClass("ui-tabcontrol-content-item");
         var i = 0,
           items = this._ops.items,
@@ -713,7 +713,7 @@
         return this;
       },
 
-      setOptions: function (ops) {
+      setOptions: function(ops) {
         this._ops.items = ops.items;
         this._ops.selectedIndex =
           ops.selectedIndex || this._oldValue.selectedIndex;
@@ -722,13 +722,13 @@
           ._setTabContainer()
           ._setTabContent();
       },
-      _removeTabTabContainer: function () {
+      _removeTabTabContainer: function() {
         this.$container.empty();
         return this;
       }
     };
 
-    var Pager = function (ops) {
+    var Pager = function(ops) {
       this._ops = {
         count: ops.count || 0,
         selectedIndex: ops.selectedIndex || 1,
@@ -745,29 +745,29 @@
     };
 
     Pager.prototype = {
-      _initId: function () {
+      _initId: function() {
         uuid++;
         this._pagerId = "ui-pager-" + uuid;
         return this;
       },
-      _init: function () {
+      _init: function() {
         this._element.id = this._pagerId;
         $(this._element).addClass("ui-pager-container");
         return this;
       },
 
-      _create: function () {
+      _create: function() {
         var fragement = [],
           h = -1;
         fragement[++h] = '<div class="ui-pager-trangleBtn">';
-        fragement[++h] = '<button class="ui-pager-triangle-left-as"></button>';
+        fragement[++h] = '<button class="fi-page-triangle-left-as"></button>';
         fragement[++h] = "</div>";
 
         fragement[++h] = '<div class="pager-content">';
         fragement[++h] = "</div>";
 
         fragement[++h] = '<div class="ui-pager-trangleBtn">';
-        fragement[++h] = '<button class="ui-pager-triangle-right-as"></button>';
+        fragement[++h] = '<button class="fi-page-triangle-right-as"></button>';
         fragement[++h] = "</div>";
 
         fragement[++h] = '<div class="ui-pager-go">';
@@ -779,7 +779,7 @@
         return this;
       },
 
-      _createPagerBtn: function () {
+      _createPagerBtn: function() {
         this.$pagerElBtnGroup.empty();
         var fragement = [],
           h = -1;
@@ -799,10 +799,7 @@
           this.$pagerElBtnGroup.append(fragement.join(""));
         } else {
           for (var i = 0; i < this._ops.count; i++) {
-            if (
-              this._ops.selectedIndex <= 4 ||
-              this._ops.selectedIndex == this._ops.count
-            ) {
+            if (this._ops.selectedIndex <= 4) {
               if (i + 1 <= 4) {
                 if (i + 1 == this._ops.selectedIndex)
                   fragement[++h] =
@@ -838,10 +835,7 @@
                 fragement[h + 1] =
                   '<button class="button-bald" disabled>...</button>';
               }
-            } else if (
-              this._ops.selectedIndex == 1 ||
-              this._ops.selectedIndex >= this._ops.count - 3
-            ) {
+            } else if (this._ops.selectedIndex >= this._ops.count - 3) {
               if (i + 1 == 1) {
                 if (i + 1 == this._ops.selectedIndex)
                   fragement[++h] =
@@ -946,11 +940,9 @@
         return this;
       },
 
-      _initMember: function () {
-        this.$leftBtn = $("#" + this._pagerId + " .ui-pager-triangle-left-as");
-        this.$rightBtn = $(
-          "#" + this._pagerId + " .ui-pager-triangle-right-as"
-        );
+      _initMember: function() {
+        this.$leftBtn = $("#" + this._pagerId + " .fi-page-triangle-left-as");
+        this.$rightBtn = $("#" + this._pagerId + " .fi-page-triangle-right-as");
         this.$goBtn = $("#" + this._pagerId + " .ui-pager-go-btn");
         this.$pagerElBtnGroup = $("#" + this._pagerId + " .pager-content");
         this.$input = $("#" + this._pagerId + " .ui-pager-go-input");
@@ -964,25 +956,25 @@
         this.$pagerElBtnGroup.on("click", this._pageBtnClick.bind(this));
       },
 
-      _leftBtnClick: function () {
+      _leftBtnClick: function() {
         if (this._ops.selectedIndex != 1) this._ops.selectedIndex -= 1;
         else return;
         this._setSelectIndex(this._ops.selectedIndex);
       },
 
-      _rightBtnClick: function () {
+      _rightBtnClick: function() {
         if (this._ops.selectedIndex != this._ops.count)
           this._ops.selectedIndex += 1;
         else return;
         this._setSelectIndex(this._ops.selectedIndex);
       },
 
-      _pageBtnClick: function (e) {
+      _pageBtnClick: function(e) {
         var selectedIndex = parseInt(e.target.value);
         this._setSelectIndex(selectedIndex);
       },
 
-      _goBtnClick: function () {
+      _goBtnClick: function() {
         var value = this.$input.val();
         if (value == "") throw new Error("Value i error.");
         var targetIndex = parseInt(value);
@@ -991,7 +983,7 @@
         this._setSelectIndex(targetIndex);
       },
 
-      _setSelectIndex: function (index) {
+      _setSelectIndex: function(index) {
         var selectedIndex = index || 1;
         var $element = $(this._element);
         $$.trigger(
@@ -1006,7 +998,7 @@
         this._ops.selectedIndex = selectedIndex;
         this._createPagerBtn();
       },
-      setOptions: function (ops) {
+      setOptions: function(ops) {
         if (!$$.isNumber(ops.count)) throw new Error("count is error.");
         if (!$$.isNumber(ops.size)) throw new Error("count is error.");
         if (!$$.isNumber(ops.selectedIndex)) throw new Error("count is error.");
@@ -1023,7 +1015,7 @@
       //}
     };
 
-    var MessageBar = function (ops) {
+    var MessageBar = function(ops) {
       this._ops = {
         msg: ops.msg || "Message is empty.",
         type: ops.type || "success",
@@ -1038,14 +1030,14 @@
     };
 
     MessageBar.prototype = {
-      _initId: function () {
+      _initId: function() {
         ++uuid;
         this._messageId = "ui-message-id-" + uuid;
         this._element.id = this._messageId;
         $(this._element).addClass("ui-message");
         return this;
       },
-      _init: function () {
+      _init: function() {
         var fragement = [],
           h = -1;
         fragement[++h] = '<div class="icon">';
@@ -1059,25 +1051,25 @@
         return this;
       },
 
-      _initMember: function () {
+      _initMember: function() {
         this.$btn = $("#" + this._messageId + " .ui-message-btn");
         this.$content = $("#" + this._messageId + " .ui-message-content");
         this.$icon = $("#" + this._messageId + " .icon");
         return this;
       },
 
-      _bindEvent: function () {
+      _bindEvent: function() {
         this.$btn.on("click", this._messageBtnClick.bind(this));
         return this;
       },
 
-      _setMessage: function () {
+      _setMessage: function() {
         var self = this;
         var clr_display = {
-          false: function () {
+          false: function() {
             $(self._element).css("display", "none");
           },
-          true: function () {
+          true: function() {
             $(self._element).css("display", "");
           }
         };
@@ -1088,28 +1080,28 @@
           .removeClass("info")
           .removeClass("warn");
         var clr_type = {
-          success: function () {
+          success: function() {
             $(self._element).addClass("success");
             self.$icon.removeClass("fi-page-round-infor-a info");
             self.$icon.removeClass("fi-page-round-error-a error");
             self.$icon.removeClass("fi-page-circle-warning-a warn");
             self.$icon.addClass("fi-page-round-finish-a success");
           },
-          error: function () {
+          error: function() {
             $(self._element).addClass("error");
             self.$icon.removeClass("fi-page-round-finish-a success");
             self.$icon.removeClass("fi-page-round-infor-a info");
             self.$icon.removeClass("fi-page-circle-warning-a warn");
             self.$icon.addClass("fi-page-round-error-a error");
           },
-          info: function () {
+          info: function() {
             $(self._element).addClass("info");
             self.$icon.removeClass("fi-page-round-finish-a success");
             self.$icon.removeClass("fi-page-round-error-a error");
             self.$icon.removeClass("fi-page-circle-warning-a warn");
             self.$icon.addClass("fi-page-round-infor-a info info");
           },
-          warn: function () {
+          warn: function() {
             $(self._element).addClass("warn");
             self.$icon.removeClass("fi-page-round-finish-a success");
             self.$icon.removeClass("fi-page-round-infor-a info");
@@ -1122,11 +1114,11 @@
         return self;
       },
 
-      _messageBtnClick: function () {
+      _messageBtnClick: function() {
         $(this._element).css("display", "none");
       },
 
-      setOptions: function (ops) {
+      setOptions: function(ops) {
         this._ops.type = ops.type;
         this._ops.msg = ops.msg;
         this._ops.show = ops.show;
@@ -1134,7 +1126,7 @@
       }
     };
 
-    var PeoplePicker = function (ops) {
+    var PeoplePicker = function(ops) {
       this._ops = {
         items: ops.items,
         selectedItem: ops.selectedItem,
@@ -1151,7 +1143,7 @@
         ._bindEvent();
     };
     PeoplePicker.prototype = {
-      _convetToHash: function () {
+      _convetToHash: function() {
         var hash = {},
           items = this._ops.items,
           len = this._ops.items.length;
@@ -1162,24 +1154,24 @@
         }
         return hash;
       },
-      _initId: function () {
+      _initId: function() {
         uuid++;
         this._peoplePickerId = "ui-people-picker-" + uuid;
         this._peoplePickerPopupId = "ui-people-picker-popup-" + uuid;
         return this;
       },
-      _init: function () {
+      _init: function() {
         $(this._element).addClass("ui-people-picker");
         this._element.id = this._peoplePickerId;
         return this;
       },
-      _create: function () {
+      _create: function() {
         var _input = this._createInput();
         $(this._element).append(_input);
         this._createPopup();
         return this;
       },
-      _createInput: function () {
+      _createInput: function() {
         var fragement = [],
           h = -1;
         fragement[++h] = '<div class="ui-people-picker-container">';
@@ -1190,7 +1182,7 @@
         fragement[++h] = "</div>";
         return fragement.join("");
       },
-      _createPopup: function () {
+      _createPopup: function() {
         var fragement = [],
           h = -1;
         fragement[++h] =
@@ -1211,7 +1203,7 @@
         return this;
       },
 
-      _initMember: function () {
+      _initMember: function() {
         this.$container = $(
           "#" + this._peoplePickerId + " .ui-people-picker-container"
         );
@@ -1221,8 +1213,8 @@
         this.$popup = $("#" + this._peoplePickerPopupId);
         this.$dropdown_items = $(
           "#" +
-          this._peoplePickerPopupId +
-          " .ui-people-picker-dropdown-selection-item"
+            this._peoplePickerPopupId +
+            " .ui-people-picker-dropdown-selection-item"
         );
         this.$icon = $(
           "#" + this._peoplePickerId + " .ui-people-picker-container-icon"
@@ -1230,7 +1222,7 @@
         return this;
       },
 
-      _bindEvent: function () {
+      _bindEvent: function() {
         this.$input
           //.on('focus', this._inputFocusHandler.bind(this))
           .on("blur", this._inputBlurHandler.bind(this))
@@ -1242,7 +1234,7 @@
         this.$icon.on("click", this._iconClickHandler.bind(this));
       },
 
-      _iconClickHandler: function () {
+      _iconClickHandler: function() {
         var $element = $(this._element);
         $$.trigger(
           "openPopup",
@@ -1255,23 +1247,23 @@
         );
       },
 
-      _inputFocusHandler: function () {
+      _inputFocusHandler: function() {
         this._show();
       },
 
-      _show: function () {
+      _show: function() {
         this.$popup.show();
         this._setPopupPosition();
       },
 
-      _hide: function () {
+      _hide: function() {
         this.$popup.hide();
       },
-      _inputBlurHandler: function () {
+      _inputBlurHandler: function() {
         // this._hide();
       },
 
-      _inputKeyupHandler: function (e) {
+      _inputKeyupHandler: function(e) {
         var condition = this._getCondition();
         var i = 0,
           items = this._ops.items,
@@ -1289,7 +1281,7 @@
             break;
         }
       },
-      _filterSelection: function () {
+      _filterSelection: function() {
         var items = this._ops.items,
           len = items.length,
           i = 0;
@@ -1303,10 +1295,10 @@
         this._ops.filterSelectionResultIndex.length = 0;
         this._show();
       },
-      _getCondition: function () {
+      _getCondition: function() {
         return this.$input.val().toLowerCase();
       },
-      _setPopupPosition: function () {
+      _setPopupPosition: function() {
         var self = this;
         this.$popup.css({ top: 0 }).position({
           my: "left top",
@@ -1316,14 +1308,14 @@
         });
       },
 
-      _downdropitemsClickHandler: function (e) {
+      _downdropitemsClickHandler: function(e) {
         var target = this._ops.items.filter(
           i => i.name == e.target.innerText
         )[0];
         this._addResult(target);
         this._hide();
       },
-      _addResult: function (target) {
+      _addResult: function(target) {
         this._ops.resultValue.unshift(target);
         this._setSelectedItemsToInput();
         var self = this;
@@ -1335,7 +1327,7 @@
         //this._filterSelection();
         this.$input.val("");
       },
-      _deleteResult: function () {
+      _deleteResult: function() {
         this._ops.resultValue.splice(this._ops.resultValue.length - 1, 1);
         this._setSelectedItemsToInput();
         var self = this;
@@ -1345,7 +1337,7 @@
           newValue: self._ops.resultValue
         });
       },
-      _setSelectedItemsToInput: function () {
+      _setSelectedItemsToInput: function() {
         $("#" + this._peoplePickerId + " .selectedItem").remove();
         var fragement = [],
           h = -1,
@@ -1361,12 +1353,12 @@
         this._bindEventForSelectedItem();
       },
 
-      _bindEventForSelectedItem: function () { },
+      _bindEventForSelectedItem: function() {},
 
-      setOptions: function () { }
+      setOptions: function() {}
     };
 
-    var Table = function (ops) {
+    var Table = function(ops) {
       this._ops = {
         columns: ops.columns,
         items: ops.items
@@ -1379,24 +1371,24 @@
     };
 
     Table.prototype = {
-      _initId: function () {
+      _initId: function() {
         ++uuid;
         this.tableId = "ui-table-" + uuid;
         return this;
       },
-      _init: function () {
+      _init: function() {
         $(this._element).addClass("ui-table");
         this._element.id = this.tableId;
         return this;
       },
-      _initMember: function () {
+      _initMember: function() {
         return this;
       },
-      _create: function () {
+      _create: function() {
         this._createTable();
         return this;
       },
-      _createTable: function () {
+      _createTable: function() {
         var fragement = [],
           h = -1;
         // fragement[++h] = "<table class=\"ui-table\">";
@@ -1426,20 +1418,20 @@
       //     fragement[++h] = "</tbody>";
       //     return fragement.join('');
       // }
-      setOptions: function (ops) { }
+      setOptions: function(ops) {}
     };
 
-    var TipConform = function (ops) {
+    var TipConform = function(ops) {
       this._ops = {};
       this._initId()._init();
     };
 
     TipConform.prototype = {
-      _init: function () {
+      _init: function() {
         return this;
       },
 
-      _initId: function () {
+      _initId: function() {
         uuid++;
         this.tipConformId = "ui-tip-conform-" + uuid;
         this.tipConformOuterId = "ui-tip-conform" + uuid;
@@ -1450,11 +1442,11 @@
 
       // },
 
-      conform: function (ops) {
+      conform: function(ops) {
         this._render(ops);
       },
 
-      _render: function (ops) {
+      _render: function(ops) {
         this.handleClick = ops.handleClick;
         this._ops.footer = ops.footer;
         var fragement = [],
@@ -1485,7 +1477,7 @@
         return this;
       },
 
-      _initMember: function () {
+      _initMember: function() {
         this.$tipConform = $("#" + this.tipConformId);
         this.$tipConformOuter = $("#" + this.tipConformOuterId);
         this.$header = $("#" + this.tipConformId + " .ui-tip-conform-header");
@@ -1495,7 +1487,7 @@
         return this;
       },
 
-      _createHeaderBtn: function () {
+      _createHeaderBtn: function() {
         var fragement = [],
           h = -1;
         fragement[++h] = '<span class="icon fi-page-remove-a"></span>';
@@ -1504,7 +1496,7 @@
         return this;
       },
 
-      _createFooterBtn: function () {
+      _createFooterBtn: function() {
         var el = document.createElement("button");
         el.textContent = "ok";
         $(el).addClass("ui-tip-conform-footer-btn");
@@ -1517,28 +1509,28 @@
         this._destory();
       },
 
-      _setBtn: function () {
+      _setBtn: function() {
         this.$btn = $("#" + this.tipConformId + " .icon");
       },
 
-      _bindEvent: function () {
+      _bindEvent: function() {
         var self = this;
-        this.$btn.on("click", function () {
+        this.$btn.on("click", function() {
           self._destory();
         });
       },
 
-      _destory: function () {
+      _destory: function() {
         this.$tipConformOuter.length != 0 && this.$tipConformOuter.remove();
       }
     };
 
-    $$.conform = function (ops) {
+    $$.conform = function(ops) {
       var tipConform = new TipConform();
       tipConform.conform(ops);
     };
 
-    var TextArea = function (ops) {
+    var TextArea = function(ops) {
       this._element = ops.element || document.getElementsByTagName("body");
       this.$element = $(this._element);
       this._ops = {
@@ -1552,18 +1544,18 @@
     };
 
     TextArea.prototype = {
-      _initId: function () {
+      _initId: function() {
         uuid++;
         this.textAreaId = "ui-textarea-" + uuid;
         return this;
       },
 
-      _init: function () {
+      _init: function() {
         this._element.id = this.textAreaId;
         return this;
       },
 
-      _create: function () {
+      _create: function() {
         var items = this._ops.items,
           len = items.length,
           fragement = [],
@@ -1578,16 +1570,16 @@
         return this;
       },
 
-      _initMember: function () {
+      _initMember: function() {
         this.$item = $("#" + this.textAreaId + " .ui-textarea-item");
         return this;
       },
 
-      _bindEvent: function () {
+      _bindEvent: function() {
         this.$item.on("click", this._itemClickHandler.bind(this));
       },
 
-      _itemClickHandler: function (e) {
+      _itemClickHandler: function(e) {
         var text = e.currentTarget.textContent;
         var result = this._ops.items.filter(i => i.name != text);
         this._ops.items = result;
@@ -1601,7 +1593,7 @@
         this._renderTextArea();
       },
 
-      _renderTextArea: function () {
+      _renderTextArea: function() {
         this.$element.empty();
         var items = this._ops.items,
           len = items.length,
@@ -1616,7 +1608,7 @@
         this.$element.append(fragement.join(""));
       },
 
-      setOptions: function () {
+      setOptions: function() {
         this._renderTextArea();
         this._initMember()._bindEvent();
       }
