@@ -984,6 +984,7 @@
       },
 
       _setSelectIndex: function(index) {
+        if (this._ops.selectedIndex == index) return;
         var selectedIndex = index || 1;
         var $element = $(this._element);
         $$.trigger(
