@@ -38,12 +38,12 @@ class Main extends React.Component {
     // });
     // banner.init();
     // banner.render();
-    var banner = new window.banner.Banner({
-      pDom: document.getElementById("demo"),
-      dom: document.getElementById("banner")
-    });
-    banner.init();
-    banner.render();
+    // var banner = new window.banner.Banner({
+    //   pDom: document.getElementById("demo"),
+    //   dom: document.getElementById("banner")
+    // });
+    // banner.init();
+    // banner.render();
   }
 
   dialogCloseHandler() {
@@ -202,11 +202,11 @@ class Main extends React.Component {
         </section>
         <section>
           <h4>Banner</h4>
-          <button onClick={this.showBanner.bind(this)}>show</button>
+          {/* <button onClick={this.showBanner.bind(this)}>show</button>
           <button onClick={this.hideBanner.bind(this)}>hide</button>
           <div id="demo" style={{ display: "none" }}>
             <div id="banner" />
-          </div>
+          </div> */}
         </section>
         <section>
           <h4>Dialog</h4>
