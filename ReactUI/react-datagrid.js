@@ -1,13 +1,13 @@
 import ReactWidget from './react-widget';
 
-class Table extends ReactWidget {
+class Datagrid extends ReactWidget {
     constructor(props) {
         super(props);
         this.table = {};
     }
 
     componentDidMount() {
-        this.element = new aui.Table({
+        this.element = new ui.Datagrid({
             element: ReactDOM.findDOMNode(this),
             columns: this.props.columns,
             items: this.props.items,
@@ -70,4 +70,4 @@ class Table extends ReactWidget {
     }
 }
 
-window.$$.Table = Table;
+window.$$.Datagrid = Datagrid;

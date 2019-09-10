@@ -14,7 +14,7 @@ class Pager extends ReactWidget {
   }
 
   componentDidMount() {
-    this.element = new aui.Pager({
+    this.element = new ui.Pager({
       element: ReactDOM.findDOMNode(this),
       size: this.props.pageSize,
       count: this.props.pageCount,

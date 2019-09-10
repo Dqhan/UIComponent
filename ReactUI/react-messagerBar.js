@@ -6,7 +6,7 @@ class MessageBar extends ReactWidget {
     }
 
     componentDidMount() {
-        this.element = new aui.MessageBar({
+        this.element = new ui.MessageBar({
             element: ReactDOM.findDOMNode(this),
             type: this.props.type,
             msg: this.props.msg,

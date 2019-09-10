@@ -319,8 +319,8 @@ class Main extends React.Component {
           <h4>Processer</h4>
         </section>
         <section>
-          <h4>Table</h4>
-          <$$.Table
+          <h4>Datagrid</h4>
+          <$$.Datagrid
             columns={[
               {
                 width: "30px",

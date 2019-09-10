@@ -30,7 +30,7 @@ class PeoplePicker extends ReactWidget {
     }
 
     componentDidMount() {
-        this.element = new aui.PeoplePicker({
+        this.element = new ui.PeoplePicker({
             element: ReactDOM.findDOMNode(this),
             items: this.props.items,
             selectedItem: this.props.selectedItem
@@ -110,7 +110,7 @@ class PeoplePicker extends ReactWidget {
                     }
                 ]}
             >
-                <$$.Table
+                <$$.Datagrid
                     columns={this.state.columns}
                     items={this.props.items}
                     rowTempate={RowTempate}

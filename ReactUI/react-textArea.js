@@ -13,7 +13,7 @@ class TextArea extends ReactWidget {
     }
 
     componentDidMount() {
-        this.element = new aui.TextArea({
+        this.element = new ui.TextArea({
             element: ReactDOM.findDOMNode(this),
             items: this.props.selectedItems
         });

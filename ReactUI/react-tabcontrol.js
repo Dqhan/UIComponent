@@ -14,7 +14,7 @@ class TabControl extends ReactWidget {
     }
 
     componentDidMount() {
-        this.element = new aui.TabControl({
+        this.element = new ui.TabControl({
             element: ReactDOM.findDOMNode(this),
             items: this.props.items,
             selectedIndex: this.props.selectedIndex
