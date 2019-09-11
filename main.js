@@ -173,6 +173,23 @@ class Main extends React.Component {
     var self = this;
   }
 
+  showLoadingHandler0() {
+    $$.loading(true, "loading0");
+  }
+
+  hideLoadingHanlder0() {
+    $$.loading(false, "loading0");
+  }
+
+  showLoadingHandler1() {
+    $$.loading(true, "loading1");
+  }
+
+  hideLoadingHanlder1() {
+    $$.loading(false, "loading1");
+  }
+
+
   render() {
     return (
       <div style={{ backgroundColor: "#7f8ea0", color: "#fd6a7f" }}>
@@ -201,185 +218,214 @@ class Main extends React.Component {
           </button>
         </section>
         <section>
-          <h4>Banner</h4>
-          {/* <button onClick={this.showBanner.bind(this)}>show</button>
+          <h4>Element Loading</h4>
+          <div id="loading0" style={{width: "200px",height: "200px"}}></div>
+        <button
+          style={{ position: "relative", zIndex: "100000000" }}
+          onClick={this.showLoadingHandler0.bind(this)}
+        >
+          show
+          </button>
+        <button
+          style={{ position: "relative", zIndex: "100000000" }}
+          onClick={this.hideLoadingHanlder0.bind(this)}
+        >
+          hide
+          </button>
+        <div id="loading1" style={{ width: "200px", height: "200px" }}></div>
+        <button
+          style={{ position: "relative", zIndex: "100000000" }}
+          onClick={this.showLoadingHandler1.bind(this)}
+        >
+          show
+          </button>
+        <button
+          style={{ position: "relative", zIndex: "100000000" }}
+          onClick={this.hideLoadingHanlder1.bind(this)}
+        >
+          hide
+          </button>
+        </section >
+      <section>
+        <h4>Banner</h4>
+        {/* <button onClick={this.showBanner.bind(this)}>show</button>
           <button onClick={this.hideBanner.bind(this)}>hide</button>
           <div id="demo" style={{ display: "none" }}>
             <div id="banner" />
           </div> */}
-        </section>
-        <section>
-          <h4>Dialog</h4>
-          <button onClick={this.dialogShowHandler}>Dialog</button>
-          <$$.Dialog
-            id={"dqhan-dialog"}
-            width={200}
-            height={300}
-            status={this.state.dialogStatus}
-            foot={[
-              {
-                text: "close",
-                click: this.dialogCloseHandler
-              }
-            ]}
-          >
-            <div>66666</div>
-            <div>66666</div>
-          </$$.Dialog>
-        </section>
-        <section>
-          <h4>Combobox</h4>
-          <div style={{ display: "inline-block" }}>
-            <$$.Combobox
-              items={[
-                {
-                  name: "text1",
-                  value: "value1"
-                },
-                {
-                  name: "text2",
-                  value: "value2"
-                },
-                {
-                  name: "text3",
-                  value: "value3"
-                }
-              ]}
-              selectedItem={this.state.selectItem0}
-              selectionChanged={this.comboboxSelection0Changed.bind(this)}
-            />
-          </div>
-          <div style={{ display: "inline-block" }}>
-            <$$.Combobox
-              items={[
-                {
-                  name: "text4",
-                  value: "value4"
-                },
-                {
-                  name: "text5",
-                  value: "value5"
-                },
-                {
-                  name: "text6",
-                  value: "value6"
-                }
-              ]}
-              selectedItem={this.state.selectItem1}
-              selectionChanged={this.comboboxSelection1Changed.bind(this)}
-            />
-          </div>
-        </section>
-        <section>
-          <h4>TabControl</h4>
-          <$$.TabControl
-            items={this.state.tabItems}
-            selectedIndex={this.state.selectedTabIndex}
-            selectChanged={this.tabSelectChangedHandler}
-          >
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-          </$$.TabControl>
-        </section>
-        <section>
-          <h4>Pager</h4>
-          <$$.Pager
-            pageSize={this.state.pageSize}
-            pageCount={2}
-            selectedPage={this.state.selectedPage}
-            selectedPageChanged={this.pagerChangedHandler.bind(this)}
-          />
-        </section>
-        <section>
-          <h4>MessageBar</h4>
-          <$$.MessageBar
-            show={this.state.msgShow}
-            type={this.state.msgType}
-            msg={this.state.msg}
-          />
-          <button onClick={this.errorMsgBtnClick.bind(this)}>error</button>
-          <button onClick={this.successMsgBtnClick.bind(this)}>success</button>
-          <button onClick={this.infoMsgBtnClick.bind(this)}>info</button>
-          <button onClick={this.warnMsgBtnClick.bind(this)}>warn</button>
-        </section>
-        <section>
-          <h4>PeoplePicker</h4>
-          <$$.PeoplePicker
-            items={[
-              { userId: 0, name: "dqhan0", age: 18, sex: "female" },
-              { userId: 1, name: "dqhan1", age: 19, sex: "male" },
-              { userId: 2, name: "dqhan2", age: 20, sex: "male" },
-              { userId: 3, name: "dqhan3", age: 21, sex: "female" }
-            ]}
-            selectedItem={{ id: 2, name: "dqhan2" }}
-          />
-        </section>
-        <section>
-          <h4>Processer</h4>
-        </section>
-        <section>
-          <h4>Datagrid</h4>
-          <$$.Datagrid
-            columns={[
-              {
-                width: "30px",
-                template: (
-                  <input
-                    type="checkbox"
-                    checked={this.state.isSelectAll}
-                    onChange={this.handleIsSelectAllChanged.bind(this)}
-                  />
-                )
-              },
-              {
-                name: "action",
-                width: "50px"
-              },
-              {
-                name: "column1",
-                width: "200px"
-              },
-              {
-                name: "column2",
-                width: "200px"
-              },
-              {
-                name: "column3",
-                width: "200px"
-              },
-              {
-                name: "column4",
-                width: "200px"
-              }
-            ]}
+      </section>
+      <section>
+        <h4>Dialog</h4>
+        <button onClick={this.dialogShowHandler}>Dialog</button>
+        <$$.Dialog
+          id={"dqhan-dialog"}
+          width={200}
+          height={300}
+          status={this.state.dialogStatus}
+          foot={[
+            {
+              text: "close",
+              click: this.dialogCloseHandler
+            }
+          ]}
+        >
+          <div>66666</div>
+          <div>66666</div>
+        </$$.Dialog>
+      </section>
+      <section>
+        <h4>Combobox</h4>
+        <div style={{ display: "inline-block" }}>
+          <$$.Combobox
             items={[
               {
-                text0: "text0",
-                text1: "text1",
-                text2: "text2",
-                text3: "text3"
+                name: "text1",
+                value: "value1"
               },
               {
-                text0: "text0",
-                text1: "text1",
-                text2: "text2",
-                text3: "text3"
+                name: "text2",
+                value: "value2"
               },
-              { text0: "text0", text1: "text1", text2: "text2", text3: "text3" }
+              {
+                name: "text3",
+                value: "value3"
+              }
             ]}
-            rowTempate={RowTempate}
-            rowDataChanged={this.rowDataChangedHandler.bind(this)}
+            selectedItem={this.state.selectItem0}
+            selectionChanged={this.comboboxSelection0Changed.bind(this)}
           />
-        </section>
-        <section>
-          <h4>TipConform</h4>
-          <button onClick={this.showTipBtnClick.bind(this)}>show</button>
-        </section>
-        <section>
-          <h4>Validation</h4>
-        </section>
-      </div>
+        </div>
+        <div style={{ display: "inline-block" }}>
+          <$$.Combobox
+            items={[
+              {
+                name: "text4",
+                value: "value4"
+              },
+              {
+                name: "text5",
+                value: "value5"
+              },
+              {
+                name: "text6",
+                value: "value6"
+              }
+            ]}
+            selectedItem={this.state.selectItem1}
+            selectionChanged={this.comboboxSelection1Changed.bind(this)}
+          />
+        </div>
+      </section>
+      <section>
+        <h4>TabControl</h4>
+        <$$.TabControl
+          items={this.state.tabItems}
+          selectedIndex={this.state.selectedTabIndex}
+          selectChanged={this.tabSelectChangedHandler}
+        >
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+        </$$.TabControl>
+      </section>
+      <section>
+        <h4>Pager</h4>
+        <$$.Pager
+          pageSize={this.state.pageSize}
+          pageCount={2}
+          selectedPage={this.state.selectedPage}
+          selectedPageChanged={this.pagerChangedHandler.bind(this)}
+        />
+      </section>
+      <section>
+        <h4>MessageBar</h4>
+        <$$.MessageBar
+          show={this.state.msgShow}
+          type={this.state.msgType}
+          msg={this.state.msg}
+        />
+        <button onClick={this.errorMsgBtnClick.bind(this)}>error</button>
+        <button onClick={this.successMsgBtnClick.bind(this)}>success</button>
+        <button onClick={this.infoMsgBtnClick.bind(this)}>info</button>
+        <button onClick={this.warnMsgBtnClick.bind(this)}>warn</button>
+      </section>
+      <section>
+        <h4>PeoplePicker</h4>
+        <$$.PeoplePicker
+          items={[
+            { userId: 0, name: "dqhan0", age: 18, sex: "female" },
+            { userId: 1, name: "dqhan1", age: 19, sex: "male" },
+            { userId: 2, name: "dqhan2", age: 20, sex: "male" },
+            { userId: 3, name: "dqhan3", age: 21, sex: "female" }
+          ]}
+          selectedItem={{ id: 2, name: "dqhan2" }}
+        />
+      </section>
+      <section>
+        <h4>Processer</h4>
+      </section>
+      <section>
+        <h4>Datagrid</h4>
+        <$$.Datagrid
+          columns={[
+            {
+              width: "30px",
+              template: (
+                <input
+                  type="checkbox"
+                  checked={this.state.isSelectAll}
+                  onChange={this.handleIsSelectAllChanged.bind(this)}
+                />
+              )
+            },
+            {
+              name: "action",
+              width: "50px"
+            },
+            {
+              name: "column1",
+              width: "200px"
+            },
+            {
+              name: "column2",
+              width: "200px"
+            },
+            {
+              name: "column3",
+              width: "200px"
+            },
+            {
+              name: "column4",
+              width: "200px"
+            }
+          ]}
+          items={[
+            {
+              text0: "text0",
+              text1: "text1",
+              text2: "text2",
+              text3: "text3"
+            },
+            {
+              text0: "text0",
+              text1: "text1",
+              text2: "text2",
+              text3: "text3"
+            },
+            { text0: "text0", text1: "text1", text2: "text2", text3: "text3" }
+          ]}
+          rowTempate={RowTempate}
+          rowDataChanged={this.rowDataChangedHandler.bind(this)}
+        />
+      </section>
+      <section>
+        <h4>TipConform</h4>
+        <button onClick={this.showTipBtnClick.bind(this)}>show</button>
+      </section>
+      <section>
+        <h4>Validation</h4>
+      </section>
+      </div >
     );
   }
 }
