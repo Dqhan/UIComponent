@@ -2,7 +2,7 @@
   global = factory.call(global, $);
 })(window, $, function ($) {
   var UI = {};
-  
+
   UI.Event = function (props) {
     if (!(this instanceof $$.Event)) return new $$.Event(props);
     this.oldValue = null;
@@ -24,5 +24,17 @@
     else return false;
   };
 
-  window.UI = window.$$ = UI;
+  UI.debounce = function (fn) {
+    var timer,
+      self = this;
+    return function (e) {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        fn.apply(self, [e]);
+      }, self._delay);
+    };
+  },
+
+
+    window.UI = window.$$ = UI;
 });

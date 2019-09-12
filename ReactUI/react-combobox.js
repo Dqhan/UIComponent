@@ -9,16 +9,11 @@ class Combobox extends ReactWidget {
     }
 
     componentWillReceiveProps(newPorps) {
-        if (newPorps.items.length !== 0)
-            this.element.setOptions('setItems', {
-                items: newPorps.items
-            })
-        if (newPorps.selectedItem != null)
-            this.element.setOptions('setSelectedItem', newPorps.selectedItem)
+        this.element.setOptions(newPorps);
     }
 
     componentDidMount() {
-        this.element = new ui.Combobox({
+        this.element = ui.Combobox({
             root: $(ReactDOM.findDOMNode(this)),
             items: this.props.items
         });

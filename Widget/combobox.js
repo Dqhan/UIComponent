@@ -12,91 +12,185 @@
     $$
 ) {
     var uuid = -1;
-    var __Combobox__ = function (ops) {
-        this.__eventNameSpave__ = ".combobox-event";
-        this.__ComboboxC__ = {
-            root: $("body"),
-            inputId: "ui-combobox-input-",
-            dorpdownId: "ui-combobox-dropdown-",
-            popupId: "ui-combobox-popup-",
-            placeHolderId: "ui-combobox-placeholder-",
-            listboxId: "ui-combobox-listboxId-",
-            items: [],
-            popupOpend: false,
-            oldValue: {},
-            newValue: {},
-            selectedIndex: -1,
-            selectedItem: {}
-        };
-        this.__delay__ = 200;
-        this.__$Dom__ = {};
-        this.__filterSelectionResultIndex__ = [];
-        this.__extends__(ops, this.__ComboboxC__);
-        this.__element__ = this.__ComboboxC__.root;
-        this.__initId__()
-            .__init__()
-            .__load__();
+
+    var _Combobox = function (ops) {
+        return new _Combobox.fn.init(ops);
     };
 
-    __Combobox__.prototype = {
-        __initId__: function () {
-            this.__uuId = ++uuid;
-            this.__ComboboxC__.inputId += uuid;
-            this.__ComboboxC__.dorpdownId += uuid;
-            this.__ComboboxC__.popupId += uuid;
-            this.__ComboboxC__.placeHolderId += uuid;
-            this.__ComboboxC__.listboxId += uuid;
+    var prototype = _Combobox.fn = _Combobox.prototype = {
+
+        _constructor: function () {
+            this._element = this._ops.root;
+            this._setComboboxStyle();
+        },
+
+        _initId: function () {
+            ++uuid;
+            this._ops.inputId = "ui-combobox-input-" + uuid;
+            this._ops.dorpdownId = "ui-combobox-dropdown-" + uuid;
+            this._ops.popupId = "ui-combobox-popup-" + uuid;
+            this._ops.placeHolderId = "ui-combobox-placeholder-" + uuid;
+            this._ops.listboxId = "ui-combobox-listboxId-" + uuid;
             return this;
         },
-        __init__: function () {
-            this.__element__
-                .css("width", this.__ComboboxC__.width + "px")
-                .css("height", this.__ComboboxC__.height + "px")
-                .addClass("ui-combobox");
-            this.__createCombobox__()
-                .__createDropDown__()
-                .__createPopup__()
-                .__initDom__()
-                .__bindEvent__();
+
+        _setComboboxItems: function () {
+            this._setSelectionItems()
+                ._setSelectionEvent()
+                ._setSelectedItem(this._ops.selectedItem);
+        },
+
+        _getCondition: function () {
+            var value = "";
+            value = this.$input.val().toLowerCase();
+            return value;
+        },
+
+        _getInputValue: function (item) {
+            return item["name"];
+        },
+
+        _updateFilteredSelections: function () {
+            var items = this._ops.items,
+                i = 0,
+                len = items.length;
+            for (; i < len; i++) {
+                if (this._filterSelectionResultIndex.includes(i)) {
+                    $(this.$listbox.children()[i]).show();
+                } else {
+                    $(this.$listbox.children()[i]).hide();
+                }
+            }
+            this._show();
+        },
+
+        _hideShow: function () {
+            this._ops.popupOpend = !this._ops.popupOpend;
+            if (this._ops.popupOpend) this._show();
+            else this._hide();
+        },
+
+        _hide: function () {
+            this._ops.popupOpend = false;
+            this.$popup.hide();
+        },
+
+        _show: function () {
+            this._ops.popupOpend = true;
+            this.$popup.show();
+            this._setPopupPosition();
+            this.$selections.removeClass("ui-combobox-selection-selected");
+            if (
+                this._filterSelectionResultIndex.length == 0 &&
+                this.$selections.length == this._ops.items.length
+            ) {
+                if (this._ops.selectedIndex == -1)
+                    $(this.$selections[0]).addClass(
+                        "ui-combobox-selection-selected"
+                    );
+                else
+                    $(
+                        this.$selections[this._ops.selectedIndex]
+                    ).addClass("ui-combobox-selection-selected");
+                return;
+            }
+            if (
+                this._filterSelectionResultIndex.includes(
+                    this._ops.selectedIndex
+                )
+            ) {
+                $(
+                    this.$selections[this._ops.selectedIndex]
+                ).addClass("ui-combobox-selection-selected");
+                return;
+            } else {
+                $(
+                    this.$selections[this._filterSelectionResultIndex[0]]
+                ).addClass("ui-combobox-selection-selected");
+                return;
+            }
+        },
+
+        _setPopupPosition: function () {
+            var self = this;
+            this.$popup.css({ top: 0 }).position({
+                my: "left top",
+                at: "left bottom",
+                of: self._element,
+                collision: "flip"
+            });
+        }
+    };
+
+    /**
+     * set style
+     */
+
+    $.extend(true, prototype, {
+        _setComboboxStyle: function () {
+            this._element.addClass("ui-combobox");
+            this._element
+                .css("width", this._ops.width + "px")
+                .css("height", this._ops.height + "px");
+        },
+
+        _setPopupSytle: function () {
+            this.$popup
+                .css("width", this._ops.popupWidth)
+                .css("height", this._ops.popupHeight)
+                .css("max-width", this._ops.popupMaxWidth)
+                .css("max-height", this._ops.popupMaxHeight);
+            return this;
+        }
+    })
+
+    /**
+     * create combobox
+     */
+
+    $.extend(true, prototype, {
+
+        _render: function () {
+            this._createCombobox()
+                ._createDropDown()
+                ._createPopup()
+                ._initMember()
+                ._bindEvent();
             return this;
         },
-        __createCombobox__: function () {
+
+        _createCombobox: function () {
             var h = -1,
                 fragement = [];
-            fragement[++h] =
-                "<input id='" +
-                this.__ComboboxC__.inputId +
-                '\' class="ui-combobox-input" />';
-            fragement[++h] = '<div class="ui-combobox-placeholder">';
-            fragement[++h] =
-                "<div id='>" + this.__ComboboxC__.placeHolderId + "<' /div>";
+            fragement[++h] = "<input id=" + this._ops.inputId + " class=\"ui-combobox-input\" />";
+            fragement[++h] = "<div class=\"ui-combobox-placeholder\">";
+            fragement[++h] = "<div id='>" + this._ops.placeHolderId + "<' /div>";
             fragement[++h] = "</div>";
-            this.__element__.append(fragement.join(""));
+            this._element.append(fragement.join(""));
             return this;
         },
-        __createDropDown__: function () {
+
+        _createDropDown: function () {
             var h = -1,
                 fragement = [];
-            fragement[++h] =
-                "<div id=" +
-                this.__ComboboxC__.dorpdownId +
-                ' class="ui-combobox-dropdown-container">';
+            fragement[++h] = "<div id=" + this._ops.dorpdownId + ' class="ui-combobox-dropdown-container">';
             fragement[++h] = '<div class="ui-dorpdown-icon"></div>';
             fragement[++h] = "</div>";
-            this.__element__.append(fragement.join(""));
+            this._element.append(fragement.join(""));
             return this;
         },
-        __createPopup__: function () {
+
+        _createPopup: function () {
             var h = -1,
                 fragement = [];
             fragement[++h] =
                 '<div class="ui-combobox-popup" id=' +
-                this.__ComboboxC__.popupId +
+                this._ops.popupId +
                 ">";
             fragement[++h] = '<div class="ui-combobox-listbox">';
             fragement[++h] =
                 '<div class="ui-combobox-listbox-container" id=' +
-                this.__ComboboxC__.listboxId +
+                this._ops.listboxId +
                 ">";
             fragement[++h] = "</div>";
             fragement[++h] = "</div>";
@@ -104,46 +198,19 @@
             $("body").append(fragement.join(""));
             return this;
         },
-        __initDom__: function () {
-            this.__$Dom__.$listbox = $("#" + this.__ComboboxC__.listboxId);
-            this.__$Dom__.$input = $("#" + this.__ComboboxC__.inputId);
-            this.__$Dom__.$popup = $("#" + this.__ComboboxC__.popupId);
-            return this;
-        },
-        __load__: function () {
-            this.__seSelectionItems__().__setSelectionEvent__();
-            this.__$Dom__.$popup.hide();
-        },
-        setOptions: function (key, ops) {
-            var self = this,
-                clr = {
-                    setStyle: self.__setSytle__.bind(this),
-                    setItems: self.__setItems__.bind(this),
-                    setSelectedItem: self.__setSelectedItem__.bind(this)
-                };
-            clr[key](ops);
-        },
-        __setSytle__: function (ops) {
-            this.__$Dom__.$popup
-                .css("width", ops.popupWidth)
-                .css("height", ops.popupHeight)
-                .css("max-width", ops.popupMaxWidth)
-                .css("max-height", ops.popupMaxHeight);
-            return this;
-        },
+    })
 
-        __setItems__: function (ops) {
-            this.__ComboboxC__.items = ops.items;
-            this.__seSelectionItems__()
-                .__setSelectionEvent__()
-                .__setSelectedItem__(ops.selectedItem);
-        },
-        __seSelectionItems__: function () {
-            var tempItems = this.__ComboboxC__.items;
+    /**
+     * selectction function
+     */
+
+    $.extend(true, prototype, {
+        _setSelectionItems: function () {
+            var tempItems = this._ops.items;
             var i = 0,
                 len = tempItems.length,
                 fragement = [];
-            this.__$Dom__.$listbox.empty();
+            this.$listbox.empty();
             for (; i < len; i++) {
                 fragement.push('<div class="ui-combobox-selection-container">');
                 fragement.push(
@@ -155,10 +222,36 @@
                 fragement.push("</div>");
                 fragement.push("</div>");
             }
-            this.__$Dom__.$listbox.append(fragement.join(""));
+            this.$listbox.append(fragement.join(""));
             return this;
         },
-        __setSelectedItem__: function (selectedItem) {
+
+        _setSelectionEvent: function () {
+            var self = this;
+            this.$selections = $(
+                "#" + this._ops.listboxId + " .ui-combobox-selection"
+            );
+            this.$selections.on(
+                "click" + this._eventNameSpave,
+                function (e) {
+                    var text = e.currentTarget.textContent;
+                    self._setSelectedItem(text);
+                    $$.trigger(
+                        "selectionChanged",
+                        self._element,
+                        $$.Event({
+                            element: self._element,
+                            oldValue: self._ops.oldValue,
+                            newValue: self._ops.newValue
+                        })
+                    );
+                    self._ops.oldValue = self._ops.newValue;
+                }
+            );
+            return this;
+        },
+
+        _setSelectedItem: function (selectedItem) {
             var self = this,
                 clr = {
                     object: function () {
@@ -168,229 +261,173 @@
                         return selectedItem;
                     },
                     undefined: function () {
-                        return self.__ComboboxC__.items[0];
+                        return self._ops.items[0];
                     }
                 },
                 selectedText = "";
+
             selectedText = clr[typeof selectedItem]();
-            for (var i = 0; i < this.__ComboboxC__.items.length; i++) {
-                if (this.__ComboboxC__.items[i].name == selectedText) {
-                    this.__ComboboxC__.selectedIndex = i;
+            for (var i = 0; i < this._ops.items.length; i++) {
+                if (this._ops.items[i].name == selectedText) {
+                    this._ops.selectedIndex = i;
                 }
             }
-            this.__$Dom__.$selections.removeClass("ui-combobox-selection-selected");
-            if (this.__ComboboxC__.selectedIndex != -1) {
-                var inputValue = this.__ComboboxC__.items[
-                    this.__ComboboxC__.selectedIndex
+            this.$selections.removeClass("ui-combobox-selection-selected");
+            if (this._ops.selectedIndex != -1) {
+                var inputValue = this._ops.items[
+                    this._ops.selectedIndex
                 ].name;
-                this.__$Dom__.$input[0].value = inputValue;
-                this.__$Dom__.$selections[
-                    this.__ComboboxC__.selectedIndex
+                this.$input[0].value = inputValue;
+                this.$selections[
+                    this._ops.selectedIndex
                 ].classList.add("ui-combobox-selection-selected");
-                this.__ComboboxC__.newValue = this.__ComboboxC__.items[
-                    this.__ComboboxC__.selectedIndex
+                this._ops.newValue = this._ops.items[
+                    this._ops.selectedIndex
                 ];
             } else {
-                this.__$Dom__.$input[0].value = "";
-                this.__$Dom__.$selections[0].classList.add(
+                this.$input[0].value = "";
+                this.$selections[0].classList.add(
                     "ui-combobox-selection-selected"
                 );
-                this.__ComboboxC__.newValue = null;
+                this._ops.newValue = null;
             }
-            this.__hide__();
+            this._hide();
             return this;
         },
 
-        __bindEvent__: function () {
-            var self = this;
-            this.__$Dom__.$input
-                .on("mousedown" + this.__eventNameSpave__, function (e) {
-                    self.__hideShow__();
-                })
-                .on("focus" + this.__eventNameSpave__, function (e) {
-                    self.__element__.addClass("ui-combobox-focused");
-                })
-                .on("blur" + this.__eventNameSpave__, function (e) {
-                    self.__element__.removeClass("ui-combobox-focused");
-                    self.__hide__();
-                })
-                .on("mouseover" + this.__eventNameSpave__, function () {
-                    self.__element__.addClass("ui-combobox-mouseover");
-                })
-                .on("mouseleave" + this.__eventNameSpave__, function () {
-                    self.__element__.removeClass("ui-combobox-mouseover");
-                })
-                .on(
-                    "keyup",
-                    +this.__eventNameSpave__,
-                    this.__onInputkeyDown__.bind(this)
-                );
-
-            this.__debounceHandler__ = this.__debounce__(
-                this.__filterSelection__.bind(this)
-            );
-
-            this.__$Dom__.$listbox.on(
-                "mousedown" + this.__eventNameSpave__,
-                function (e) {
-                    e.stopPropagation();
-                    e.preventDefault();
-                }
-            );
-            $("#" + this.__ComboboxC__.dorpdownId).on(
-                "click" + this.__eventNameSpave__,
-                function (e) {
-                    self.__hideShow__();
-                }
-            );
-        },
-
-        __setSelectionEvent__: function () {
-            var self = this;
-            this.__$Dom__.$selections = $(
-                "#" + this.__ComboboxC__.listboxId + " .ui-combobox-selection"
-            );
-            this.__$Dom__.$selections.on(
-                "click" + this.__eventNameSpave__,
-                function (e) {
-                    var text = e.currentTarget.textContent;
-                    self.__setSelectedItem__(text);
-                    $$.trigger(
-                        "selectionChanged",
-                        self.__element__,
-                        $$.Event({
-                            element: self.__element__,
-                            oldValue: self.__ComboboxC__.oldValue,
-                            newValue: self.__ComboboxC__.newValue
-                        })
-                    );
-                    self.__ComboboxC__.oldValue = self.__ComboboxC__.newValue;
-                }
-            );
-            return this;
-        },
-
-        __onInputkeyDown__: function (e) {
-            var self = e.data,
-                keyCode = e.which;
-            this.__debounceHandler__(e.target.value);
-        },
-
-        __debounce__: function (fn) {
-            var timer,
-                self = this;
-            return function (e) {
-                clearTimeout(timer);
-                timer = setTimeout(function () {
-                    fn.apply(self, [e]);
-                }, self.__delay__);
-            };
-        },
-
-        __filterSelection__: function (e) {
-            console.log(e);
-            var condition = this.__getCondition__();
+        _filterSelection: function (e) {
+            var condition = this._getCondition();
             var i = 0,
-                len = this.__ComboboxC__.items.length,
-                items = this.__ComboboxC__.items;
+                len = this._ops.items.length,
+                items = this._ops.items;
             for (var i = 0; i < len; i++) {
-                var name = this.__getInputValue__(items[i]);
+                var name = this._getInputValue(items[i]);
                 if (name.indexOf(condition) > -1) {
-                    this.__filterSelectionResultIndex__.push(i);
+                    this._filterSelectionResultIndex.push(i);
                 }
             }
-            this.__updateFilteredSelections__();
-            this.__filterSelectionResultIndex__.length = 0;
+            this._updateFilteredSelections();
+            this._filterSelectionResultIndex.length = 0;
         },
-        __getCondition__: function () {
-            var value = "";
-            value = this.__$Dom__.$input.val().toLowerCase();
-            return value;
-        },
+    })
 
-        __getInputValue__: function (item) {
-            return item["name"];
-        },
+    /**
+     *  init member
+     */
 
-        __updateFilteredSelections__: function () {
-            var items = this.__ComboboxC__.items,
-                i = 0,
-                len = items.length;
-            for (; i < len; i++) {
-                if (this.__filterSelectionResultIndex__.includes(i)) {
-                    $(this.__$Dom__.$listbox.children()[i]).show();
-                } else {
-                    $(this.__$Dom__.$listbox.children()[i]).hide();
-                }
-            }
-            this.__show__();
+    $.extend(true, prototype, {
+        _initMember: function () {
+            this.$listbox = $("#" + this._ops.listboxId);
+            this.$input = $("#" + this._ops.inputId);
+            this.$popup = $("#" + this._ops.popupId);
+            this.$dropdown = $("#" + this._ops.dorpdownId);
+            return this;
         },
+    })
 
-        __hideShow__: function () {
-            this.__ComboboxC__.popupOpend = !this.__ComboboxC__.popupOpend;
-            if (this.__ComboboxC__.popupOpend) this.__show__();
-            else this.__hide__();
-        },
+    /**
+     * bind events
+     */
 
-        __hide__: function () {
-            this.__ComboboxC__.popupOpend = false;
-            this.__$Dom__.$popup.hide();
-        },
+    $.extend(true, prototype, {
+        _bindEvent: function () {
+            this.$input
+                .on("mousedown" + this._eventNameSpave, this._onComboboxMousedown.bind(this))
+                .on("focus" + this._eventNameSpave, this._onComboboxFocus.bind(this))
+                .on("blur" + this._eventNameSpave, this._onComboboxBlur.bind(this))
+                .on("mouseover" + this._eventNameSpave, this._onComboboxMouseover.bind(this))
+                .on("mouseleave" + this._eventNameSpave, this._onComboboxMouseleave.bind(this))
+                .on("keyup", +this._eventNameSpave, this._onInputkeyDown.bind(this));
 
-        __show__: function () {
-            this.__ComboboxC__.popupOpend = true;
-            this.__$Dom__.$popup.show();
-            this.__setPopupPosition__();
-            this.__$Dom__.$selections.removeClass("ui-combobox-selection-selected");
-            if (
-                this.__filterSelectionResultIndex__.length == 0 &&
-                this.__$Dom__.$selections.length == this.__ComboboxC__.items.length
-            ) {
-                if (this.__ComboboxC__.selectedIndex == -1)
-                    $(this.__$Dom__.$selections[0]).addClass(
-                        "ui-combobox-selection-selected"
-                    );
-                else
-                    $(
-                        this.__$Dom__.$selections[this.__ComboboxC__.selectedIndex]
-                    ).addClass("ui-combobox-selection-selected");
-                return;
-            }
-            if (
-                this.__filterSelectionResultIndex__.includes(
-                    this.__ComboboxC__.selectedIndex
-                )
-            ) {
-                $(
-                    this.__$Dom__.$selections[this.__ComboboxC__.selectedIndex]
-                ).addClass("ui-combobox-selection-selected");
-                return;
-            } else {
-                $(
-                    this.__$Dom__.$selections[this.__filterSelectionResultIndex__[0]]
-                ).addClass("ui-combobox-selection-selected");
-                return;
-            }
-            console.log("no select items.");
-        },
+            this.$listbox
+                .on("mousedown" + this._eventNameSpave, this._onListboxMousedown.bind(this));
 
-        __setPopupPosition__: function () {
-            var self = this;
-            this.__$Dom__.$popup.css({ top: 0 }).position({
-                my: "left top",
-                at: "left bottom",
-                of: self.__element__,
-                collision: "flip"
-            });
-        },
+            this.$dropdown
+                .on("click" + this._eventNameSpave, this._onDropdownClick.bind(this));
 
-        __extends__: function (ops, target) {
-            for (var i in ops) {
-                if (typeof ops[i] !== undefined) target[i] = ops[i];
-            }
+            this._debounceHandler = $$.debounce(this._filterSelection.bind(this));
         }
+    })
+
+    /**
+     * event handler
+     */
+
+    _Combobox.fn._onInputkeyDown = function (e) {
+        var self = e.data,
+            keyCode = e.which;
+        this._debounceHandler(e.target.value);
     };
+
+    _Combobox.fn._onListboxMousedown = function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+    _Combobox.fn._onDropdownClick = function (e) {
+        this._hideShow();
+    };
+
+    _Combobox.fn._onComboboxMousedown = function (e) {
+        this._hideShow();
+    };
+
+    _Combobox.fn._onComboboxFocus = function (e) {
+        this._element.addClass("ui-combobox-focused");
+    };
+
+    _Combobox.fn._onComboboxBlur = function (e) {
+        this._element.removeClass("ui-combobox-focused");
+        // this._hide();
+    };
+
+    _Combobox.fn._onComboboxMouseover = function (e) {
+        this._element.addClass("ui-combobox-mouseover");
+    };
+
+    _Combobox.fn._onComboboxMouseleave = function (e) {
+        this._element.removeClass("ui-combobox-mouseover");
+    }
+
+    /**
+     * 非 Combobox 内部 function
+     */
+
+    _Combobox.fn.init = function (ops) {
+        this._eventNameSpave = ".combobox-event";
+
+        this._ops = {
+            root: null,
+            items: [],
+            popupOpend: false,
+            oldValue: {},
+            newValue: {},
+            selectedIndex: -1,
+            selectedItem: {}
+        };
+        $.extend(true, this._ops, ops);
+
+        this._constructor();
+        this._initId()
+            ._render()
+            ._setComboboxItems();
+
+        this._delay = 200;
+        this._filterSelectionResultIndex = [];
+        return this;
+    }
+
+    _Combobox.fn.setOptions = function (ops) {
+        $.extend(true, this._ops, ops);
+        this._setPopupSytle();
+        this._setComboboxItems();
+        this._setSelectedItem(this._ops.selectedItem);
+    };
+
+    _Combobox.fn.init.prototype = _Combobox.prototype;
+
     return {
-        Combobox: __Combobox__
+        Combobox: _Combobox
     };
+
 }, "ui");
