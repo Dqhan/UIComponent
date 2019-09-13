@@ -14,7 +14,7 @@ class Combobox extends ReactWidget {
 
     componentDidMount() {
         this.element = ui.Combobox({
-            root: $(ReactDOM.findDOMNode(this)),
+            element: $(ReactDOM.findDOMNode(this)),
             items: this.props.items
         });
         $(ReactDOM.findDOMNode(this)).on('selectionChanged', this.selectionChangedHandler.bind(this));

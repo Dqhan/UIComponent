@@ -192,7 +192,7 @@ class Main extends React.Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: "#7f8ea0", color: "#fd6a7f" }}>
+      <div>
         <h3
           style={{
             display: "inline-block",

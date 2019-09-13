@@ -21,7 +21,7 @@ class Dialog extends ReactWidget {
       title: this.props.title,
       width: this.props.width,
       height: this.props.height,
-      footFragement: this.props.foot,
+      btnArray: this.props.foot,
       status: this.props.status
     });
     var i = 0;
