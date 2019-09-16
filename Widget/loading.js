@@ -13,8 +13,8 @@
 ) {
     var uuid = -1;
 
-    var _Loading = function (element) {
-        return new _Loading.fn.init(element);
+    var _Loading = function (ops) {
+        return new _Loading.fn.init(ops);
     };
 
     var prototype = _Loading.fn = _Loading.prototype = {
@@ -27,14 +27,16 @@
             this._element = document.createElement("div");
             this._element.classList.add("ui-loading");
             this._element.id = this._loadingId;
+            this.$element = $(this._element);
         },
     };
 
-    _Loading.fn.init = function (element) {
-        this._target = element;
+    _Loading.fn.init = function (ops) {
+        this._target = ops.element;
+        this._positionAbsolute = ops.positionAbsolute;
         this._initId()
             ._initRootElement();
-        this._createLoading(element);
+        this._renderLoading(ops.element);
         return this;
     }
 
@@ -45,11 +47,12 @@
      */
 
     $.extend(true, prototype, {
-        _createLoading: function () {
+        _renderLoading: function () {
             var backDrop = this._createBackDrop(),
                 animation = this._createLoadingAnimation();
-            $(this._element).append(backDrop);
-            $(this._element).append(animation);
+            this.$element.append(backDrop);
+            this.$element.append(animation);
+            this._initMember();
             return this;
         },
         _createBackDrop: function () {
@@ -77,6 +80,18 @@
     })
 
     /**
+     * init member 
+     */
+
+    $.extend(true, prototype, {
+        _initMember: function () {
+            this.$background = $('#' + this._loadingId + ' .ui-backdrop');
+            if(this._positionAbsolute) this.$background.css('position', 'absolute');
+            else this.$background.css('position', 'fixed');
+        },
+    })
+
+    /**
      * api 
      */
 
@@ -100,21 +115,29 @@
         if (elementId && document.getElementById(elementId) instanceof HTMLElement) {
             element = document.getElementById(elementId);
             element.style.position = "relative";
+            var ops = {
+                element: element,
+                positionAbsolute: true
+            }
             if (unique.includes(elementId)) {
 
             } else {
                 unique.push(elementId);
-                unique[elementId] = _Loading(element);
+                unique[elementId] = _Loading(ops);
             }
         }
         else {
             element = document.getElementsByTagName('body')[0];
             elementId = 'body';
+            var ops = {
+                element: element,
+                positionAbsolute: false
+            }
             if (unique.includes(elementId)) {
 
             } else {
                 unique.push(elementId);
-                unique[elementId] = _Loading(element);
+                unique[elementId] = _Loading(ops);
             }
         }
         unique[elementId].loading(isShow);
