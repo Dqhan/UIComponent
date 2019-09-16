@@ -52,19 +52,24 @@
                 animation = this._createLoadingAnimation();
             this.$element.append(backDrop);
             this.$element.append(animation);
-            this._initMember();
             return this;
         },
         _createBackDrop: function () {
             var fragement = [],
                 h = -1;
-            fragement[++h] = '<div class="ui-backdrop"></div>';
+            if (this._positionAbsolute)
+                fragement[++h] = '<div class="ui-backdrop-absolute"></div>'
+            else
+                fragement[++h] = '<div class="ui-backdrop"></div>';
             return fragement.join("");
         },
         _createLoadingAnimation: function () {
             var fragement = [],
                 h = -1;
-            fragement[++h] = '<div class="ui-loading-dialog">';
+            if (this._positionAbsolute)
+                fragement[++h] = '<div class="ui-loading-dialog-relative">';
+            else
+                fragement[++h] = '<div class="ui-loading-dialog">';
             fragement[++h] = '<div class="ui-loading-circle">';
             fragement[++h] = '<span class="left">';
             fragement[++h] = '<span class="anim"></span>';
@@ -80,18 +85,6 @@
     })
 
     /**
-     * init member 
-     */
-
-    $.extend(true, prototype, {
-        _initMember: function () {
-            this.$background = $('#' + this._loadingId + ' .ui-backdrop');
-            if(this._positionAbsolute) this.$background.css('position', 'absolute');
-            else this.$background.css('position', 'fixed');
-        },
-    })
-
-    /**
      * api 
      */
 
@@ -103,7 +96,7 @@
                     $(self._target).append(self._element);
                 },
                 false: function () {
-                    $(self._element).remove();
+                    self.$element.remove();
                 }
             };
         clr[action]();

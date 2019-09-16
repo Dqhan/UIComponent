@@ -216,7 +216,7 @@
 
     };
 
-    _Pager.fn._pageBtnClick = function () {
+    _Pager.fn._pageBtnClick = function (e) {
         var selectedIndex = parseInt(e.target.value);
         this._setSelectIndex(selectedIndex);
         this._createPagerBtn();

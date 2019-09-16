@@ -47,6 +47,16 @@ button {
     z-index         : 99;
 }
 
+.ui-backdrop-absolute {
+    POSITION        : absolute;
+    left            : 0;
+    top             : 0;
+    right           : 0;
+    bottom          : 0;
+    background-color: rgba(34, 34, 34, 0.5);
+    z-index         : 99;
+}
+
 .dialog {
     position  : fixed;
     z-index   : 100;
@@ -346,10 +356,25 @@ button {
         display       : inline-block;
     }
 
+
     .ui-loading-dialog {
+        position      : fixed;
+        top           : 50%;
+        left          : 50%;
+        margin-top    : -30px;
+        margin-left   : -30px;
+        vertical-align: middle;
+        display       : inline-block;
+    }
+
+    .ui-loading-dialog-relative {
         position      : relative;
         vertical-align: middle;
         display       : inline-block;
+    }
+
+    .ui-loading-dialog,
+    .ui-loading-dialog-relative {
 
         .ui-loading-circle {
             position        : relative;
