@@ -15,6 +15,7 @@ require('./Widget/message_bar');
 require('./Widget/text_area');
 require('./Widget/people_picker');
 require('./Widget/loading');
+require('./Widget/confirm');
 
 
 require('./ReactUI/react-dialog');
