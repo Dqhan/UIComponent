@@ -9,9 +9,6 @@ class Datagrid extends ReactWidget {
     componentDidMount() {
         this.element = new ui.Datagrid({
             element: ReactDOM.findDOMNode(this),
-            columns: this.props.columns,
-            items: this.props.items,
-            rowTempate: this.props.rowTempate
         });
         this.table = $(ReactDOM.findDOMNode(this));
         this.table.on('rowDataChanged', this.rowDataChanged.bind(this));
