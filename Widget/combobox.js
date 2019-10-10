@@ -60,18 +60,18 @@
             },
 
             _hideShow: function () {
-                this._ops.popupOpend = !this._ops.popupOpend;
-                if (this._ops.popupOpend) this._show();
+                this._ops.isPopupOpen = !this._ops.isPopupOpen;
+                if (this._ops.isPopupOpen) this._show();
                 else this._hide();
             },
 
             _hide: function () {
-                this._ops.popupOpend = false;
+                this._ops.isPopupOpen = false;
                 this.$popup.hide();
             },
 
             _show: function () {
-                this._ops.popupOpend = true;
+                this._ops.isPopupOpen = true;
                 this.$popup.show();
                 this._setPopupPosition();
                 this.$selections.removeClass("ui-combobox-selection-selected");
@@ -347,7 +347,7 @@
             this._ops = {
                 element: null,
                 items: [],
-                popupOpend: false,
+                isPopupOpen: false,
                 oldValue: {},
                 newValue: {},
                 selectedIndex: -1,

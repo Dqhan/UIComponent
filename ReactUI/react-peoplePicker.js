@@ -5,6 +5,7 @@ class PeoplePicker extends ReactWidget {
         super(props);
         this.element = {};
         this.state = {
+            type: this.props.type || 'single',
             dialogStatus: false,
             columns: [
                 {
@@ -24,7 +25,8 @@ class PeoplePicker extends ReactWidget {
                     width: '200px'
                 },
             ],
-            selectedItems: []
+            items: this.props.items || [],
+            selectedItems: this.props.selectedItems || []
         };
         this.unique = {};
     }
@@ -32,18 +34,19 @@ class PeoplePicker extends ReactWidget {
     componentDidMount() {
         this.element = new ui.PeoplePicker({
             element: ReactDOM.findDOMNode(this),
-            items: this.props.items,
-            selectedItem: this.props.selectedItem
+            type: this.state.type,
+            items: this.state.items,
+            selectedItems: this.state.selectedItems
         });
         $(ReactDOM.findDOMNode(this)).on('openPopup', this.openPopupHandler.bind(this));
     }
 
 
     componentWillReceiveProps(newProps) {
+        this.state.selectedItems = newProps.selectedItems;
         this.element.setOptions(
             {
-                items: newProps.items,
-                selectedItem: newProps.selectedItem
+                selectedItems: newProps.selectedItems
             }
         );
     }
@@ -51,6 +54,18 @@ class PeoplePicker extends ReactWidget {
     dialogCloseHandler() {
         this.setState({
             dialogStatus: false
+        })
+    }
+
+    dialogSaveHandler() {
+        this.setState({
+            dialogStatus: false
+        }, () => {
+            this.element.setOptions(
+                {
+                    selectedItems: this.state.selectedItems
+                }
+            );
         })
     }
 
@@ -88,12 +103,17 @@ class PeoplePicker extends ReactWidget {
     }
 
     rowClickHandler(data) {
+        if (this.state.type == 'single') {
+            if (this.state.selectedItems.length === 1) return;
+        }
         var userName = data.name;
         if (!this.unique[userName]) {
             this.state.selectedItems.push(data);
             this.unique[userName] = true;
         };
-        this.setState(this.state);
+        this.setState({
+            selectedItems: this.state.selectedItems
+        })
     }
 
     render() {
@@ -104,6 +124,10 @@ class PeoplePicker extends ReactWidget {
                 height={500}
                 status={this.state.dialogStatus}
                 foot={[
+                    {
+                        text: 'save',
+                        click: this.dialogSaveHandler.bind(this)
+                    },
                     {
                         text: 'close',
                         click: this.dialogCloseHandler.bind(this)
