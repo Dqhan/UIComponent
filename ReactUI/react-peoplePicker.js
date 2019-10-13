@@ -158,7 +158,7 @@ class RowTempate extends $$.DataGridRow {
         this.trigger('rowDataChanged', e, {
             actionType: "click",
             data: {
-                id: data.userId,
+                id: data.id,
                 name: data.name
             }
         });
@@ -167,7 +167,7 @@ class RowTempate extends $$.DataGridRow {
     render() {
         var data = this.props.rowDate;
         return <div role="table-body-row" data-part="row" onClick={this.handleBtnClickHandler.bind(this, data)}>
-            <div data-part="cell">{data.userId}</div>
+            <div data-part="cell">{data.id}</div>
             <div data-part="cell">{data.name}</div>
             <div data-part="cell">{data.age}</div>
             <div data-part="cell">{data.sex}</div>

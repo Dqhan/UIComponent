@@ -354,10 +354,12 @@ class Main extends React.Component {
           <$$.PeoplePicker
             type="single"
             items={[
-              { userId: 0, name: "dqhan0", age: 18, sex: "female" },
-              { userId: 1, name: "dqhan1", age: 19, sex: "male" },
-              { userId: 2, name: "dqhan2", age: 20, sex: "male" },
-              { userId: 3, name: "dqhan3", age: 21, sex: "female" }
+              { id: 0, name: "dqhan0", age: 18, sex: "female" },
+              { id: 1, name: "dqhan1", age: 19, sex: "male" },
+              { id: 2, name: "dqhan2", age: 20, sex: "male" },
+              { id: 3, name: "dqhan3", age: 21, sex: "female" },
+              { id: 4, name: "dqhan4", age: 21, sex: "female" },
+              { id: 5, name: "dqhan5", age: 21, sex: "female" }
             ]}
             selectedItem={{ id: 2, name: "dqhan2" }}
           />
@@ -367,10 +369,10 @@ class Main extends React.Component {
           <$$.PeoplePicker
             type="multiple"
             items={[
-              { userId: 0, name: "dqhan0", age: 18, sex: "female" },
-              { userId: 1, name: "dqhan1", age: 19, sex: "male" },
-              { userId: 2, name: "dqhan2", age: 20, sex: "male" },
-              { userId: 3, name: "dqhan3", age: 21, sex: "female" }
+              { id: 0, name: "dqhan0", age: 18, sex: "female" },
+              { id: 1, name: "dqhan1", age: 19, sex: "male" },
+              { id: 2, name: "dqhan2", age: 20, sex: "male" },
+              { id: 3, name: "dqhan3", age: 21, sex: "female" }
             ]}
             selectedItem={{ id: 2, name: "dqhan2" }}
           />

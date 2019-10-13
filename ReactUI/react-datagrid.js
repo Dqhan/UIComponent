@@ -49,14 +49,7 @@ class Datagrid extends ReactWidget {
         }
         return columns;
     }
-
-    componentWillReceiveProps(newProps) {
-        this.element.setOptions({
-            columns: newProps.columns,
-            items: newProps.items
-        })
-    }
-
+    
     render() {
         return <div>
             <div role='table-head-row' data-part="row">

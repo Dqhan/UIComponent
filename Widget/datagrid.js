@@ -40,6 +40,8 @@
         return this;
     };
 
+    _Datagrid.fn.init.prototype = _Datagrid.prototype;
+
     return {
         Datagrid: _Datagrid
     };

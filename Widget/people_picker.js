@@ -14,11 +14,8 @@
         this._ops = {
             type: ops.type,
             items: ops.items,
-            metaItems: ops.items,
-            selectedItems: ops.selectedItems,
             hashItems: {},
-            filterSelectionResultIndex: [],
-            selectedItems: []
+            selectedItems: ops.selectedItems
         };
         this._ops.hashItems = this._convetToHash();
         this._element = ops.element;
@@ -74,7 +71,7 @@
             fragement[++h] = "<div id=" + this._peoplePickerPopupId + ' class="ui-people-picker-dropdown" style="display:none">';
             for (var i = 0; i < this._ops.items.length; i++) {
                 fragement[++h] = '<div class="ui-people-picker-dropdown-selection-container">';
-                fragement[++h] = '<div class="ui-people-picker-dropdown-selection-item">' + this._ops.items[i].name + "</div>";
+                fragement[++h] = '<div class="ui-people-picker-dropdown-selection-item" data-people-picker-selection-value="' + this._ops.items[i].id + '">' + this._ops.items[i].name + "</div>";
                 fragement[++h] = "</div>";
             }
             fragement[++h] = "</div>";
@@ -115,7 +112,8 @@
         },
 
         _onPeoplePickerMousedown: function () {
-            this._filterItems();
+            var result = this._filterSelectionForContainer();
+            this.filterSelection(result);
             this._show();
         },
 
@@ -149,64 +147,69 @@
             this._setPopupPosition();
         },
 
-        _filterItems: function () {
-            var $listboxItems = $("#" + this._peoplePickerId + " .ui-people-picker-container" + " .selectedItem"),
-                len = $listboxItems.length,
-                textHash = {};
-            if (len == 0) {
-                return;
-            }
-            for (var i = 0; i < len; i++) {
-                var text = $listboxItems[i].innerText;
-                textHash[text] = true;
-            }
-            for (var i = 0; i < this._ops.items.length; i++) {
-                var item = this._ops.items[i];
-                if (textHash[item.name]) continue;
-                else this._ops.filterSelectionResultIndex.push(i);
-            }
-            this._filterSelection();
-        },
 
         _hide: function () {
             this.$popup.hide();
         },
 
         _onPeoplePickekeyDown: function (e) {
-            var condition = this._getCondition();
-            var i = 0,
-                items = this._ops.items,
-                len = items.length;
-            for (; i < len; i++) {
-                var text = items[i].name;
+            var condition = this._getCondition(),
+                filterIndexResult = [];
+            for (var i = 0; i < this._ops.items.length; i++) {
+                var text = this._ops.items[i].name;
                 if (text.indexOf(condition) > -1) {
-                    this._ops.filterSelectionResultIndex.push(i);
+                    if (!filterIndexResult.includes(i))
+                        filterIndexResult.push(i);
+                    else
+                        continue;
                 }
-            }
-            this._filterSelection();
+            };
+            //数组为空时默认全部展示
+            if (filterIndexResult.length === 0) return;
+            //keydown 与 mouse down 取交集
+            var containerResult = this._filterSelectionForContainer();
+            var result = filterIndexResult.filter(c => containerResult.includes(c));
+            this.filterSelection(result);
+            this._show();
             switch (e.which) {
                 case 8:
                     this._deleteResult();
                     break;
             }
         },
-        _filterSelection: function () {
-            var items = this._ops.items,
-                len = items.length,
-                i = 0;
-            for (; i < len; i++) {
-                if (this._ops.filterSelectionResultIndex.includes(i)) {
+
+        _filterSelectionForContainer: function () {
+            var $selectedItems = this.get$SelectedItems(),
+                len = $selectedItems.length,
+                hash = {},
+                index = [];
+            for (var i = 0; i < len; i++) {
+                var id = $selectedItems[i].dataset.peoplePickerSelecteditemValue;
+                hash[id] = true;
+            }
+            for (var i = 0; i < this._ops.items.length; i++) {
+                var item = this._ops.items[i];
+                if (hash[item.id]) continue;
+                else index.push(i);
+            };
+            return index;
+        },
+
+        filterSelection: function (array) {
+            if (array.length == 0) return;
+            for (var i = 0; i < this._ops.items.length; i++) {
+                if (array.includes(i)) {
                     $(this.$dropdown_items[i]).show();
                 } else {
                     $(this.$dropdown_items[i]).hide();
                 }
             }
-            this._ops.filterSelectionResultIndex.length = 0;
-            this._show();
         },
+
         _getCondition: function () {
             return this.$input.val().toLowerCase();
         },
+
         _setPopupPosition: function () {
             var self = this;
             this.$popup.css({ top: 0 }).position({
@@ -218,14 +221,15 @@
         },
 
         _downdropitemsClickHandler: function (e) {
-            var target = this._ops.items.filter(
-                i => i.name == e.target.innerText
-            )[0];
-            this._addResult(target);
+            var targets = this._ops.items.filter(
+                i => i.id == e.target.dataset.peoplePickerSelectionValue
+            );
+            this._addResult(targets[0]);
             this._hide();
         },
+
         _addResult: function (target) {
-            this._ops.selectedItems.unshift(target);
+            this.traction_actionResult('add').preform(target);
             this._setSelectedItemsToInput();
             var self = this;
             $$.Event({
@@ -233,11 +237,11 @@
                 oldValue: null,
                 newValue: self._ops.selectedItems
             });
-            //this._filterSelection();
             this.$input.val("");
         },
+
         _deleteResult: function () {
-            this._ops.selectedItems.splice(this._ops.selectedItems.length - 1, 1);
+            this.traction_actionResult('delete').preform();
             this._setSelectedItemsToInput();
             var self = this;
             $$.Event({
@@ -246,25 +250,112 @@
                 newValue: self._ops.selectedItems
             });
         },
+
+        traction_actionResult: function (action) {
+            var clr = {
+                add: this.addResultTraction.bind(this),
+                delete: this.deleteResultTraction.bind(this)
+            },
+                traction = clr[action]();
+            return {
+                preform: function (target) {
+                    traction.init();
+                    traction.close(target);
+                }
+            }
+        },
+
+        addResultTraction: function () {
+            var self = this;
+            return {
+                init: function () {
+
+                },
+                close: function (target) {
+                    self._ops.selectedItems.unshift(target);
+                }
+            }
+        },
+
+        deleteResultTraction: function () {
+            var self = this;
+            return {
+                init: function () {
+
+                },
+                close: function () {
+                    self._ops.selectedItems.splice(self._ops.selectedItems.length - 1, 1);
+                }
+            }
+        },
+
         _setSelectedItemsToInput: function () {
-            $("#" + this._peoplePickerId + " .selectedItem").remove();
             var fragement = [],
-                h = -1,
-                items = this._ops.selectedItems,
-                len = items.length;
-            for (var i = 0; i < len; i++) {
-                fragement[++h] = '<div class="selectedItem">';
-                fragement[++h] = items[i].name;
+                h = -1;
+            // items = this._ops.selectedItems,
+            // len = items.length;
+            // for (var i = 0; i < len; i++) {
+            //     if (this.isContainerMore()) {
+
+            //         break;
+            //     } else {
+            //         fragement[++h] = '<div class="selectedItem" data-people-picker-selectedItem-value="' + items[i].id + '">';
+            //         fragement[++h] = items[i].name;
+            //         fragement[++h] = '<div class="selectedItem-icon"></div>';
+            //         fragement[++h] = "</div>";
+            //     }
+            // }
+            // this.get$SelectedItems().remove();
+            if (this._ops.selectedItems.length === 0) return;
+
+            if (this.isContainerMore()) {
+                fragement[++h] = "<div>";
+                fragement[++h] = "...";
+                fragement[++h] = "</div>"
+                this.$container.append(fragement.join(""));
+            } else {
+                fragement[++h] = '<div class="selectedItem" data-people-picker-selectedItem-value="' + this._ops.selectedItems[0].id + '">';
+                fragement[++h] = this._ops.selectedItems[0].name;
                 fragement[++h] = '<div class="selectedItem-icon"></div>';
                 fragement[++h] = "</div>";
+                this.$container.prepend(fragement.join(""));
             }
-            this.$container.prepend(fragement.join(""));
             this._bindEventForSelectedItem();
         },
 
-        _bindEventForSelectedItem: function () { },
+        isContainerMore: function () {
+            var $selectedItems = this.get$SelectedItems(),
+                selectedItemsWidth = 0;
+            for (var i = 0; i < $selectedItems.length; i++) {
+                selectedItemsWidth += $($selectedItems[i]).width();
+            };
+            if ($selectedItems.length == 0) return false;
+            else return selectedItemsWidth > this.$container.width() - 150;
+        },
+
+        get$SelectedItems: function () {
+            return $("#" + this._peoplePickerId + " .ui-people-picker-container" + " .selectedItem");
+        },
+
+        _bindEventForSelectedItem: function () {
+
+        },
 
     };
+
+
+    // window.onsize = $$.debounce(function () {
+    //     var $container = $("#" + "ui-people-picker-" + uuid + " .ui-people-picker-container"),
+    //         $selectedItems = $("#" + "ui-people-picker-" + uuid + " .ui-people-picker-container" + " .selectedItem"),
+    //         selectedItemsWidth;
+    //     for (var i = 0; i < $selectedItems.length; i++) {
+    //         var width = $selectedItems[i].width;
+    //         selectedItemsWidth += width;
+    //     }
+    //     if (selectedItemsWidth > ($container.width - 45)) {
+
+    //     }
+    // });
 
     _PeoplePicker.fn.setOptions = function (ops) {
         $.extend(true, this._ops, ops);
