@@ -24,17 +24,22 @@
     else return false;
   };
 
-  UI.debounce = function (fn) {
+  //防抖
+  UI.debounce = function (fn, delay) {
     var timer,
       self = this;
     return function (e) {
       clearTimeout(timer);
       timer = setTimeout(function () {
         fn.apply(self, [e]);
-      }, self._delay);
+      }, delay);
     };
-  },
+  };
 
+  //节流
+  UI.throttle = function () {
 
-    window.UI = window.$$ = UI;
+  }
+
+  window.UI = window.$$ = UI;
 });

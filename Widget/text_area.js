@@ -90,7 +90,8 @@
             this.$element.append(fragement.join(""));
         },
 
-        setOptions: function () {
+        setOptions: function (ops) {
+            this._ops.items = ops.items;
             this._renderTextArea();
             this._initMember()._bindEvent();
         }

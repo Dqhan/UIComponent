@@ -104,7 +104,10 @@ class PeoplePicker extends ReactWidget {
 
     rowClickHandler(data) {
         if (this.state.type == 'single') {
-            if (this.state.selectedItems.length === 1) return;
+            this.setState({
+                selectedItems: [].concat([data])
+            })
+            return;
         }
         var userName = data.name;
         if (!this.unique[userName]) {
@@ -125,11 +128,11 @@ class PeoplePicker extends ReactWidget {
                 status={this.state.dialogStatus}
                 foot={[
                     {
-                        text: 'save',
+                        text: 'Add',
                         click: this.dialogSaveHandler.bind(this)
                     },
                     {
-                        text: 'close',
+                        text: 'Close',
                         click: this.dialogCloseHandler.bind(this)
                     }
                 ]}
