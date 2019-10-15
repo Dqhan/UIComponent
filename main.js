@@ -189,6 +189,9 @@ class Main extends React.Component {
     $$.loading(false, "loading1");
   }
 
+  handleSearchChanged(e, args) {
+    console.log(args.newValue);
+  }
 
   render() {
     return (
@@ -202,6 +205,12 @@ class Main extends React.Component {
         >
           Dqhan's UI
         </h3>
+        <section>
+          <h4>Searchbox</h4>
+          <$$.Searchbox
+            handleSearchChanged={this.handleSearchChanged.bind(this)}
+          />
+        </section>
         <section>
           <h4>Loading</h4>
           <button
@@ -353,28 +362,14 @@ class Main extends React.Component {
           <h4>Single PeoplePicker</h4>
           <$$.PeoplePicker
             type="single"
-            items={[
-              { id: 0, name: "dqhan0", age: 18, sex: "female" },
-              { id: 1, name: "dqhan1", age: 19, sex: "male" },
-              { id: 2, name: "dqhan2", age: 20, sex: "male" },
-              { id: 3, name: "dqhan3", age: 21, sex: "female" },
-              { id: 4, name: "dqhan4", age: 21, sex: "female" },
-              { id: 5, name: "dqhan5", age: 21, sex: "female" }
-            ]}
-            selectedItem={{ id: 2, name: "dqhan2" }}
+            selectedItems={[{ id: 2, name: "dqhan2" }]}
           />
         </section>
         <section>
           <h4>Multiple PeoplePicker</h4>
           <$$.PeoplePicker
             type="multiple"
-            items={[
-              { id: 0, name: "dqhan0", age: 18, sex: "female" },
-              { id: 1, name: "dqhan1", age: 19, sex: "male" },
-              { id: 2, name: "dqhan2", age: 20, sex: "male" },
-              { id: 3, name: "dqhan3", age: 21, sex: "female" }
-            ]}
-            selectedItem={{ id: 2, name: "dqhan2" }}
+            selectedItems={[{ id: 2, name: "dqhan2" }]}
           />
         </section>
         <section>

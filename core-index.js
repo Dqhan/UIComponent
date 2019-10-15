@@ -17,7 +17,7 @@ require('./Widget/people_picker');
 require('./Widget/loading');
 require('./Widget/confirm');
 
-
+require('./ReactUI/react-searchbox');
 require('./ReactUI/react-dialog');
 require('./ReactUI/react-messagerBar');
 require('./ReactUI/react-pager');

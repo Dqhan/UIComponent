@@ -183,9 +183,10 @@ import { RSA_NO_PADDING } from "constants";
             this.$dropdown.empty();
             var fragement = [],
                 h = -1;
-            fragement[++h] = "<div>";
-            fragement[++h] = "<span class=\"ui-loading\"></span>"
+            fragement[++h] = '<div class="ui-people-picker-dropdown-selection-container">';
+            fragement[++h] = '<div class="ui-people-picker-dropdown-selection-item" data-people-picker-selection-value="none">';
             fragement[++h] = "Loading...";
+            fragement[++h] = "</div>";
             fragement[++h] = "</div>";
             this.$dropdown.append(fragement.join(''));
         },
@@ -198,8 +199,8 @@ import { RSA_NO_PADDING } from "constants";
                 items = this._ops.items,
                 len = items.length;
             if (len === 0) {
-                fragement[++h] = "<div>";
-                fragement[++h] = "No selected Items.";
+                fragement[++h] = '<div class="ui-people-picker-dropdown-selection-container">';
+                fragement[++h] = '<div class="ui-people-picker-dropdown-selection-item" data-people-picker-selection-value="none">' + "No selected Items." + "</div>";
                 fragement[++h] = "</div>";
             } else {
                 for (; i < len; i++) {
@@ -236,6 +237,7 @@ import { RSA_NO_PADDING } from "constants";
         },
 
         _downdropitemsClickHandler: function (e) {
+            if (e.target.dataset.peoplePickerSelectionValue == "none") return;
             var targets = this._ops.items.filter(
                 i => i.id == e.target.dataset.peoplePickerSelectionValue
             );
@@ -332,22 +334,10 @@ import { RSA_NO_PADDING } from "constants";
 
     };
 
-
-    // window.onsize = $$.debounce(function () {
-    //     var $container = $("#" + "ui-people-picker-" + uuid + " .ui-people-picker-container"),
-    //         $selectedItems = $("#" + "ui-people-picker-" + uuid + " .ui-people-picker-container" + " .selectedItem"),
-    //         selectedItemsWidth;
-    //     for (var i = 0; i < $selectedItems.length; i++) {
-    //         var width = $selectedItems[i].width;
-    //         selectedItemsWidth += width;
-    //     }
-    //     if (selectedItemsWidth > ($container.width - 45)) {
-
-    //     }
-    // });
-
     _PeoplePicker.fn.setOptions = function (ops) {
-        $.extend(true, this._ops, ops);
+        Object.assign(this._ops, {
+            selectedItems: ops.selectedItems
+        })
         this._setSelectedItemsToInput();
     };
 

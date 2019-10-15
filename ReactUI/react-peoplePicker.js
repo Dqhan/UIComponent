@@ -25,7 +25,7 @@ class PeoplePicker extends ReactWidget {
                     width: '200px'
                 },
             ],
-            items: this.props.items || [],
+            items: [],
             selectedItems: this.props.selectedItems || []
         };
         this.unique = {};
@@ -39,8 +39,32 @@ class PeoplePicker extends ReactWidget {
             selectedItems: this.state.selectedItems
         });
         $(ReactDOM.findDOMNode(this)).on('openPopup', this.openPopupHandler.bind(this));
+        this.retrieveUser();
     }
 
+    retrieveUser() {
+        var url = "./peoplepickerdata.json";
+        fetch(url, {
+            method: 'GET',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            cache: 'no-store',
+            credentials: 'include'
+        })
+            .then(res => {
+                return res.json();
+            })
+            .then(res => {
+                this.setState(Object.assign(this.state, {
+                    items: res.userInfo
+                }))
+            })
+            .catch(e => {
+                console.log(e);
+            })
+    }
 
     componentWillReceiveProps(newProps) {
         this.state.selectedItems = newProps.selectedItems;
@@ -57,7 +81,7 @@ class PeoplePicker extends ReactWidget {
         })
     }
 
-    dialogSaveHandler() {
+    dialogAddHandler() {
         this.setState({
             dialogStatus: false
         }, () => {
@@ -123,13 +147,13 @@ class PeoplePicker extends ReactWidget {
         return <div>
             <$$.Dialog
                 title="PeoplePicker"
-                width={600}
-                height={500}
+                width={1000}
+                height={650}
                 status={this.state.dialogStatus}
                 foot={[
                     {
                         text: 'Add',
-                        click: this.dialogSaveHandler.bind(this)
+                        click: this.dialogAddHandler.bind(this)
                     },
                     {
                         text: 'Close',
@@ -139,7 +163,7 @@ class PeoplePicker extends ReactWidget {
             >
                 <$$.Datagrid
                     columns={this.state.columns}
-                    items={this.props.items}
+                    items={this.state.items}
                     rowTempate={RowTempate}
                     rowDataChanged={this.rowDataChangedHandler.bind(this)}
                 />
