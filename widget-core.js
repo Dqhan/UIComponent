@@ -1,9 +1,9 @@
 (function (global, $, factory) {
   global = factory.call(global, $);
 })(window, $, function ($) {
-  var UI = {};
+  var R = {};
 
-  UI.Event = function (props) {
+  R.Event = function (props) {
     if (!(this instanceof $$.Event)) return new $$.Event(props);
     this.oldValue = null;
     this.newValue = null;
@@ -12,12 +12,12 @@
     $.extend(this, props);
   };
 
-  UI.trigger = function (type, el, args) {
+  R.trigger = function (type, el, args) {
     var event = $.Event(type, args);
     el.trigger(event, args);
   };
 
-  UI.isNumber = function (target) {
+  R.isNumber = function (target) {
     var regex = /^[+]{0,1}(\d+)$/;
 
     if (regex.test(target)) return true;
@@ -25,7 +25,7 @@
   };
 
   //防抖
-  UI.debounce = function (fn, delay) {
+  R.debounce = function (fn, delay) {
     var timer,
       self = this;
     return function (e) {
@@ -37,9 +37,9 @@
   };
 
   //节流
-  UI.throttle = function () {
+  R.throttle = function () {
 
   }
 
-  window.UI = window.$$ = UI;
+  window.R = window.$$ = R;
 });

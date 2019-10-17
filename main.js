@@ -206,6 +206,12 @@ class Main extends React.Component {
           Dqhan's UI
         </h3>
         <section>
+          <h4>Processer</h4>
+          <R.Processer
+            processerValue="60"
+          />
+        </section>
+        <section>
           <h4>Searchbox</h4>
           <$$.Searchbox
             handleSearchChanged={this.handleSearchChanged.bind(this)}

@@ -22,4 +22,6 @@ class ReactWidget extends React.Component {
 }
 
 
+window.R.ReactWidget = ReactWidget;
+
 export default ReactWidget;

@@ -1,3 +1,8 @@
+const handlers = [
+    'handleInputChanged',
+    'handleBtnClick'
+]
+
 class Searchbox extends React.Component {
     constructor(props) {
         super(props);
@@ -17,8 +22,9 @@ class Searchbox extends React.Component {
     }
 
     initBind() {
-        this.handleInputChanged = this.handleInputChanged.bind(this);
-        this.handleBtnClick = this.handleBtnClick.bind(this);
+        handlers.forEach(handler => {
+            this[handler] = this[handler].bind(this);
+        })
     }
 
     handleInputChanged(e) {
@@ -28,14 +34,14 @@ class Searchbox extends React.Component {
     }
 
     handleBtnClick(e) {
-        this.props.handleSearchChanged(e, $$.Event({
+        this.props.handleSearchChanged(this.element, $$.Event({
             element: this.element,
             newValue: this.state.value
         }))
     }
 
     render() {
-        return <div>
+        return <div className='ui-searchbox'>
             <input type='text' value={this.state.value} onChange={this.handleInputChanged} />
             <button onClick={this.handleBtnClick}>Search</button>
         </div>
