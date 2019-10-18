@@ -19,10 +19,18 @@
 
   R.isNumber = function (target) {
     var regex = /^[+]{0,1}(\d+)$/;
-
     if (regex.test(target)) return true;
     else return false;
   };
+
+  R.isBool = function (target) {
+    var container = [true, false];
+    return (container.includes(target));
+  }
+
+  R.isArray = function(target){
+    return $.isArray(target);
+  }
 
   //防抖
   R.debounce = function (fn, delay) {

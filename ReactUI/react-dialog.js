@@ -11,7 +11,8 @@ class Dialog extends ReactWidget {
       title: newProps.title,
       width: newProps.width,
       height: newProps.height,
-      status: newProps.status
+      status: newProps.status,
+      btnArray: this.props.foot
     });
   }
 
@@ -26,14 +27,12 @@ class Dialog extends ReactWidget {
     });
     var i = 0;
     for (; i < this.props.foot.length; i++) {
-      $(ReactDOM.findDOMNode(this)).on("btnClick", this.props.foot[0].click);
+      $(ReactDOM.findDOMNode(this)).on("btnClick", this.props.foot[i].click);
     }
   }
 
   render() {
-    return (
-      <div id={this.props.id || "dialog-default-id"}>{this.props.children}</div>
-    );
+    return <div>{this.props.children}</div>
   }
 }
 

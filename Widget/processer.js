@@ -67,11 +67,10 @@
 
     $.extend(prototype, {
         setOptions: function (props) {
-            if (props.processerValue === undefined || $.isNumeric(props.processerValue))
-                props.processerValue = 0;
-            props.processerValue = parseInt(props.processerValue);
-            if (props.processerValue > 100)
-                props.processerValue = 100;
+            if (props.processerValue !== undefined && !$$.isNumber(props.processerValue)) throw new Error('Argument processer Value is illegal.')
+            else props.processerValue = parseInt(props.processerValue);
+            if (props.processerValue > 100) throw new Error('Argument processer Value is out of range.')
+            if (props.processerValue < 0) throw new Error('Argument processer Value is out of range.')
             $.extend(this._ops, props);
             this._calculate();
         },

@@ -167,7 +167,7 @@ class PeoplePicker extends ReactWidget {
                     rowTempate={RowTempate}
                     rowDataChanged={this.rowDataChangedHandler.bind(this)}
                 />
-                <$$.TextArea
+                <$$.RichText
                     selectedItems={this.state.selectedItems}
                     deleteItemHandler={this.deleteItemHandler.bind(this)}
                 />

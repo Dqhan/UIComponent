@@ -274,8 +274,8 @@ class Main extends React.Component {
           <button onClick={this.dialogShowHandler}>Dialog</button>
           <$$.Dialog
             id={"dqhan-dialog"}
-            width={200}
-            height={300}
+            width="800"
+            height="600"
             status={this.state.dialogStatus}
             foot={[
               {

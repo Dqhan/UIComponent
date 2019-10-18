@@ -1,6 +1,6 @@
 (function (global, $, $$, factory, plugin) {
     if (typeof global[plugin] !== "object") global[plugin] = {};
-    $.extend(true, global[plugin], factory.call(global, $, $$));
+    $.extend(global[plugin], factory.call(global, $, $$));
 })(
     window,
     $,
@@ -12,10 +12,12 @@
             return new _Dialog.fn.init(ops);
         };
 
-        var prototype = _Dialog.prototype = _Dialog.fn = {
-            _constructor: function () {
+        var prototype = (_Dialog.prototype = _Dialog.fn = {
+            _constructor: function (props) {
+                $.extend(this._ops, props);
                 this._element = this._ops.element;
                 this.$element = $(this._element);
+                this.$element.css('display', 'none');
             },
 
             _initId: function () {
@@ -23,21 +25,19 @@
                 this._dialogId = "ui-dialog-" + uuid;
                 return this;
             }
-        };
+        });
 
         /**
          * render dialog
          */
 
-        $.extend(true, prototype, {
+        $.extend(prototype, {
             _render: function () {
                 this._createDialog();
                 this._initMember();
-                var foot = this._createFooter();
-                this.$dialog.append(foot);
+                this.$footer.append(this._createFooter());
                 this._initBtnMember()
                     ._bindBtnEvent();
-                this._setStyle();
             },
 
             _createDialog: function () {
@@ -57,12 +57,15 @@
                         -this._ops.width * 0.5 +
                         "px" +
                         "></div>",
-                    $dialogTitle =
-                        '<div class="dialog-title">' + this._ops.title + "</div>",
-                    $dialogContent = '<div class="dialog-content"></div>';
+                    $dialogTitle = '<div class="dialog-title">' + this._ops.title + "</div>",
+                    $dialogContent = '<div class="dialog-content"' +
+                        (this._ops.height - 130) + "px" +
+                        '></div>';
+                $dialogFooter = '<div class="dialog-footer"></div>';
                 this.$element
                     .wrapInner($dialogContent)
                     .prepend($dialogTitle)
+                    .append($dialogFooter)
                     .wrapInner($dialog)
                     .wrapInner($dialogOuter);
                 return this;
@@ -71,25 +74,25 @@
             _createFooter: function () {
                 var fragement = [],
                     h = -1;
-                fragement[++h] = '<div class="dialog-footer">';
                 this._ops.btnArray.forEach(function (el, index) {
                     fragement[++h] = "<button>";
                     fragement[++h] = el.text;
                     fragement[++h] = "</button>";
                 });
-                fragement[++h] = "</div>";
                 return fragement.join("");
             }
-
         });
 
         /**
          *  init member
          */
 
-        $.extend(true, prototype, {
+        $.extend(prototype, {
             _initMember: function () {
                 this.$dialog = $("#" + this._dialogId);
+                this.$title = $("#" + this._dialogId + " .dialog-title");
+                this.$content = $("#" + this._dialogId + " .dialog-content");
+                this.$footer = $("#" + this._dialogId + " .dialog-footer");
                 return this;
             },
 
@@ -97,14 +100,14 @@
                 this.$btns = $("#" + this._dialogId + " .dialog-footer button");
                 this.$btns[0].focus();
                 return this;
-            },
-        })
+            }
+        });
 
         /**
          * bind events
          */
 
-        $.extend(true, prototype, {
+        $.extend(prototype, {
             _bindBtnEvent: function () {
                 this.$btns.on("click", this._btnClickHandler.bind(this));
             }
@@ -116,51 +119,63 @@
 
         _Dialog.fn._btnClickHandler = function () {
             $$.trigger("btnClick", this.$dialog, $$.Event({}));
-        }
+        };
 
         /**
          * set dailog style
          */
 
-        $.extend(true, prototype, {
-            _setStyle: function () {
-                if (this._ops.status == false) this.$element.css("display", "none");
+        $.extend(prototype, {
+            _updateDialog: function () {
+                if (this._ops.status === false) this.$element.css("display", "none");
                 else this.$element.css("display", "");
                 this.$dialog
                     .css("width", this._ops.width + "px")
                     .css("height", this._ops.height + "px")
                     .css("margin-top", -this._ops.height * 0.5 + "px")
                     .css("margin-left", -this._ops.width * 0.5 + "px");
+                this.$content.css('height', this._ops.height - 130 + "px");
+                this.$title.val(this._ops.title);
+                this.$footer.html(this._createFooter());
+                this._initBtnMember()
+                    ._bindBtnEvent();
             }
-        })
+        });
 
         /**
          * 非Dialog 内部函数
          */
 
-        _Dialog.fn.init = function (ops) {
+        _Dialog.fn.init = function (props) {
             this._ops = {
                 element: null,
                 width: 400,
                 height: 500,
-                title: ops.title || "Dialog",
+                title: props.title || "Dialog",
                 btnArray: [],
                 status: false
             };
-            $.extend(true, this._ops, ops);
-            this._constructor();
+            if (!$$.isNumber(props.width)) throw new Error('Argument width is illegal.');
+            else props.width = parseInt(props.width);
+            if (!$$.isNumber(props.height)) throw new Error('Argument height is illegal.');
+            else props.height = parseInt(props.height);
+            if (props.btnArray !== undefined && !$$.isArray(props.btnArray)) throw new Error('Argument btnArray is illegal.');
+            if (!$$.isBool(props.status)) throw new Error('Argument status is illegal.');
+            this._constructor(props);
             this._initId()
                 ._render();
             return this;
         };
 
-        _Dialog.fn.destory = function () {
-            $(".dialog-bg").remove();
-        };
-
-        _Dialog.fn.setOptions = function (ops) {
-            $.extend(true, this._ops, ops);
-            this._setStyle();
+        _Dialog.fn.setOptions = function (props) {
+            if (!$$.isNumber(props.width)) throw new Error('Argument width is illegal.');
+            else props.width = parseInt(props.width);
+            if (!$$.isNumber(props.height)) throw new Error('Argument height is illegal.');
+            else props.height = parseInt(props.height);
+            if (props.btnArray !== undefined && !$$.isArray(props.btnArray)) throw new Error('Argument btnArray is illegal.');
+            if (!$$.isBool(props.status)) throw new Error('Argument status is illegal.');
+            $.extend(this._ops, props);
+            this._updateDialog();
         };
 
         _Dialog.fn.init.prototype = _Dialog.prototype;

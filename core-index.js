@@ -12,7 +12,7 @@ require('./Widget/datagrid');
 require('./Widget/processer');
 require('./Widget/pager');
 require('./Widget/message_bar');
-require('./Widget/text_area');
+require('./Widget/rich_text');
 require('./Widget/people_picker');
 require('./Widget/loading');
 require('./Widget/confirm');

@@ -12,7 +12,7 @@
     $$
 ) {
     var uuid = -1;
-    var _TextArea = function (ops) {
+    var _RichText = function (ops) {
         this._element = ops.element || document.getElementsByTagName("body");
         this.$element = $(this._element);
         this._ops = {
@@ -25,10 +25,10 @@
             ._bindEvent();
     };
 
-    _TextArea.prototype = {
+    _RichText.prototype = {
         _initId: function () {
             uuid++;
-            this.textAreaId = "ui-textarea-" + uuid;
+            this.textAreaId = "ui-rich-text-" + uuid;
             return this;
         },
 
@@ -43,7 +43,7 @@
                 fragement = [],
                 h = -1;
             for (var i = 0; i < len; i++) {
-                fragement[++h] = '<div class="ui-textarea-item">';
+                fragement[++h] = '<div class="ui-rich-text-item">';
                 fragement[++h] = items[i].name;
                 fragement[++h] = '<span class="icon"></span>';
                 fragement[++h] = "</div>";
@@ -53,7 +53,7 @@
         },
 
         _initMember: function () {
-            this.$item = $("#" + this.textAreaId + " .ui-textarea-item");
+            this.$item = $("#" + this.textAreaId + " .ui-rich-text-item");
             return this;
         },
 
@@ -82,7 +82,7 @@
                 fragement = [],
                 h = -1;
             for (var i = 0; i < len; i++) {
-                fragement[++h] = '<div class="ui-textarea-item">';
+                fragement[++h] = '<div class="ui-rich-text-item">';
                 fragement[++h] = items[i].name;
                 fragement[++h] = '<span class="icon"></span>';
                 fragement[++h] = "</div>";
@@ -97,6 +97,6 @@
         }
     };
     return {
-        TextArea: _TextArea
+        RichText: _RichText
     }
 }, "ui")

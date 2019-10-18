@@ -1,6 +1,6 @@
 import ReactWidget from './react-widget';
 
-class TextArea extends ReactWidget {
+class RichText extends ReactWidget {
     constructor(props) {
         super(props);
     }
@@ -13,7 +13,7 @@ class TextArea extends ReactWidget {
     }
 
     componentDidMount() {
-        this.element = new ui.TextArea({
+        this.element = new ui.RichText({
             element: ReactDOM.findDOMNode(this),
             items: this.props.selectedItems
         });
@@ -21,9 +21,9 @@ class TextArea extends ReactWidget {
     }
 
     render() {
-        return <div className="ui-people-picker-textarea">
+        return <div className="ui-people-picker-rich-text">
         </div>
     }
 }
 
-window.$$.TextArea = TextArea;
+window.$$.RichText = RichText;
