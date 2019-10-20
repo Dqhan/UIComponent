@@ -4,8 +4,7 @@ require('./widget-core');
 require('./ReactUI/react-widget');
 
 require('./Widget/combobox');
-require('./ReactUI/react-combobox');
-
+require('./Widget/rich_combobox')
 require('./Widget/dialog');
 require('./Widget/tabcontrol');
 require('./Widget/datagrid');
@@ -17,6 +16,8 @@ require('./Widget/people_picker');
 require('./Widget/loading');
 require('./Widget/confirm');
 
+require('./ReactUI/react-combobox');
+require('./ReactUI/react-richcombobox');
 require('./ReactUI/react-searchbox');
 require('./ReactUI/react-dialog');
 require('./ReactUI/react-messagerBar');

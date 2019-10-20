@@ -83,11 +83,11 @@ class Main extends React.Component {
   }
 
   showLoadingHandler() {
-    $$.loading(true);
+    R.loading(true);
   }
 
   hideLoadingHanlder() {
-    $$.loading(false);
+    R.loading(false);
   }
 
   tabSelectChangedHandler(e, args) {
@@ -161,7 +161,7 @@ class Main extends React.Component {
   }
 
   showTipBtnClick() {
-    $$.conform({
+    R.conform({
       message: "tip message.",
       status: "show",
       footer: true,
@@ -174,23 +174,39 @@ class Main extends React.Component {
   }
 
   showLoadingHandler0() {
-    $$.loading(true, "loading0");
+    R.loading(true, "loading0");
   }
 
   hideLoadingHanlder0() {
-    $$.loading(false, "loading0");
+    R.loading(false, "loading0");
   }
 
   showLoadingHandler1() {
-    $$.loading(true, "loading1");
+    R.loading(true, "loading1");
   }
 
   hideLoadingHanlder1() {
-    $$.loading(false, "loading1");
+    R.loading(false, "loading1");
   }
 
   handleSearchChanged(e, args) {
     console.log(args.newValue);
+  }
+
+  selectionChanged(e, args) {
+    console.log("Selections: ", args.newValue)
+  }
+
+  generateItems(num) {
+    let items = [],
+      i = 0;
+    for (; i < num; i++) {
+      var item = $$.generateRow();
+      item.name = item.firstName + " " + item.lastName;
+      if (i === 0) item.name = "<button onClick=\"javascript:alert(123);\">Click me</button>";
+      items.push(item);
+    }
+    return items;
   }
 
   render() {
@@ -206,6 +222,27 @@ class Main extends React.Component {
           Dqhan's UI
         </h3>
         <section>
+          <h4>Rich Combobox</h4>
+          <R.RichCombobox
+            items={this.generateItems(15)}
+            selectionChanged={this.selectionChanged.bind(this)}
+          />
+        </section>
+        <section>
+          <h4>Single PeoplePicker</h4>
+          <R.PeoplePicker
+            type="single"
+            selectedItems={[{ id: 2, name: "dqhan2" }]}
+          />
+        </section>
+        <section>
+          <h4>Multiple PeoplePicker</h4>
+          <R.PeoplePicker
+            type="multiple"
+            selectedItems={[{ id: 2, name: "dqhan2" }]}
+          />
+        </section>
+        <section>
           <h4>Processer</h4>
           <R.Processer
             processerValue="60"
@@ -213,66 +250,15 @@ class Main extends React.Component {
         </section>
         <section>
           <h4>Searchbox</h4>
-          <$$.Searchbox
+          <R.Searchbox
             handleSearchChanged={this.handleSearchChanged.bind(this)}
           />
         </section>
-        <section>
-          <h4>Loading</h4>
-          <button
-            style={{ position: "relative", zIndex: "100000000" }}
-            onClick={this.showLoadingHandler.bind(this)}
-          >
-            show
-          </button>
-          <button
-            style={{ position: "relative", zIndex: "100000000" }}
-            onClick={this.hideLoadingHanlder.bind(this)}
-          >
-            hide
-          </button>
-        </section>
-        <section>
-          <h4>Element Loading</h4>
-          <div id="loading0" style={{ width: "200px", height: "200px" }}></div>
-          <button
-            style={{ position: "relative", zIndex: "100000000" }}
-            onClick={this.showLoadingHandler0.bind(this)}
-          >
-            show
-          </button>
-          <button
-            style={{ position: "relative", zIndex: "100000000" }}
-            onClick={this.hideLoadingHanlder0.bind(this)}
-          >
-            hide
-          </button>
-          <div id="loading1" style={{ width: "200px", height: "200px" }}></div>
-          <button
-            style={{ position: "relative", zIndex: "100000000" }}
-            onClick={this.showLoadingHandler1.bind(this)}
-          >
-            show
-          </button>
-          <button
-            style={{ position: "relative", zIndex: "100000000" }}
-            onClick={this.hideLoadingHanlder1.bind(this)}
-          >
-            hide
-          </button>
-        </section >
-        <section>
-          <h4>Banner</h4>
-          {/* <button onClick={this.showBanner.bind(this)}>show</button>
-          <button onClick={this.hideBanner.bind(this)}>hide</button>
-          <div id="demo" style={{ display: "none" }}>
-            <div id="banner" />
-          </div> */}
-        </section>
+
         <section>
           <h4>Dialog</h4>
           <button onClick={this.dialogShowHandler}>Dialog</button>
-          <$$.Dialog
+          <R.Dialog
             id={"dqhan-dialog"}
             width="800"
             height="600"
@@ -286,12 +272,12 @@ class Main extends React.Component {
           >
             <div>66666</div>
             <div>66666</div>
-          </$$.Dialog>
+          </R.Dialog>
         </section>
         <section>
           <h4>Combobox</h4>
           <div style={{ display: "inline-block" }}>
-            <$$.Combobox
+            <R.Combobox
               items={[
                 {
                   name: "text1",
@@ -311,7 +297,7 @@ class Main extends React.Component {
             />
           </div>
           <div style={{ display: "inline-block" }}>
-            <$$.Combobox
+            <R.Combobox
               items={[
                 {
                   name: "text4",
@@ -333,7 +319,7 @@ class Main extends React.Component {
         </section>
         <section>
           <h4>TabControl</h4>
-          <$$.TabControl
+          <R.TabControl
             items={this.state.tabItems}
             selectedIndex={this.state.selectedTabIndex}
             selectChanged={this.tabSelectChangedHandler}
@@ -341,11 +327,11 @@ class Main extends React.Component {
             <div>1</div>
             <div>2</div>
             <div>3</div>
-          </$$.TabControl>
+          </R.TabControl>
         </section>
         <section>
           <h4>Pager</h4>
-          <$$.Pager
+          <R.Pager
             pageSize={this.state.pageSize}
             pageCount={10}
             selectedPage={this.state.selectedPage}
@@ -354,7 +340,7 @@ class Main extends React.Component {
         </section>
         <section>
           <h4>MessageBar</h4>
-          <$$.MessageBar
+          <R.MessageBar
             show={this.state.msgShow}
             type={this.state.msgType}
             msg={this.state.msg}
@@ -365,25 +351,11 @@ class Main extends React.Component {
           <button onClick={this.warnMsgBtnClick.bind(this)}>warn</button>
         </section>
         <section>
-          <h4>Single PeoplePicker</h4>
-          <$$.PeoplePicker
-            type="single"
-            selectedItems={[{ id: 2, name: "dqhan2" }]}
-          />
-        </section>
-        <section>
-          <h4>Multiple PeoplePicker</h4>
-          <$$.PeoplePicker
-            type="multiple"
-            selectedItems={[{ id: 2, name: "dqhan2" }]}
-          />
-        </section>
-        <section>
           <h4>Processer</h4>
         </section>
         <section>
           <h4>Datagrid</h4>
-          <$$.Datagrid
+          <R.Datagrid
             columns={[
               {
                 width: "30px",
@@ -442,12 +414,56 @@ class Main extends React.Component {
         <section>
           <h4>Validation</h4>
         </section>
+        <section>
+          <h4>Loading</h4>
+          <button
+            style={{ position: "relative", zIndex: "100000000" }}
+            onClick={this.showLoadingHandler.bind(this)}
+          >
+            show
+          </button>
+          <button
+            style={{ position: "relative", zIndex: "100000000" }}
+            onClick={this.hideLoadingHanlder.bind(this)}
+          >
+            hide
+          </button>
+        </section>
+        <section>
+          <h4>Element Loading</h4>
+          <div id="loading0" style={{ width: "200px", height: "200px" }}></div>
+          <button
+            style={{ position: "relative", zIndex: "100000000" }}
+            onClick={this.showLoadingHandler0.bind(this)}
+          >
+            show
+          </button>
+          <button
+            style={{ position: "relative", zIndex: "100000000" }}
+            onClick={this.hideLoadingHanlder0.bind(this)}
+          >
+            hide
+          </button>
+          <div id="loading1" style={{ width: "200px", height: "200px" }}></div>
+          <button
+            style={{ position: "relative", zIndex: "100000000" }}
+            onClick={this.showLoadingHandler1.bind(this)}
+          >
+            show
+          </button>
+          <button
+            style={{ position: "relative", zIndex: "100000000" }}
+            onClick={this.hideLoadingHanlder1.bind(this)}
+          >
+            hide
+          </button>
+        </section >
       </div >
     );
   }
 }
 
-class RowTempate extends $$.DataGridRow {
+class RowTempate extends R.DataGridRow {
   constructor(props) {
     super(props);
     this.handleCheckboxChanged = this.handleCheckboxChanged.bind(this);

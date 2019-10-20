@@ -337,6 +337,168 @@ button {
 }
 
 /*
+  rich conmbobox
+*/
+
+
+.ui-rich-combobox {
+    position          : relative;
+    background-color  : #fff;
+    border            : 1px solid #bbb;
+    outline           : 0;
+    -moz-box-sizing   : border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing        : border-box;
+
+    .ui-rich-combobox-container {
+        display     : flex;
+        flex-wrap   : wrap;
+        margin-right: 30px;
+
+        .ui-rich-combobox-selected-item {
+            display      : inline-block;
+            line-height  : 35px;
+            margin       : 2px 3px 2px px;
+            padding-left : 10px;
+            border-radius: 20px;
+            background   : #eee;
+            border       : 1px solid #eee;
+            outline      : none;
+
+            .ui-rich-combobox-selected-item-text {
+                display       : inline-block;
+                vertical-align: top;
+                line-height   : 35px;
+            }
+
+            .ui-rich-combobox-selected-item-close {
+                display   : inline-block;
+                width     : 30px;
+                font-size : 12px;
+                text-align: center;
+                cursor    : pointer;
+            }
+        }
+
+        .ui-rich-combobox-input {
+            flex              : 1 1 5px;
+            height            : 38px;
+            line-height       : 38px;
+            margin            : 0 auto;
+            outline           : 0;
+            resize            : none;
+            border            : none;
+            background        : #fff;
+            cursor            : default;
+            -moz-box-sizing   : border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing        : border-box;
+        }
+
+        .ui-rich-combobox-dropdown-container {
+            position   : absolute;
+            height     : 100%;
+            right      : 0;
+            top        : 0;
+            border-left: 1px solid transparent;
+            cursor     : default;
+        }
+    }
+
+
+    .ui-rich-combobx-icon {
+        position  : absolute;
+        right     : 0;
+        bottom    : 0;
+        width     : 30px;
+        height    : 100%;
+        text-align: center;
+        cursor    : pointer;
+
+        span {
+            position: absolute;
+            top     : 0;
+            bottom  : 0;
+            right   : 0;
+            margin  : auto;
+            height  : 1em;
+            width   : 100%;
+        }
+    }
+
+
+    .ui-rich-combobox-placeholder {
+        position          : absolute;
+        display           : table;
+        table-layout      : fixed;
+        height            : 100%;
+        top               : 0;
+        left              : 5px;
+        -moz-box-sizing   : border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing        : border-box;
+        color             : #aaa;
+    }
+}
+
+.ui-rich-combobox-focused {
+    border-color: #49d !important;
+}
+
+.ui-rich-combobox-mouseover {
+    border-color: #49d;
+}
+
+.ui-rich-combobox-popup-shown {
+    border-color: #49d;
+}
+
+.ui-rich-combobox-popup {
+    position        : absolute;
+    height          : auto;
+    background-color: #ffffff;
+    border          : 1px solid #bbb;
+    box-sizing      : content-box;
+
+    .ui-rich-combobox-listbox {
+        height          : auto;
+        max-height      : 300px;
+        min-height      : 22px;
+        list-style      : none;
+        overflow        : auto;
+        background-color: #ffffff;
+        box-sizing      : border-box;
+
+        .ui-rich-combobox-listbox-container {
+            display: table;
+            width  : 100%;
+
+            .ui-rich-combobox-selection-container {
+                display: table-row;
+
+                &:hover {
+                    background-color: #F0F0F0;
+                }
+
+                .ui-rich-combobox-selection {
+                    display    : table-cell;
+                    border     : 1px solid #ffffff;
+                    outline    : 0;
+                    white-space: nowrap;
+                    padding    : 13px 0 13px 5px;
+                    line-height: 1em;
+                    cursor     : default;
+                }
+
+                .ui-rich-combobox-selection-selected {
+                    background-color: #bbb;
+                }
+            }
+        }
+    }
+}
+
+/*
     loading
 */
 
@@ -736,32 +898,8 @@ button {
     }
 }
 
-.ui-people-picker-rich-text {
-    width : 100%;
-    height: 100px;
-    border: 1px solid #dddddd;
-    margin: 10px 0;
-
-    .ui-rich-text-item {
-        height          : auto;
-        float           : left;
-        padding         : 2px;
-        margin          : 1px;
-        border          : 1px solid #eee;
-        background-color: #eee;
-        border-radius   : 10px;
-        height          : 20px;
-        line-height     : 20px;
-
-        .icon {
-            float : right;
-            cursor: pointer;
-
-            &:before {
-                content: '\2716';
-            }
-        }
-    }
+.ui-people-picker-richcombobox {
+    margin-top: 20px;
 }
 
 .ui-people-picker-dropdown {

@@ -1,5 +1,9 @@
 import ReactWidget from './react-widget';
 
+const handelrs = [
+    'selectionChanged'
+];
+
 class PeoplePicker extends ReactWidget {
     constructor(props) {
         super(props);
@@ -29,6 +33,13 @@ class PeoplePicker extends ReactWidget {
             selectedItems: this.props.selectedItems || []
         };
         this.unique = {};
+        this.initBind();
+    }
+
+    initBind() {
+        handelrs.forEach(handler => {
+            this[handler] = this[handler].bind(this);
+        })
     }
 
     componentDidMount() {
@@ -143,6 +154,10 @@ class PeoplePicker extends ReactWidget {
         })
     }
 
+    selectionChanged() {
+
+    }
+
     render() {
         return <div>
             <$$.Dialog
@@ -167,10 +182,16 @@ class PeoplePicker extends ReactWidget {
                     rowTempate={RowTempate}
                     rowDataChanged={this.rowDataChangedHandler.bind(this)}
                 />
-                <$$.RichText
-                    selectedItems={this.state.selectedItems}
-                    deleteItemHandler={this.deleteItemHandler.bind(this)}
-                />
+                <div className='ui-people-picker-richcombobox'>
+                    <R.RichCombobox
+                        width="100%"
+                        height="130px"
+                        isDropdown="false"
+                        isInput="false"
+                        items={this.state.items}
+                        selectionChanged={this.selectionChanged.bind(this)}
+                    />
+                </div>
             </$$.Dialog>
         </div>
     }
