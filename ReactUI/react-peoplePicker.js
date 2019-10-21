@@ -43,13 +43,13 @@ class PeoplePicker extends ReactWidget {
     }
 
     componentDidMount() {
-        this.element = new ui.PeoplePicker({
-            element: ReactDOM.findDOMNode(this),
-            type: this.state.type,
-            items: this.state.items,
-            selectedItems: this.state.selectedItems
-        });
-        $(ReactDOM.findDOMNode(this)).on('openPopup', this.openPopupHandler.bind(this));
+        // this.element = new ui.PeoplePicker({
+        //     element: ReactDOM.findDOMNode(this),
+        //     type: this.state.type,
+        //     items: this.state.items,
+        //     selectedItems: this.state.selectedItems
+        // });
+        // $(ReactDOM.findDOMNode(this)).on('openPopup', this.openPopupHandler.bind(this));
         this.retrieveUser();
     }
 
@@ -79,11 +79,11 @@ class PeoplePicker extends ReactWidget {
 
     componentWillReceiveProps(newProps) {
         this.state.selectedItems = newProps.selectedItems;
-        this.element.setOptions(
-            {
-                selectedItems: newProps.selectedItems
-            }
-        );
+        // this.element.setOptions(
+        //     {
+        //         selectedItems: newProps.selectedItems
+        //     }
+        // );
     }
 
     dialogCloseHandler() {
@@ -154,12 +154,24 @@ class PeoplePicker extends ReactWidget {
         })
     }
 
-    selectionChanged() {
+    selectionChanged(e, args) {
+
+    }
+
+    peoplePickerChanged(e, args) {
 
     }
 
     render() {
         return <div>
+            <R.RichCombobox
+                width="100%"
+                height="130px"
+                isDropdown="false"
+                isInput="true"
+                items={this.state.items}
+                selectionChanged={this.peoplePickerChanged.bind(this)}
+            />
             <$$.Dialog
                 title="PeoplePicker"
                 width={1000}
