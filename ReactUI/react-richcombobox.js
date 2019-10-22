@@ -23,10 +23,24 @@ class RichCombobox extends ReactWidget {
             items: this.state.items
         });
         $(ReactDOM.findDOMNode(this)).on('selectionChanged', this.selectionChanged.bind(this));
+        $(ReactDOM.findDOMNode(this)).on('handleDeleteeSelectionChanged', this.handleDeleteeSelectionChanged.bind(this));
+        // R.scopeEvents.register('handleSetSelectedItems', { "selectedItems": [] }, this.handleSetSelectedItems.bind(this));
+
+    }
+
+    handleDeleteeSelectionChanged(e, args) {
+        this.props.selectionChanged(e, args);
     }
 
     selectionChanged(e, args) {
         this.props.selectionChanged(e, args);
+    }
+
+    handleSetSelectedItems(selectedItems) {
+        // this.element.setOptions({
+        //     items: 
+        // });
+        this.element.updateSelectedItems(selectedItems);
     }
 
     render() {

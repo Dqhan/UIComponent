@@ -25,10 +25,10 @@ class Dialog extends ReactWidget {
       btnArray: this.props.foot,
       status: this.props.status
     });
-    var i = 0;
-    for (; i < this.props.foot.length; i++) {
-      $(ReactDOM.findDOMNode(this)).on("btnClick", this.props.foot[i].click);
-    }
+    // var i = 0;
+    // for (; i < this.props.foot.length; i++) {
+    //   $(ReactDOM.findDOMNode(this)).on("btnClick", this.props.foot[i].click);
+    // }
   }
 
   render() {

@@ -109,7 +109,12 @@
 
         $.extend(prototype, {
             _bindBtnEvent: function () {
-                this.$btns.on("click", this._btnClickHandler.bind(this));
+                var i = 0,
+                    len = this.$btns.length;
+                for (; i < len; i++) {
+                    $(this.$btns[i]).on("click",  this._ops.btnArray[i].click)
+                }
+                // this.$btns.on("click", this._btnClickHandler.bind(this));
             }
         });
 
@@ -117,9 +122,9 @@
          * event handler
          */
 
-        _Dialog.fn._btnClickHandler = function () {
-            $$.trigger("btnClick", this.$dialog, $$.Event({}));
-        };
+        // _Dialog.fn._btnClickHandler = function () {
+        //     $$.trigger("btnClick", this.$dialog, $$.Event({}));
+        // };
 
         /**
          * set dailog style

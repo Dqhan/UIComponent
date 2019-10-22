@@ -32,6 +32,10 @@
     return $.isArray(target);
   }
 
+  R.deepCopy = function (target) {
+    return JSON.parse(JSON.stringify(target));
+  }
+
   //防抖
   R.debounce = function (fn, delay) {
     var timer,
@@ -49,8 +53,29 @@
 
   }
 
+  function scopeEvents() {
+    this.listeners = {};
+    this.args = {};
+  }
+  scopeEvents.prototype.register = function (eventName, args, fn) {
+    if (toString.call(this.listeners[eventName]) === "[object Undefined]")
+      this.listeners[eventName] = [];
+    this.listeners[eventName].push(fn);
+    if (toString.call(this.args[eventsName]) === "[object Undefined]")
+      this.args[eventName] = [];
+    this.args[eventName].push(args);
+  }
+  scopeEvents.prototype.fire = function (eventName) {
+    var listener = this.listeners[eventName],
+      i = 0,
+      len = listener.length;
+    for (; i < len; i++) {
+      if (toString.call(listener[i]) === "[object Function]")
+        listener[i](this.args[i]);
+    }
+  }
 
-
+  R.scopeEvents = new scopeEvents();
 
 
   R.generateRows = function (num) {

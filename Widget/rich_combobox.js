@@ -23,11 +23,11 @@
             },
 
             _extend: function (props) {
-                if (props.isDropdown === "false" || props.isDropdown === "true")
+                if (toString.call(props.isDropdown) !== '[object Undefined]' && (props.isDropdown === "false" || props.isDropdown === "true"))
                     Object.assign(this._ops, {
                         isDropdown: JSON.parse(props.isDropdown)
                     });
-                if (props.isInput === "false" || props.isInput === "true")
+                if (toString.call(props.isInput) !== '[object Undefined]' && (props.isInput === "false" || props.isInput === "true"))
                     Object.assign(this._ops, {
                         isInput: JSON.parse(props.isInput)
                     });
@@ -39,13 +39,17 @@
                     Object.assign(this._ops, {
                         height: props.height
                     })
-                if (toString.call(props.element) === "[object HTMLDivElement]")
+                if (toString.call(props.element) !== '[object Undefined]' && toString.call(props.element) === "[object HTMLDivElement]")
                     Object.assign(this._ops, {
                         element: props.element
                     })
-                if (toString.call(props.items) === "[object Array]")
+                if (toString.call(props.items) !== '[object Undefined]' && toString.call(props.items) === "[object Array]")
                     Object.assign(this._ops, {
                         items: props.items
+                    })
+                if (toString.call(props.selectedItems) !== '[object Undefined]' && toString.call(props.selectedItems) === "[object Array]")
+                    Object.assign(this._ops, {
+                        newValue: props.selectedItems
                     })
             },
 
@@ -170,12 +174,17 @@
                 var h = -1,
                     fragement = [];
                 fragement[++h] = '<div class="ui-rich-combobox-container">';
-                if (this._ops.isInput) {
+                if (this._ops.isInput)
                     fragement[++h] = '<input type="text" class="ui-rich-combobox-input"/>';
-                    fragement[++h] = "</div>";
-                }
+                else
+                    fragement[++h] = '<input style="display:none;" type="text" class="ui-rich-combobox-input"/>';
+                fragement[++h] = "</div>";
                 if (this._ops.isDropdown) {
                     fragement[++h] = '<div class="ui-rich-combobx-icon">';
+                    fragement[++h] = '<span class="fi-page-triangle-down-bs"></span>';
+                    fragement[++h] = "</div>";
+                } else {
+                    fragement[++h] = '<div style="display:none;" class="ui-rich-combobx-icon">';
                     fragement[++h] = '<span class="fi-page-triangle-down-bs"></span>';
                     fragement[++h] = "</div>";
                 }
@@ -203,6 +212,7 @@
 
         $.extend(prototype, {
             _setSelectionItems: function () {
+                this.$listbox.empty();
                 var i = 0,
                     len = this._ops.items.length,
                     fragement = [],
@@ -326,8 +336,8 @@
                 this.$element,
                 $$.Event({
                     element: this.$element,
-                    oldValue: this._ops.oldValue,
-                    newValue: this._ops.newValue
+                    oldValue: $$.deepCopy(this._ops.oldValue),
+                    newValue: $$.deepCopy(this._ops.newValue)
                 })
             );
             this._ops.oldValue = this._ops.newValue;
@@ -341,7 +351,16 @@
         };
 
         _RichCombobx.fn._closeSelectedItemsHandler = function (e) {
-            this._deleteResult(e)
+            this._deleteResult(e);
+            $$.trigger(
+                "handleDeleteeSelectionChanged",
+                this.$element,
+                $$.Event({
+                    element: this.$element,
+                    oldValue: $$.deepCopy(this._ops.oldValue),
+                    newValue: $$.deepCopy(this._ops.newValue)
+                })
+            );
         };
 
         _RichCombobx.fn._addResult = function (text) {
@@ -420,7 +439,14 @@
         _RichCombobx.fn.setOptions = function (props) {
             this._extend(props);
             this._setRichCombobxSytle();
-            this._setComboboxItems();
+        };
+
+        _RichCombobx.fn.updateSelectedItems = function (selectedItems) {
+            if (toString.call(selectedItems) === "[object Undefined]") throw new Error('selectedItems 传错了！')
+            var a = selectedItems;
+            for (var i = 0; i < selectedItems.length; i++) {
+                this._addResult(selectedItems[i].name);
+            };
         };
 
         _RichCombobx.fn.init.prototype = _RichCombobx.prototype;
