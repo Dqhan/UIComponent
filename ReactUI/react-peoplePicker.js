@@ -33,9 +33,9 @@ class PeoplePicker extends ReactWidget {
                 },
             ],
             items: [],
-            selectedItems: this.props.selectedItems || []
+            selectedItems: this.props.selectedItems || [],
+            popUpSelectedItems: []
         };
-        // this.unique = {};
         this.initBind();
     }
 
@@ -46,13 +46,6 @@ class PeoplePicker extends ReactWidget {
     }
 
     componentDidMount() {
-        // this.element = new ui.PeoplePicker({
-        //     element: ReactDOM.findDOMNode(this),
-        //     type: this.state.type,
-        //     items: this.state.items,
-        //     selectedItems: this.state.selectedItems
-        // });
-        // $(ReactDOM.findDOMNode(this)).on('openPopup', this.openPopupHandler.bind(this));
         this.retrieveUser();
     }
 
@@ -80,7 +73,7 @@ class PeoplePicker extends ReactWidget {
                 this.setState(Object.assign(this.state, {
                     items: res.userInfo
                 }), () => {
-                    this.popUpRichComboboxRef.handleSetSelectedItems(this.state.selectedItems);
+                    this.richComboboxRef.handleSetSelectedItems(this.state.selectedItems);
                 });
             })
             .catch(e => {
@@ -90,11 +83,6 @@ class PeoplePicker extends ReactWidget {
 
     componentWillReceiveProps(newProps) {
         this.state.selectedItems = newProps.selectedItems;
-        // this.element.setOptions(
-        //     {
-        //         selectedItems: newProps.selectedItems
-        //     }
-        // );
     }
 
     dialogCloseHandler() {
@@ -107,31 +95,19 @@ class PeoplePicker extends ReactWidget {
         this.setState({
             dialogStatus: false
         }, () => {
-            this.richComboboxRef.handleSetSelectedItems(this.state.selectedItems);
-            // R.scopeEvents.fire('handleSetSelectedItems', this.state.selectedItems);
+            this.richComboboxRef.handleSetSelectedItems(this.state.popUpSelectedItems);
+            // R.scopeEvents.fire('handleSetSelectedItems', this.state.popUpSelectedItems);
         })
     }
 
     openPopupHandler() {
         this.setState({
+            popUpSelectedItems: [],
             dialogStatus: true
+        },()=>{
+            // this.richComboboxRef.handleSetSelectedItems(this.state)
         })
     }
-
-    deleteItemHandler(e, args) {
-        this.state.selectedItems = args.items;
-        // for (var key in this.unique) {
-        //     delete this.unique[key];
-        // }
-        // this.state.selectedItems.forEach(s => {
-        //     if (!this.unique[s.name]) {
-        //         this.unique[s.name] = true;
-        //     } else {
-        //         this.unique[s.name] = false;
-        //     }
-        // })
-    }
-
 
     rowDataChangedHandler(e, args) {
         var action = args.actionType,
@@ -148,20 +124,16 @@ class PeoplePicker extends ReactWidget {
     rowClickHandler(data) {
         if (this.state.type == 'single') {
             this.setState({
-                selectedItems: [].concat([data])
+                popUpSelectedItems: [].concat([data])
             })
             return;
         }
         var userName = data.name;
-        // if (!this.unique[userName]) {
-        //     this.state.selectedItems.push(data);
-        //     this.unique[userName] = true;
-        // };
-        this.state.selectedItems.push(data);
+        this.state.popUpSelectedItems.push(data);
         this.setState({
-            selectedItems: this.state.selectedItems
+            selectedItems: this.state.popUpSelectedItems
         }, () => {
-            this.popUpRichComboboxRef.handleSetSelectedItems(this.state.selectedItems);
+            this.popUpRichComboboxRef.handleSetSelectedItems(this.state.popUpSelectedItems);
         })
     }
 
@@ -179,7 +151,6 @@ class PeoplePicker extends ReactWidget {
                 <R.RichCombobox
                     ref={node => { this.richComboboxRef = node }}
                     width="570px"
-                    height="40px"
                     isDropdown="false"
                     isInput="true"
                     items={this.state.items}

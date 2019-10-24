@@ -218,8 +218,8 @@
                     fragement = [],
                     h = -1;
                 for (; i < len; i++) {
-                    fragement[++h] = '<div class="ui-rich-combobox-selection-container">';
-                    fragement[++h] = "<div role='option' class=\"ui-rich-combobox-selection\" data-index=" + i + ">";
+                    fragement[++h] = "<div class=\"ui-rich-combobox-selection-container\" data-index=" + i + ">";
+                    fragement[++h] = "<div role='option' class=\"ui-rich-combobox-selection\">";
                     fragement[++h] = this._ops.items[i].name;
                     fragement[++h] = "</div>";
                     fragement[++h] = "</div>";
@@ -329,8 +329,8 @@
         };
 
         _RichCombobx.fn._onSelectionClick = function (e) {
-            var text = e.currentTarget.textContent;
-            this._addResult(text);
+            var index = $(e.currentTarget).attr('data-index');
+            this._addSelectedSelection(index);
             $$.trigger(
                 "selectionChanged",
                 this.$element,
@@ -363,28 +363,31 @@
             );
         };
 
-        _RichCombobx.fn._addResult = function (text) {
-            if (this._ops.newValue.filter(d => d.name === text).length !== 0)
-                return;
+        _RichCombobx.fn._addSelectedSelection = function (index) {
             var fragement = [],
                 h = -1;
-            for (var i = 0; i < this._ops.items.length; i++) {
-                if (text === this._ops.items[i].name) {
-                    fragement[++h] = '<div class="ui-rich-combobox-selected-item" role="grid-cell" data-index="' + i + '">';
-                    fragement[++h] = '<div class="ui-rich-combobox-selected-item-text">';
-                    fragement[++h] = text;
-                    fragement[++h] = "</div>";
-                    fragement[++h] = '<div class="ui-rich-combobox-selected-item-close fi-page-cancel-bs">';
-                    fragement[++h] = "</div>";
-                    fragement[++h] = "</div>";
-                    this._ops.newValue.push(this._ops.items[i]);
-                    this._selectedResultIndex.push(i);
-                    break;
-                } else continue;
-            }
+            var item = this._ops.items[index];
+            this.$container.children("[data-index=" + index + "]").remove();
+            fragement[++h] = this._createSelection(item);
             this.$input.before(fragement.join(""));
             this._bindSelectedItemsClose();
+
+            this._ops.newValue.push(item);
+            this._selectedResultIndex.push(index);
         };
+
+        _RichCombobx.fn._createSelection = function (item) {
+            var fragement = [],
+                h = -1;
+            fragement[++h] = '<div class="ui-rich-combobox-selected-item" role="grid-cell" data-index="' + item.index + '">';
+            fragement[++h] = '<div class="ui-rich-combobox-selected-item-text">';
+            fragement[++h] = item.name;
+            fragement[++h] = "</div>";
+            fragement[++h] = '<div class="ui-rich-combobox-selected-item-close fi-page-cancel-bs">';
+            fragement[++h] = "</div>";
+            fragement[++h] = "</div>";
+            return fragement.join('');
+        }
 
         _RichCombobx.fn._deleteResult = function (e) {
             if (toString.call(e) === "[object Undefined]") {
@@ -445,7 +448,7 @@
             if (toString.call(selectedItems) === "[object Undefined]") throw new Error('selectedItems 传错了！')
             var a = selectedItems;
             for (var i = 0; i < selectedItems.length; i++) {
-                this._addResult(selectedItems[i].name);
+                this._addSelectedSelection(selectedItems[i].name);
             };
         };
 
