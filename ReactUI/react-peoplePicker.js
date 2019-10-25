@@ -51,6 +51,7 @@ class PeoplePicker extends ReactWidget {
 
     handlePeoplePickerClick() {
         this.setState(Object.assign(this.state, {
+            popUpSelectedItems: [],
             dialogStatus: true
         }))
     }
@@ -72,18 +73,16 @@ class PeoplePicker extends ReactWidget {
             .then(res => {
                 this.setState(Object.assign(this.state, {
                     items: res.userInfo
-                }), () => {
-                    this.richComboboxRef.handleSetSelectedItems(this.state.selectedItems);
-                });
+                }));
             })
             .catch(e => {
                 console.log(e);
             })
     }
 
-    componentWillReceiveProps(newProps) {
-        this.state.selectedItems = newProps.selectedItems;
-    }
+    // componentWillReceiveProps(newProps) {
+    //     this.state.selectedItems = newProps.selectedItems;
+    // }
 
     dialogCloseHandler() {
         this.setState({
@@ -92,21 +91,12 @@ class PeoplePicker extends ReactWidget {
     }
 
     dialogAddHandler() {
+        var selectedItems = this.state.selectedItems.concat(this.state.popUpSelectedItems)
         this.setState({
-            dialogStatus: false
-        }, () => {
-            this.richComboboxRef.handleSetSelectedItems(this.state.popUpSelectedItems);
-            // R.scopeEvents.fire('handleSetSelectedItems', this.state.popUpSelectedItems);
-        })
-    }
-
-    openPopupHandler() {
-        this.setState({
+            dialogStatus: false,
             popUpSelectedItems: [],
-            dialogStatus: true
-        },()=>{
-            // this.richComboboxRef.handleSetSelectedItems(this.state)
-        })
+            selectedItems: selectedItems
+        });
     }
 
     rowDataChangedHandler(e, args) {
@@ -128,17 +118,14 @@ class PeoplePicker extends ReactWidget {
             })
             return;
         }
-        var userName = data.name;
         this.state.popUpSelectedItems.push(data);
         this.setState({
-            selectedItems: this.state.popUpSelectedItems
-        }, () => {
-            this.popUpRichComboboxRef.handleSetSelectedItems(this.state.popUpSelectedItems);
+            popUpSelectedItems: this.state.popUpSelectedItems
         })
     }
 
     popUpRichComboboxSelectionChanged(e, args) {
-        this.state.selectedItems = args.newValue;
+        this.state.popUpSelectedItems = args.newValue;
     }
 
     peoplePickerComboboxChanged(e, args) {
@@ -155,6 +142,7 @@ class PeoplePicker extends ReactWidget {
                     isInput="true"
                     items={this.state.items}
                     selectionChanged={this.peoplePickerComboboxChanged.bind(this)}
+                    selectedItems={this.state.selectedItems}
                 />
                 <div className="ui-people-picker-container-icon fi-page-user-a" onClick={this.handlePeoplePickerClick}></div>
             </div>
@@ -189,6 +177,7 @@ class PeoplePicker extends ReactWidget {
                         isInput="false"
                         items={this.state.items}
                         selectionChanged={this.popUpRichComboboxSelectionChanged.bind(this)}
+                        selectedItems={this.state.popUpSelectedItems}
                     />
                 </div>
             </$$.Dialog>

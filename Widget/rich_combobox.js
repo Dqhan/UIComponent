@@ -1,4 +1,7 @@
 "use strict";
+
+import { runInThisContext } from "vm";
+
 (function (global, $, $$, factory, plugin) {
     if (typeof global[plugin] !== "object") global[plugin] = {};
     $.extend(global[plugin], factory.call(global, $, $$));
@@ -43,14 +46,22 @@
                     Object.assign(this._ops, {
                         element: props.element
                     })
-                if (toString.call(props.items) !== '[object Undefined]' && toString.call(props.items) === "[object Array]")
+                if (toString.call(props.items) !== '[object Undefined]' && toString.call(props.items) === "[object Array]") {
                     Object.assign(this._ops, {
                         items: props.items
                     })
+                    this._assembleItems();
+                }
                 if (toString.call(props.selectedItems) !== '[object Undefined]' && toString.call(props.selectedItems) === "[object Array]")
                     Object.assign(this._ops, {
                         newValue: props.selectedItems
                     })
+            },
+
+            _assembleItems: function () {
+                this._ops.items.forEach((item, index) => {
+                    item.index = index;
+                })
             },
 
             _initId: function () {
@@ -66,9 +77,7 @@
             },
 
             _getCondition: function () {
-                var value = "";
-                value = this.$input.val().toLowerCase();
-                return value;
+                return this.$input.val().toLowerCase();;
             },
 
             _getInputValue: function (item) {
@@ -82,7 +91,8 @@
                     len = items.length;
                 if (this._filterSelectionResultIndex.length !== 0) {
                     for (; i < len; i++) {
-                        if (this._filterSelectionResultIndex.includes(i) && !this._selectedResultIndex.includes(i)) {
+                        var selection = items[i];
+                        if (this._filterSelectionResultIndex.includes(i) && !this._selectedResultIndex.includes(selection.index)) {
                             $(this.$listbox.children()[i]).show();
                         } else {
                             $(this.$listbox.children()[i]).hide();
@@ -124,7 +134,6 @@
                 this.$popup.show();
                 this._setPopupPosition();
                 setTimeout(this._filterSelection.bind(this), 200);
-                // this._filterSelection();
             },
 
             _setPopupPosition: function () {
@@ -147,6 +156,8 @@
                 this.$element
                     .css("width", this._ops.width)
                     .css("height", this._ops.height);
+                this.$popup
+                    .css("width", this._ops.width);
                 return this;
             }
         });
@@ -195,7 +206,7 @@
             _createPopup: function () {
                 var h = -1,
                     fragement = [];
-                fragement[++h] = '<div style="width:' + this.$element.width() + 'px;display:none;" class="ui-rich-combobox-popup" id=' + this._popupId + ">";
+                fragement[++h] = '<div style="display:none;" class="ui-rich-combobox-popup" id=' + this._popupId + ">";
                 fragement[++h] = '<div class="ui-rich-combobox-listbox">';
                 fragement[++h] = '<div class="ui-rich-combobox-listbox-container">';
                 fragement[++h] = "</div>";
@@ -295,7 +306,7 @@
         _RichCombobx.fn._onInputkeyDown = function (e) {
             var self = e.data,
                 keyCode = e.which;
-            if (this._cacheInput === "" && keyCode === 8) this._deleteResult();
+            if (this._cacheInput === "" && keyCode === 8) this._deleteSelectedSelection();
             this._cacheInput = this.$input.val();
             this.$listbox.children().hide();
             this._getSelectionLoading().show();
@@ -330,6 +341,7 @@
 
         _RichCombobx.fn._onSelectionClick = function (e) {
             var index = $(e.currentTarget).attr('data-index');
+            index = parseInt(index);
             this._addSelectedSelection(index);
             $$.trigger(
                 "selectionChanged",
@@ -342,18 +354,20 @@
             );
             this._ops.oldValue = this._ops.newValue;
             this._hide();
-            this.$input.val('');
         };
 
-        _RichCombobx.fn._bindSelectedItemsClose = function () {
-            $("#" + this._richcomboboxId + " .ui-rich-combobox-selected-item-close").on("click", this._closeSelectedItemsHandler.bind(this));
+        _RichCombobx.fn._bindSelectedItemsClose = function (index) {
+            this.$container.find("[data-index=" + index + "]").find(".ui-rich-combobox-selected-item-close").on("click", this._closeSelectedItemsHandler.bind(this));
             return this;
         };
 
         _RichCombobx.fn._closeSelectedItemsHandler = function (e) {
-            this._deleteResult(e);
+            e.stopPropagation();
+            var index = $(e.currentTarget.parentNode).attr('data-index');
+            index = parseInt(index);
+            this._deleteSelectedSelection(index);
             $$.trigger(
-                "handleDeleteeSelectionChanged",
+                "selectionChanged",
                 this.$element,
                 $$.Event({
                     element: this.$element,
@@ -364,16 +378,56 @@
         };
 
         _RichCombobx.fn._addSelectedSelection = function (index) {
+            this.$input.val('');
             var fragement = [],
-                h = -1;
-            var item = this._ops.items[index];
-            this.$container.children("[data-index=" + index + "]").remove();
-            fragement[++h] = this._createSelection(item);
+                h = -1,
+                target = this._findTargetSelectionByIndex(index, this._ops.items);
+            if (this._findSameItemsViaSelection(target).length === 1)
+                return;
+            fragement[++h] = this._createSelection(target);
             this.$input.before(fragement.join(""));
-            this._bindSelectedItemsClose();
-
-            this._ops.newValue.push(item);
+            this._bindSelectedItemsClose(index);
+            this._ops.newValue.push(target);
             this._selectedResultIndex.push(index);
+        };
+
+        _RichCombobx.fn._findTargetSelectionByIndex = function (index, items) {
+            if (index < 0 || toString.call(items) !== "[object Array]")
+                throw new Error('_findTargetSelectionByIndex params is error.');
+            var i = 0,
+                len = items.length,
+                result = null;
+            for (; i < len; i++) {
+                var item = items[i];
+                if (index === item.index) {
+                    result = item;
+                    break;
+                }
+                else
+                    continue;
+            }
+            return result;
+        };
+
+        _RichCombobx.fn._findSameItemsViaSelection = function (target) {
+            var name = target['name'],
+                result = null,
+                items = this._getSelectedItems(),
+                i = 0,
+                len = items.length;
+            for (; i < len; i++) {
+                var selection = items[i];
+                if (selection['name'] === name) {
+                    result = selection;
+                    break;
+                } else continue;
+            }
+            if (result === null) return [];
+            else return this.$container.find("[data-index=" + result.index + "]");
+        };
+
+        _RichCombobx.fn._getSelectedItems = function () {
+            return this._ops.newValue;
         };
 
         _RichCombobx.fn._createSelection = function (item) {
@@ -389,27 +443,78 @@
             return fragement.join('');
         }
 
-        _RichCombobx.fn._deleteResult = function (e) {
-            if (toString.call(e) === "[object Undefined]") {
-                var selectedItems = $("#" + this._richcomboboxId + " .ui-rich-combobox-selected-item"),
-                    len = selectedItems.length;
-                $(selectedItems[len - 1]).remove();
-                this._ops.newValue.splice(this._ops.newValue.length - 1, 1);
-                this._selectedResultIndex.splice(this._selectedResultIndex.length - 1, 1);
-            }
-            else {
-                e.currentTarget.parentNode.remove();
-                var targetText = e.currentTarget.parentNode.textContent;
-                var targetIndex = parseInt(e.currentTarget.parentNode.dataset.index);
+        _RichCombobx.fn._deleteSelectedSelection = function (index) {
+            if (toString.call(index) === "[object Undefined]") {
+                var len = this.$container.find('.ui-rich-combobox-selected-item').length,
+                    targetElement = this.$container.find('.ui-rich-combobox-selected-item')[len - 1],
+                    targetIndex = $(targetElement).attr("data-index");
+                targetIndex = parseInt(targetIndex);
+                $(targetElement).remove();
                 for (var i = 0; i < this._ops.newValue.length; i++) {
-                    if (this._ops.newValue[i].name === targetText) {
+                    if (this._ops.newValue[i].index === targetIndex) {
                         this._ops.newValue.splice(i, 1);
                         this._selectedResultIndex.splice(this._selectedResultIndex.indexOf(targetIndex), 1);
                         break;
                     } else continue;
                 }
             }
+            else {
+                this.$container.find("[data-index=" + index + "]").remove();
+                for (var i = 0; i < this._ops.newValue.length; i++) {
+                    if (this._ops.newValue[i].index === index) {
+                        this._ops.newValue.splice(i, 1);
+                        this._selectedResultIndex.splice(this._selectedResultIndex.indexOf(index), 1);
+                        break;
+                    } else continue;
+                }
+            }
         };
+
+        _RichCombobx.fn._initSelectedSelection = function (selectedItems) {
+            var hash = {},
+                unique = [];
+            selectedItems.forEach((item, index) => {
+                var text = item['name'];
+                var target = this._findTargetSelectionByText(text, this._ops.items);
+                if (!hash[text] && target !== null) {
+                    unique.push(target);
+                    hash[text] = true;
+                };
+            })
+            selectedItems = unique;
+
+            this.$container.find('.ui-rich-combobox-selected-item').remove();
+            this._ops.newValue = selectedItems;
+            this._selectedResultIndex = selectedItems.map(item => item.index);
+            var fragement = [],
+                h = -1,
+                i = 0,
+                len = selectedItems.length;
+            for (; i < len; i++) {
+                var selection = selectedItems[i];
+                fragement[++h] = this._createSelection(selection);
+            }
+            this.$input.before(fragement.join(''));
+            this.$container.find('.ui-rich-combobox-selected-item .ui-rich-combobox-selected-item-close')
+                .on("click", this._closeSelectedItemsHandler.bind(this))
+        }
+
+        _RichCombobx.fn._findTargetSelectionByText = function (text, items) {
+            if (toString.call(text) !== "[object String]") throw new Error('_findTargetSelectionByText params for text is error.');
+            // if (items.length === 0) throw new Error('this._ops.items 沒被初始化')
+            var i = 0,
+                len = items.length,
+                result = null;
+            for (; i < len; i++) {
+                var item = items[i];
+                if (text === item['name']) {
+                    result = item;
+                    break;
+                }
+                else continue;
+            }
+            return result;
+        }
 
         /**
          * 非 Combobox 内部 function
@@ -433,6 +538,8 @@
             this._constructor(props);
             this._render()
                 ._setComboboxItems();
+            if (toString.call(props.selectedItems) === "[object Array]")
+                this._initSelectedSelection(props.selectedItems);
             this._delay = 200;
             this._filterSelectionResultIndex = [];
             this._selectedResultIndex = [];
@@ -442,14 +549,8 @@
         _RichCombobx.fn.setOptions = function (props) {
             this._extend(props);
             this._setRichCombobxSytle();
-        };
-
-        _RichCombobx.fn.updateSelectedItems = function (selectedItems) {
-            if (toString.call(selectedItems) === "[object Undefined]") throw new Error('selectedItems 传错了！')
-            var a = selectedItems;
-            for (var i = 0; i < selectedItems.length; i++) {
-                this._addSelectedSelection(selectedItems[i].name);
-            };
+            if (toString.call(props.selectedItems) === "[object Array]")
+                this._initSelectedSelection(props.selectedItems);
         };
 
         _RichCombobx.fn.init.prototype = _RichCombobx.prototype;

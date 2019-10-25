@@ -4,12 +4,12 @@ class RichCombobox extends ReactWidget {
         super(props);
         this.element = {};
         this.state = {
-            items: props.items || []
+            items: props.items || [],
+            selectedItems: props.selectedItems || []
         };
     }
 
     componentWillReceiveProps(newPorps) {
-        this.state.items = newPorps.items;
         this.element.setOptions(newPorps);
     }
 
@@ -20,27 +20,14 @@ class RichCombobox extends ReactWidget {
             isDropdown: this.props.isDropdown,
             isInput: this.props.isInput,
             element: ReactDOM.findDOMNode(this),
-            items: this.state.items
+            items: this.state.items,
+            selectedItems: this.state.selectedItems
         });
         $(ReactDOM.findDOMNode(this)).on('selectionChanged', this.selectionChanged.bind(this));
-        $(ReactDOM.findDOMNode(this)).on('handleDeleteeSelectionChanged', this.handleDeleteeSelectionChanged.bind(this));
-        // R.scopeEvents.register('handleSetSelectedItems', { "selectedItems": [] }, this.handleSetSelectedItems.bind(this));
-
-    }
-
-    handleDeleteeSelectionChanged(e, args) {
-        this.props.selectionChanged(e, args);
     }
 
     selectionChanged(e, args) {
         this.props.selectionChanged(e, args);
-    }
-
-    handleSetSelectedItems(selectedItems) {
-        // this.element.setOptions({
-        //     items: 
-        // });
-        this.element.updateSelectedItems(selectedItems);
     }
 
     render() {

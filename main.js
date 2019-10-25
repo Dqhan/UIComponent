@@ -194,7 +194,7 @@ class Main extends React.Component {
   }
 
   selectionChanged(e, args) {
-    console.log("Selections: ", args.newValue)
+    console.log("Selections: ", args.newValue);
   }
 
   generateItems(num) {
@@ -203,7 +203,9 @@ class Main extends React.Component {
     for (; i < num; i++) {
       var item = $$.generateRow();
       item.name = item.firstName + " " + item.lastName;
-      if (i === 0) item.name = "<button onClick=\"javascript:alert(123);\">Click me</button>";
+      if (i === 0)
+        item.name =
+          '<button onClick="javascript:alert(123);">Click me</button>';
       items.push(item);
     }
     return items;
@@ -244,9 +246,7 @@ class Main extends React.Component {
         </section>
         <section>
           <h4>Processer</h4>
-          <R.Processer
-            processerValue="60"
-          />
+          <R.Processer processerValue="60" />
         </section>
         <section>
           <h4>Searchbox</h4>
@@ -457,8 +457,8 @@ class Main extends React.Component {
           >
             hide
           </button>
-        </section >
-      </div >
+        </section>
+      </div>
     );
   }
 }
