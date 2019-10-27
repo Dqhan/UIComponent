@@ -211,6 +211,10 @@ class Main extends React.Component {
     return items;
   }
 
+  handlePeoplePickerSelectionChanged(e, args) {
+    console.log('People Selections:', args.newValue);
+  }
+
   render() {
     return (
       <div>
@@ -235,6 +239,7 @@ class Main extends React.Component {
           <R.PeoplePicker
             type="single"
             selectedItems={[{ id: 2, name: "dqhan2" }]}
+            selectionChanged={this.handlePeoplePickerSelectionChanged.bind(this)}
           />
         </section>
         <section>
@@ -242,6 +247,7 @@ class Main extends React.Component {
           <R.PeoplePicker
             type="multiple"
             selectedItems={[{ id: 2, name: "dqhan2" }]}
+            selectionChanged={this.handlePeoplePickerSelectionChanged.bind(this)}
           />
         </section>
         <section>

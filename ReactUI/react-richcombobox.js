@@ -15,6 +15,7 @@ class RichCombobox extends ReactWidget {
 
     componentDidMount() {
         this.element = ui.RichCombobox({
+            type: this.props.type,
             width: this.props.width,
             height: this.props.height,
             isDropdown: this.props.isDropdown,

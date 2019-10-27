@@ -26,6 +26,10 @@ import { runInThisContext } from "vm";
             },
 
             _extend: function (props) {
+                if (toString.call(props.type) !== '[object Undefined]' && (props.type === "single" || props.type === "multiple"))
+                    Object.assign(this._ops, {
+                        type: props.type
+                    });
                 if (toString.call(props.isDropdown) !== '[object Undefined]' && (props.isDropdown === "false" || props.isDropdown === "true"))
                     Object.assign(this._ops, {
                         isDropdown: JSON.parse(props.isDropdown)
@@ -246,7 +250,7 @@ import { runInThisContext } from "vm";
             },
 
             _setSelectionEvent: function () {
-                this.$listbox.children().on("click" + this._eventNameSpave, this._onSelectionClick.bind(this));
+                this.$listbox.children('.ui-rich-combobox-selection-container').on("click" + this._eventNameSpave, this._onSelectionClick.bind(this));
                 return this;
             },
 
@@ -356,7 +360,7 @@ import { runInThisContext } from "vm";
             this._hide();
         };
 
-        _RichCombobx.fn._bindSelectedItemsClose = function (index) {
+        _RichCombobx.fn._bindSelectedItemsCloseIcon = function (index) {
             this.$container.find("[data-index=" + index + "]").find(".ui-rich-combobox-selected-item-close").on("click", this._closeSelectedItemsHandler.bind(this));
             return this;
         };
@@ -385,10 +389,18 @@ import { runInThisContext } from "vm";
             if (this._findSameItemsViaSelection(target).length === 1)
                 return;
             fragement[++h] = this._createSelection(target);
-            this.$input.before(fragement.join(""));
-            this._bindSelectedItemsClose(index);
-            this._ops.newValue.push(target);
-            this._selectedResultIndex.push(index);
+            if (this._ops.type === "single") {
+                this.$container.find('.ui-rich-combobox-selected-item').remove();
+                this.$input.before(fragement.join(""));
+                this._bindSelectedItemsCloseIcon(index);
+                this._ops.newValue = [].concat(target);
+                this._selectedResultIndex = [].concat(index);
+            } else {
+                this.$input.before(fragement.join(""));
+                this._bindSelectedItemsCloseIcon(index);
+                this._ops.newValue.push(target);
+                this._selectedResultIndex.push(index);
+            }
         };
 
         _RichCombobx.fn._findTargetSelectionByIndex = function (index, items) {
@@ -523,6 +535,7 @@ import { runInThisContext } from "vm";
         _RichCombobx.fn.init = function (props) {
             this._eventNameSpave = ".rich-combobox-event";
             this._ops = {
+                type: "multiple",
                 element: null,
                 items: [],
                 isPopupOpen: false,
@@ -551,6 +564,7 @@ import { runInThisContext } from "vm";
             this._setRichCombobxSytle();
             if (toString.call(props.selectedItems) === "[object Array]")
                 this._initSelectedSelection(props.selectedItems);
+            this._setComboboxItems();
         };
 
         _RichCombobx.fn.init.prototype = _RichCombobx.prototype;

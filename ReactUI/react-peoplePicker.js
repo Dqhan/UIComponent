@@ -91,7 +91,10 @@ class PeoplePicker extends ReactWidget {
     }
 
     dialogAddHandler() {
-        var selectedItems = this.state.selectedItems.concat(this.state.popUpSelectedItems)
+        var selectedItems;
+        if (this.state.type == 'single') selectedItems = [].concat(this.state.popUpSelectedItems)
+        else selectedItems = this.state.selectedItems.concat(this.state.popUpSelectedItems)
+
         this.setState({
             dialogStatus: false,
             popUpSelectedItems: [],
@@ -126,23 +129,27 @@ class PeoplePicker extends ReactWidget {
 
     popUpRichComboboxSelectionChanged(e, args) {
         this.state.popUpSelectedItems = args.newValue;
+        this.props.selectionChanged(e, args);
     }
 
     peoplePickerComboboxChanged(e, args) {
         this.state.selectedItems = args.newValue;
+        this.props.selectionChanged(e, args);
     }
 
     render() {
         return <div>
             <div className="ui-people-picker">
                 <R.RichCombobox
+                    type={this.props.type}
                     ref={node => { this.richComboboxRef = node }}
+                    type={this.props.type}
                     width="570px"
                     isDropdown="false"
                     isInput="true"
                     items={this.state.items}
-                    selectionChanged={this.peoplePickerComboboxChanged.bind(this)}
                     selectedItems={this.state.selectedItems}
+                    selectionChanged={this.peoplePickerComboboxChanged.bind(this)}
                 />
                 <div className="ui-people-picker-container-icon fi-page-user-a" onClick={this.handlePeoplePickerClick}></div>
             </div>
