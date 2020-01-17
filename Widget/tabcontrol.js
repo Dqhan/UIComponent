@@ -14,14 +14,15 @@
         this._ops = {
             items: ops.items || [],
             hashItems: {},
-            selectedIndex: ops.selectedIndex || 0
+            selectedIndex: ops.selectedIndex || 0,
+            type: ops.type || 'default'
         };
-        this._element = $(ops.element);
-        this._tabContainerId = "ui-tabcontrol-container-";
+        this._element = ops.element
+        this.$element = $(ops.element);
         this._oldValue = { selectedIndex: 0 };
         this._convertHashItems();
-        this._init()
-            ._initId()
+        this._initId()
+            ._init()
             ._create()
             ._initMember()
             ._setTabContainer()
@@ -33,19 +34,25 @@
         _convertHashItems: function () {
             var i = 0;
             for (; i < this._ops.items.length; i++) {
-                this._ops.hashItems[this._ops.items[i].title] = {
+                this._ops.hashItems[i] = {
                     selectedIndex: i,
                     selectedItem: this._ops.items[i]
                 };
             }
         },
+
         _init: function () {
-            this._element.addClass("ui-tabcontrol");
+            this._element.id = this._tabControlId;
+            if (this._ops.type === 'vertical')
+                this.$element.addClass("ui-tabcontrol-vertical");
+            else
+                this.$element.addClass("ui-tabcontrol");
             return this;
         },
 
         _initId: function () {
-            this._tabContainerId += uuid;
+            ++uuid;
+            this._tabControlId = 'ui-tabcontrol-' + uuid;
             return this;
         },
 
@@ -57,30 +64,35 @@
         _createTab: function () {
             var fragement = [],
                 h = -1;
-            fragement[++h] =
-                "<div id= " + this._tabContainerId + ' class="ui-tab-container">';
+            fragement[++h] = "<div class=\"ui-tab-container\">";
             fragement[++h] = "</div>";
-            this._element.prepend(fragement.join(""));
+            this.$element.prepend(fragement.join(""));
         },
 
         _initMember: function () {
-            this.$container = $("#" + this._tabContainerId);
-            this.$contents = $(".ui-tabcontrol-content").children();
+            this.$container = $('#' + this._tabControlId + ' > .ui-tab-container');
+            this.$contents = $('#' + this._tabControlId + ' .ui-tabcontrol-content').children();
             return this;
         },
 
         _setTabContainer: function () {
             var i = 0,
                 items = this._ops.items,
-                len = items.length;
+                len = items.length,
+                h = -1,
+                fragement = [];
             for (; i < len; i++) {
-                var el = document.createElement("div");
-                el.textContent = items[i].title;
-                $(el).addClass("ui-tabcontrol-container-item");
-                if (this._ops.selectedIndex == i) $(el).addClass("active");
-                el.onclick = this._tabClickHandler.bind(this);
-                this.$container.append(el);
+                if (this._ops.selectedIndex == i)
+                    fragement[++h] = "<div class=\"ui-tabcontrol-container-item active\" data-index=" + i + ">";
+                else
+                    fragement[++h] = "<div class=\"ui-tabcontrol-container-item\" data-index=" + i + ">";
+                if (items[i].template !== undefined)
+                    fragement[++h] = items[i].template;
+                else
+                    fragement[++h] = items[i].title;
+                fragement[++h] = "</div>"
             }
+            this.$container.append(fragement.join(''));
             return this;
         },
 
@@ -91,17 +103,18 @@
         },
 
         _bindEvent: function () {
+            this.$container.find('.ui-tabcontrol-container-item').on('click', this._tabClickHandler.bind(this));
             return this;
         },
 
         _tabClickHandler: function (e) {
             var self = this,
-                newValue = this._ops.hashItems[e.target.textContent];
+                newValue = this._ops.hashItems[e.currentTarget.dataset.index];
             $$.trigger(
                 "tabHandleChanged",
-                self._element,
+                self.$element,
                 $$.Event({
-                    element: self._element,
+                    element: self.$element,
                     oldValue: this._oldValue,
                     newValue: newValue
                 })
@@ -127,8 +140,7 @@
 
         setOptions: function (ops) {
             this._ops.items = ops.items;
-            this._ops.selectedIndex =
-                ops.selectedIndex || this._oldValue.selectedIndex;
+            this._ops.selectedIndex = ops.selectedIndex || this._oldValue.selectedIndex;
             this._convertHashItems();
             this._removeTabTabContainer()
                 ._setTabContainer()
@@ -139,7 +151,9 @@
             return this;
         }
     };
+
     return {
         TabControl: _TabControl
     }
+
 }, "ui")

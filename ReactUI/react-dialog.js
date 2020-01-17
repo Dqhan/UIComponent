@@ -12,7 +12,7 @@ class Dialog extends ReactWidget {
       width: newProps.width,
       height: newProps.height,
       status: newProps.status,
-      btnArray: this.props.foot
+      btnArray: newProps.foot
     });
   }
 
@@ -32,7 +32,7 @@ class Dialog extends ReactWidget {
   }
 
   render() {
-    return <div>{this.props.children}</div>
+    return <div id={this.props.id}>{this.props.children}</div>
   }
 }
 

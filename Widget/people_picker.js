@@ -153,7 +153,7 @@ import { RSA_NO_PADDING } from "constants";
 
         _filterSelection: function (condition) {
             this._setSetDropdownItemsLoading();
-            var url = "./peoplepickerdata.json";
+            var url = "./api/document/peoplepickermetadata";
             fetch(url, {
                 method: 'GET',
                 mode: 'no-cors',
@@ -170,7 +170,7 @@ import { RSA_NO_PADDING } from "constants";
                     if (condition === "")
                         this._setSetDropdownItemsLoading();
                     else {
-                        this._ops.items = res.userInfo.filter(u => u.name.indexOf(condition) > -1);
+                        this._ops.items = res.result.userInfo.filter(u => u.name.indexOf(condition) > -1);
                         this._setDropdownItems();
                     }
                 })

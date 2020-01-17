@@ -17,7 +17,8 @@
                 $.extend(this._ops, props);
                 this._element = this._ops.element;
                 this.$element = $(this._element);
-                this.$element.css('display', 'none');
+                if (this._ops.status === false) this.$element.css("display", "none");
+                else this.$element.css("display", "");
             },
 
             _initId: function () {
@@ -38,6 +39,7 @@
                 this.$footer.append(this._createFooter());
                 this._initBtnMember()
                     ._bindBtnEvent();
+                this.$btns[0].focus();
             },
 
             _createDialog: function () {
@@ -98,7 +100,6 @@
 
             _initBtnMember: function () {
                 this.$btns = $("#" + this._dialogId + " .dialog-footer button");
-                this.$btns[0].focus();
                 return this;
             }
         });
@@ -112,7 +113,7 @@
                 var i = 0,
                     len = this.$btns.length;
                 for (; i < len; i++) {
-                    $(this.$btns[i]).on("click",  this._ops.btnArray[i].click)
+                    $(this.$btns[i]).on("click", this._ops.btnArray[i].click)
                 }
                 // this.$btns.on("click", this._btnClickHandler.bind(this));
             }

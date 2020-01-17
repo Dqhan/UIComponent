@@ -21,7 +21,7 @@ body {
     dialog 
 */
 button {
-    background-color: #70c3ff;
+    background-color: #ff9900;
     height          : auto;
     padding         : 10px 25px;
     color           : #ffffff;
@@ -42,7 +42,7 @@ button {
     top             : 0;
     right           : 0;
     bottom          : 0;
-    background-color: rgba(34, 34, 34, 0.5);
+    background-color: rgba(34, 34, 34, 0.9);
     z-index         : 99;
 }
 
@@ -52,7 +52,7 @@ button {
     top             : 0;
     right           : 0;
     bottom          : 0;
-    background-color: rgba(34, 34, 34, 0.5);
+    background-color: rgba(34, 34, 34, 0.9);
     z-index         : 99;
 }
 
@@ -63,7 +63,7 @@ button {
     left      : 50%;
     right     : 0;
     bottom    : 0;
-    border    : 1px solid #70c3ff;
+    border    : 1px solid #ff9900;
     text-align: center;
     background: #ffffff;
 
@@ -71,8 +71,8 @@ button {
         width           : auto;
         height          : 40px;
         line-height     : 40px;
-        background-color: #70c3ff;
-        font-weight     : bold;
+        background-color: #ff9900;
+        font-weight     : 500;
         color           : #ffffff;
     }
 
@@ -215,7 +215,7 @@ button {
                 .banner-item-inner {
                     p {
                         font-size  : 40px;
-                        font-weight: bold;
+                        font-weight: 500;
                         color      : #fff;
                         font-style : italic;
                     }
@@ -607,7 +607,7 @@ button {
                 height                           : 100%;
                 width                            : 100%;
                 border-radius                    : 999px;
-                background-color                 : #70c3ff;
+                background-color                 : #ff9900;
                 -webkit-animation                : aui-circle-loading-left 2s infinite;
                 animation                        : aui-circle-loading-left 2s infinite;
                 -webkit-transform-origin         : 0 50% 0;
@@ -690,9 +690,10 @@ button {
     .ui-tab-container {
         .ui-tabcontrol-container-item {
             display      : inline-block;
+            min-width    : 200px;
             padding      : 10px 20px;
             text-align   : center;
-            border       : 1px solid #70c3ff;
+            border       : 1px solid #ff9900;
             border-radius: 1px;
             border-right : 0px;
             cursor       : pointer;
@@ -702,7 +703,44 @@ button {
             }
 
             &:last-child {
-                border-right: 1px solid #70c3ff;
+                border-right: 1px solid #ff9900;
+            }
+        }
+
+        .active {
+            border-top      : 3px solid #000000;
+            background-color: #bbbbbb;
+            border-bottom   : 1px solid #bbbbbb;
+
+            &:hover {
+                color: #ffffff;
+            }
+        }
+    }
+
+    .ui-tabcontrol-content {}
+}
+
+.ui-tabcontrol-vertical {
+    display: flex;
+
+    .ui-tab-container {
+        .ui-tabcontrol-container-item {
+            min-width    : 200px;
+            display      : block;
+            padding      : 10px 20px;
+            text-align   : center;
+            border       : 1px solid #ff9900;
+            border-radius: 1px;
+            border-right : 0px;
+            cursor       : pointer;
+
+            &:hover {
+                color: #bbb;
+            }
+
+            &:last-child {
+                border-right: 1px solid #ff9900;
             }
         }
 
@@ -718,7 +756,7 @@ button {
     }
 
     .ui-tabcontrol-content {
-        background-color: #bbbbbb;
+        flex: 1;
     }
 }
 
@@ -737,7 +775,7 @@ button {
         display: inline-block;
 
         .pager-content-btn {
-            border       : 1px solid #70c3ff;
+            border       : 1px solid #ff9900;
             border-radius: 20px;
             padding      : 5px 10px;
             margin       : 0 5px;
@@ -746,12 +784,12 @@ button {
         .button-bald {
             border    : 0;
             background: 0 0;
-            color     : #70c3ff;
+            color     : #ff9900;
         }
 
         .active {
             background: #ffffff;
-            color     : #70c3ff;
+            color     : #ff9900;
 
             &:hover {
                 background: #D2E9FF;
@@ -934,11 +972,11 @@ button {
 
 .ui-table {
     display: table;
-    border : 1px solid #70c3ff;
+    border : 1px solid #ff9900;
     width  : 100%;
 
     div[role="table-head-row"] {
-        background-color: #70c3ff;
+        background-color: #ff9900;
         color           : #ffffff;
 
         & div[data-part="cell"] {
@@ -979,7 +1017,7 @@ button {
     left          : 50%;
     right         : 0;
     bottom        : 0;
-    border        : 1px solid #70c3ff;
+    border        : 1px solid #ff9900;
     background    : #ffffff;
     width         : 400px;
     height        : 200px;
@@ -990,7 +1028,7 @@ button {
     color         : #9D9D9D;
 
     .ui-tip-conform-header {
-        background-color: #70c3ff;
+        background-color: #ff9900;
         flex-basis      : 30px;
         line-height     : 30px;
         text-align      : center;
@@ -1014,7 +1052,7 @@ button {
     }
 
     .ui-tip-conform-footer {
-        background-color: #70c3ff;
+        background-color: #ff9900;
         flex-basis      : 30px;
         line-height     : 30px;
         text-align      : right;
@@ -1040,9 +1078,79 @@ button {
     .ui-processer-content {
         height            : 20px;
         width             : 0;
-        background        : #70c3ff;
+        background        : #ff9900;
         // transform      : translate3d(0, 0, 0);
         transition        : transform 0.6s ease-in-out;
         -webkit-transition: -webkit-transform 0.6s ease-in-out;
     }
+}
+
+/*
+ *picture
+*/
+
+.picture {
+    position       : fixed;
+    z-index        : 100;
+    top            : 50%;
+    left           : 50%;
+    right          : 0;
+    bottom         : 0;
+    border         : 1px solid #ff9900;
+    text-align     : center;
+    background     : #ffffff;
+    display        : flex;
+    flex-direction : column;
+    align-items    : center;
+    justify-content: center;
+
+    .picture-title {
+        width           : auto;
+        height          : 40px;
+        line-height     : 40px;
+        background-color: #ff9900;
+        font-weight     : 500;
+        color           : #ffffff;
+    }
+
+    .picture-content {
+        text-align: left;
+        overflow  : auto;
+        text-align: center;
+        overflow  : hidden;
+
+        .picture-content-img {
+            width : auto;
+            height: 100%;
+        }
+    }
+
+    .picture-left-btn {
+        position        : absolute;
+        left            : 10px;
+        font-size       : 65px;
+        border          : 2px solid #9D9D9D;
+        cursor          : pointer;
+        padding         : 21px 0px;
+        background-color: #9D9D9D;
+    }
+
+    .picture-right-btn {
+        position        : absolute;
+        right           : 10px;
+        font-size       : 65px;
+        border          : 2px solid #9D9D9D;
+        cursor          : pointer;
+        padding         : 21px 0px;
+        background-color: #9D9D9D;
+    }
+}
+
+.picture-close-btn {
+    color    : #dddddd;
+    position : fixed;
+    top      : 60px;
+    right    : 0;
+    font-size: 32px;
+    cursor   : pointer;
 }

@@ -57,7 +57,8 @@
         _render: function () {
             this._createPager()
                 ._initMember()
-                ._createPagerBtn();
+                ._createPagerBtn()
+                ._initPagerBtn();
             this._bindEvent();
             return this;
         },
@@ -181,6 +182,11 @@
             this.$input = $("#" + this._pagerId + " .ui-pager-go-input");
             return this;
         },
+        _initPagerBtn: function () {
+            this.$btns = $("#" + this._pagerId + " .pager-content-btn");
+            this.$btns.on("click", this._pageBtnClick.bind(this));
+            return this;
+        }
     })
 
     /**
@@ -192,7 +198,6 @@
             this.$leftBtn.on("click", this._leftBtnClick.bind(this));
             this.$rightBtn.on("click", this._rightBtnClick.bind(this));
             this.$goBtn.on("click", this._goBtnClick.bind(this));
-            this.$pagerElBtnGroup.on("click", this._pageBtnClick.bind(this));
         },
     })
 
@@ -203,40 +208,35 @@
     _Pager.fn._leftBtnClick = function () {
         if (this._ops.selectedIndex != 1) this._ops.selectedIndex -= 1;
         else return;
-        this._setSelectIndex(this._ops.selectedIndex);
-        this._createPagerBtn();
+        this.handleSelectedIndexChanged(this._ops.selectedIndex);
     };
 
     _Pager.fn._rightBtnClick = function () {
         if (this._ops.selectedIndex != this._ops.count)
             this._ops.selectedIndex += 1;
         else return;
-        this._setSelectIndex(this._ops.selectedIndex);
-        this._createPagerBtn();
-
+        this.handleSelectedIndexChanged(this._ops.selectedIndex);
     };
 
     _Pager.fn._pageBtnClick = function (e) {
         var selectedIndex = parseInt(e.target.value);
-        this._setSelectIndex(selectedIndex);
-        this._createPagerBtn();
+        this._ops.selectedIndex = selectedIndex;
+        this.handleSelectedIndexChanged(this._ops.selectedIndex);
     };
 
     _Pager.fn._goBtnClick = function () {
         var value = this.$input.val();
-        if (value == "") throw new Error("Value i error.");
+        if (value === "") throw new Error("Value i error.");
         var targetIndex = parseInt(value);
         if (targetIndex > this._ops.count) targetIndex = this._ops.count;
         if (targetIndex <= 0) targetIndex = 1;
-        this._setSelectIndex(targetIndex);
-        this._createPagerBtn();
+        this._ops.selectedIndex = targetIndex;
+        this.handleSelectedIndexChanged(this._ops.selectedIndex);
     };
 
     $.extend(true, prototype, {
-        _setSelectIndex: function (index) {
-            if (this._ops.selectedIndex == index) return;
-            var selectedIndex = index || 1;
-            var $element = $(this._element);
+        handleSelectedIndexChanged: function (selectedIndex) {
+            var $element = this.$element;
             $$.trigger(
                 "selectedPageChanged",
                 $element,
@@ -246,8 +246,9 @@
                     newValue: selectedIndex
                 })
             );
-            this._ops.selectedIndex = selectedIndex;
-        },
+            this._createPagerBtn()
+                ._initPagerBtn();
+        }
     })
 
     /**
@@ -262,7 +263,8 @@
         this._ops.count = ops.count;
         this._ops.selectedIndex = ops.selectedIndex;
         this._ops.size = ops.size;
-        this._createPagerBtn();
+        this._createPagerBtn()
+            ._initPagerBtn();
     }
 
     return {

@@ -57,7 +57,7 @@ class PeoplePicker extends ReactWidget {
     }
 
     retrieveUser() {
-        var url = "./peoplepickerdata.json";
+        var url = "./api/document/peoplepickermetadata";
         fetch(url, {
             method: 'GET',
             mode: 'no-cors',
@@ -72,7 +72,7 @@ class PeoplePicker extends ReactWidget {
             })
             .then(res => {
                 this.setState(Object.assign(this.state, {
-                    items: res.userInfo
+                    items: res.result.userInfo
                 }));
             })
             .catch(e => {

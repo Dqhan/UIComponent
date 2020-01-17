@@ -15,6 +15,7 @@ require('./Widget/rich_text');
 require('./Widget/people_picker');
 require('./Widget/loading');
 require('./Widget/confirm');
+require('./Widget/picture');
 
 require('./ReactUI/react-combobox');
 require('./ReactUI/react-richcombobox');
@@ -31,3 +32,4 @@ require('./ReactUI/react-textArea');
 require('./ReactUI/react-peoplePicker');
 require('./ReactUI/banner');
 require('./ReactUI/react-banner');
+require('./ReactUI/react-picture');

@@ -326,6 +326,20 @@ class Main extends React.Component {
         <section>
           <h4>TabControl</h4>
           <R.TabControl
+            type='default'
+            items={this.state.tabItems}
+            selectedIndex={this.state.selectedTabIndex}
+            selectChanged={this.tabSelectChangedHandler}
+          >
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+          </R.TabControl>
+        </section>
+        <section>
+          <h4>TabControl Vertical</h4>
+          <R.TabControl
+            type='vertical'
             items={this.state.tabItems}
             selectedIndex={this.state.selectedTabIndex}
             selectChanged={this.tabSelectChangedHandler}

@@ -20,7 +20,7 @@
     var prototype = _TipConform.fn = _TipConform.prototype = {
         _constructor(ops) {
             $.extend(true, this._ops, ops);
-            this.handleClick = ops.handleClick;
+            if (typeof ops.handleClick !== undefined) this.handleClick = ops.handleClick;
             this._initId();
         },
 
@@ -137,7 +137,7 @@
      */
 
     _TipConform.fn._okBtnClickHandler = function () {
-        this.handleClick();
+        this.handleClick && this.handleClick();
         this._destory();
     };
 

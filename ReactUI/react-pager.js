@@ -22,8 +22,12 @@ class Pager extends ReactWidget {
     });
     $(ReactDOM.findDOMNode(this)).on(
       "selectedPageChanged",
-      this.props.selectedPageChanged.bind(this)
+      this.selectedPageChanged.bind(this)
     );
+  }
+
+  selectedPageChanged(e, args) {
+    this.props.selectedPageChanged(e, args);
   }
 
   render() {

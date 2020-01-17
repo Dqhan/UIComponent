@@ -1,7 +1,5 @@
 "use strict";
 
-import { runInThisContext } from "vm";
-
 (function (global, $, $$, factory, plugin) {
     if (typeof global[plugin] !== "object") global[plugin] = {};
     $.extend(global[plugin], factory.call(global, $, $$));
