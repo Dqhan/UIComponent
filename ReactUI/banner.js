@@ -54,7 +54,7 @@
             this.bannerContent = document.getElementsByClassName('banner-content')[0];
             this.bannerContent.addEventListener('transitionend', this.__transitionEnd__.bind(this));
             setTimeout(function () { self.banner2.children[0].classList.add('active') }, 300);
-            this.timer = setInterval(this.__bannerCarousel__.bind(this), 6000);
+            this.timer = setInterval(this.__bannerCarousel__.bind(this), 10000);
         },
 
         __transitionEnd__: function () {

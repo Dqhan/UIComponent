@@ -92,7 +92,7 @@
       lastNames = ["adams", "anderson", "arnold", "baker", "bell", "campbell", "carter", "cecil", "charles", "christian", "dale", "david", "clark", "clive", "cook", "duncan", "eddy", "edward", "evelyn", "fergus", "garcia", "gary", "george", "gerard", "giles", "green", "griffin", "hall", "harris", "hill", "jackson", "james", "ja", "joyce", "keith", "kirk", "lee", "leonard", "leslie", "lester", "lewis", "may", "murphy", "nelson", "oliver", "owen", "percy", "peters", "quick", "raphael", "rodney", "rose", "rupert", "scott", "shelley", "smith", "taylor", "tuener", "walker", "warren", "williams"],
       productNames = ["Black Tea", "Green Tea", "Caffe Espresso", "Doubleshot Espresso", "Caffe Latte", "White Chocolate Mocha", "Cramel Latte", "Caffe Americano", "Cappuccino", "Espresso Truffle", "Espresso con Panna", "Peppermint Mocha Twist"],
       priceValues = ["2.25", "1.5", "3.0", "3.3", "4.5", "3.6", "3.8", "2.5", "5.0", "1.75", "3.25", "4.0"],
-      colors = ["#0066FF", "#009966", "#990000", "#CC6633", "#CCCCFF", "#FF9900", "#FFFF33", "#66CCFF"],
+      colors = ["#0066FF", "#009966", "#990000", "#CC6633", "#CCCCFF", "#26272b", "#FFFF33", "#66CCFF"],
       complexs = [{
         name: "apple",
         value: 0,
