@@ -4,7 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "run": "webpack"
+    "webpack": "webpack",
+    "dll": "webpack --config webpack.dll.js"
   },
   "repository": {
     "type": "git",
@@ -39,9 +40,12 @@
     "url-loader": "^2.1.0",
     "webpack": "^4.23.1",
     "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "yarn": "^1.19.1"
   },
   "dependencies": {
+    "gifsicle": "^4.0.1",
+    "pngquant-bin": "^5.0.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   }

@@ -92,11 +92,17 @@ module.exports = {
         // }),
         new CleanWebpackPlugin(),
         new webpack.optimize.ModuleConcatenationPlugin(),
+        new webpack.ProvidePlugin({
+            'React': 'react',
+            'ReactDOM': 'react-dom'
+        }),
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('./dist_vendor/react.manifest.json')
+        }),
     ],
+
     resolve: {
         extensions: [".js", ".jsx", ".json", ".css"]
-    },
-    externals: {
-
     }
 }

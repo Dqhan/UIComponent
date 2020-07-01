@@ -57,7 +57,7 @@ class PeoplePicker extends ReactWidget {
     }
 
     retrieveUser() {
-        var url = "./api/document/peoplepickermetadata";
+        var url = "./document/api/peoplepickermetadata";
         fetch(url, {
             method: 'GET',
             mode: 'no-cors',

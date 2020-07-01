@@ -153,7 +153,7 @@ import { RSA_NO_PADDING } from "constants";
 
         _filterSelection: function (condition) {
             this._setSetDropdownItemsLoading();
-            var url = "./api/document/peoplepickermetadata";
+            var url = "./document/api/peoplepickermetadata";
             fetch(url, {
                 method: 'GET',
                 mode: 'no-cors',
